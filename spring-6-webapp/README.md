@@ -16,6 +16,8 @@ Vamos a construir una pequeña aplicación web usando Spring Boot para demostrar
     - @JoinTable(name = "author_book", joinColumns = @JoinColumn(name = "book_id"), inverseJoinColumns = @JoinColumn(name = "author_id"))
   - equals() y hashCode()
   - toString()
+- Capa repositories
+  - interface que extiende de CrudRepository<Author, Long>
 
 ## Links
 
