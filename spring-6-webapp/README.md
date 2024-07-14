@@ -14,6 +14,8 @@ Vamos a construir una pequeña aplicación web usando Spring Boot para demostrar
     - @ManyToMany
     - @ManyToMany(mappedBy = "authors")
     - @JoinTable(name = "author_book", joinColumns = @JoinColumn(name = "book_id"), inverseJoinColumns = @JoinColumn(name = "author_id"))
+  - equals() y hashCode()
+  - toString()
 
 ## Links
 
