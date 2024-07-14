@@ -18,6 +18,10 @@ Vamos a construir una pequeña aplicación web usando Spring Boot para demostrar
   - toString()
 - Capa repositories
   - interface que extiende de CrudRepository<Author, Long>
+- Capa bootstrap para inicialización de datos durante la ejecución
+  - implements CommandLineRunner
+  - Anotaciones
+    - @Component
 
 ## Links
 

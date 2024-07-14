@@ -1,5 +1,6 @@
 package com.jmunoz.spring6webapp.domain;
 
+import java.util.HashSet;
 import java.util.Set;
 
 import jakarta.persistence.Entity;
@@ -19,8 +20,10 @@ public class Author {
 
   // Preferimos usar Set en vez de List, porque cada uno de sus elementos va a ser único.
   // Una lista permite elementos duplicados.
+  // Lo inicializamos para que en la clase BootstrapData.java no falle la asignación de
+  // un autor a un libro.
   @ManyToMany(mappedBy = "authors")
-  private Set<Book> books;
+  private Set<Book> books = new HashSet<>();
 
   public Long getId() {
     return id;
