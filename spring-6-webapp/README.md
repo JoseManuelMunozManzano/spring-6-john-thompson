@@ -51,3 +51,4 @@ https://maven.apache.org/guides/introduction/introduction-to-the-standard-direct
   - JDBC URL cambia con cada ejecución de la aplicación
   - Usuario es `sa` y la contraseña dejarla a blancos
 - Acceder a la ruta: `http://localhost:8080/books` para obtener todos los libros
+- Acceder a la ruta: `http://localhost:8080/authors` para obtener todos los autores
