@@ -24,6 +24,10 @@ Vamos a construir una pequeña aplicación web usando Spring Boot para demostrar
   - implements CommandLineRunner
   - Anotaciones
     - @Component
+- Capa BBDD
+  - Vamos a habilitar la consola H2
+    - En application.properties incluimos
+      - spring.h2.console.enabled=true
 
 ## Links
 
@@ -33,3 +37,8 @@ https://maven.apache.org/guides/introduction/introduction-to-the-standard-direct
 
 - Clonar el repositorio
 - Ejecutar la aplicación
+- Ver la consola H2
+  - Coger los datos de la consola de ejecución de la aplicación
+  - La URL será: `http://localhost:8080/h2-console`
+  - JDBC URL cambia con cada ejecución de la aplicación
+  - Usuario es `sa` y la contraseña dejarla a blancos

@@ -67,13 +67,15 @@ public class BootstrapData implements CommandLineRunner {
     rba.setZipCode("28003");
     Publisher rbaSaved = publisherRepository.save(rba);
 
-    // Asociación entre autor - libro y entre libro - publisher, y los persistimos en ambos casos.
+    // Asociación entre autor - libro, libro - autor, y entre libro - publisher, y los persistimos en ambos casos.
 
     // Estas dos instrucciones pueden dar error en tiempo de ejecución (null).
     // Si ocurre, es porque el tipo de dato Set tiene que estar inicializado.
     // Se ha inicializado en sus clases Entity.
     ericSaved.getBooks().add(dddSaved);
     rodSaved.getBooks().add(noEJBSaved);
+    dddSaved.getAuthors().add(ericSaved);
+    noEJBSaved.getAuthors().add(rodSaved);
 
     dddSaved.setPublisher(rbaSaved);
     noEJBSaved.setPublisher(rbaSaved);
