@@ -30,6 +30,11 @@ Vamos a construir una pequeña aplicación web usando Spring Boot para demostrar
       - spring.h2.console.enabled=true
 - Capa services
   - @Service
+- Capa controllers
+  - @Controller
+  - @RequestMapping("/books")
+  - Model
+    - model.addAttribute("books", bookService.findAll());
 
 ## Links
 
@@ -44,3 +49,4 @@ https://maven.apache.org/guides/introduction/introduction-to-the-standard-direct
   - La URL será: `http://localhost:8080/h2-console`
   - JDBC URL cambia con cada ejecución de la aplicación
   - Usuario es `sa` y la contraseña dejarla a blancos
+- Acceder a la ruta: `http://localhost:8080/books` para obtener todos los libros
