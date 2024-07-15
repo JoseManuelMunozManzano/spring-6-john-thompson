@@ -58,21 +58,6 @@ public class BootstrapData implements CommandLineRunner {
     Author rodSaved = authorRepository.save(rod);
     Book noEJBSaved = bookRepository.save(noEJB);
 
-    // Asociación entre autor - libro y los persistimos
-
-    // Estas dos instrucciones pueden dar error en tiempo de ejecución (null).
-    // Si ocurre, es porque el tipo de dato Set tiene que estar inicializado.
-    // Se ha inicializado en sus clases Entity.
-    ericSaved.getBooks().add(dddSaved);
-    rodSaved.getBooks().add(noEJBSaved);
-
-    authorRepository.save(ericSaved);
-    authorRepository.save(rodSaved);
-
-    System.out.println("In Bootstrap");
-    System.out.println("Author Count: " + authorRepository.count());
-    System.out.println("Book Count: " + bookRepository.count());
-    
     // Añadir un publisher y persistirlo
     Publisher rba = new Publisher();
     rba.setPublisherName("RBA Editores");
@@ -81,6 +66,26 @@ public class BootstrapData implements CommandLineRunner {
     rba.setAddress("C\\Benedicto 21");
     rba.setZipCode("28003");
     Publisher rbaSaved = publisherRepository.save(rba);
+
+    // Asociación entre autor - libro y entre libro - publisher, y los persistimos en ambos casos.
+
+    // Estas dos instrucciones pueden dar error en tiempo de ejecución (null).
+    // Si ocurre, es porque el tipo de dato Set tiene que estar inicializado.
+    // Se ha inicializado en sus clases Entity.
+    ericSaved.getBooks().add(dddSaved);
+    rodSaved.getBooks().add(noEJBSaved);
+
+    dddSaved.setPublisher(rbaSaved);
+    noEJBSaved.setPublisher(rbaSaved);
+
+    authorRepository.save(ericSaved);
+    authorRepository.save(rodSaved);
+    bookRepository.save(dddSaved);
+    bookRepository.save(noEJBSaved);    
+
+    System.out.println("In Bootstrap");
+    System.out.println("Author Count: " + authorRepository.count());
+    System.out.println("Book Count: " + bookRepository.count());
         
     System.out.println("Publisher Count: " + publisherRepository.count());
   }
