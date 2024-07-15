@@ -22,7 +22,7 @@ public class BookController {
 
     model.addAttribute("books", bookService.findAll());
 
-    // Vista de Thymeleaf (todavía no creada)
+    // Vista de Thymeleaf
     return "books";
   }
 }

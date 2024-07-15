@@ -35,6 +35,7 @@ Vamos a construir una pequeña aplicación web usando Spring Boot para demostrar
   - @RequestMapping("/books")
   - Model
     - model.addAttribute("books", bookService.findAll());
+- Capa vista, creada con plantillas Thymeleaf en la carpeta resources/templates
 
 ## Links
 
