@@ -5,8 +5,10 @@ import org.springframework.stereotype.Component;
 
 import com.jmunoz.spring6webapp.domain.Author;
 import com.jmunoz.spring6webapp.domain.Book;
+import com.jmunoz.spring6webapp.domain.Publisher;
 import com.jmunoz.spring6webapp.repositories.AuthorRepository;
 import com.jmunoz.spring6webapp.repositories.BookRepository;
+import com.jmunoz.spring6webapp.repositories.PublisherRepository;
 
 // Si Spring encuentra una clase en su contexto (gracias a @Component lo está) que
 // implementa CommandLineRunner, va a ejecutar automáticamente su método run()
@@ -17,13 +19,16 @@ public class BootstrapData implements CommandLineRunner {
   // para que no puedan cambiar.
   private final AuthorRepository authorRepository;
   private final BookRepository bookRepository;
+  private final PublisherRepository publisherRepository;
 
   // Como es el único constructor de la clase, Spring va a ver que tiene como argumentos
-  // los dos repositorios, que están en su contexto, y hará automáticamente el @Autowired
+  // los tres repositorios, que están en su contexto, y hará automáticamente el @Autowired
   // de las implementaciones de los repositorios, que nos proporciona Spring Data JPA.
-  public BootstrapData(AuthorRepository authorRepository, BookRepository bookRepository) {
+  public BootstrapData(AuthorRepository authorRepository, BookRepository bookRepository,
+                       PublisherRepository publisherRepository) {
     this.authorRepository = authorRepository;
     this.bookRepository = bookRepository;
+    this.publisherRepository = publisherRepository;
   }
 
   @Override
@@ -67,5 +72,16 @@ public class BootstrapData implements CommandLineRunner {
     System.out.println("In Bootstrap");
     System.out.println("Author Count: " + authorRepository.count());
     System.out.println("Book Count: " + bookRepository.count());
+    
+    // Añadir un publisher y persistirlo
+    Publisher rba = new Publisher();
+    rba.setPublisherName("RBA Editores");
+    rba.setState("Spain");
+    rba.setCity("Madrid");
+    rba.setAddress("C\\Benedicto 21");
+    rba.setZipCode("28003");
+    Publisher rbaSaved = publisherRepository.save(rba);
+        
+    System.out.println("Publisher Count: " + publisherRepository.count());
   }
 }
