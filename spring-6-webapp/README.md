@@ -28,6 +28,8 @@ Vamos a construir una pequeña aplicación web usando Spring Boot para demostrar
   - Vamos a habilitar la consola H2
     - En application.properties incluimos
       - spring.h2.console.enabled=true
+- Capa services
+  - @Service
 
 ## Links
 
