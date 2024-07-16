@@ -6,3 +6,5 @@
   - Ejemplo para enseñar inyección de dependencias
 - spring-6-no-di
   - Ejemplo de dependencias sin inyección de dependencias
+- spring-6-di-no-spring
+  - Ejemplo de dependencias con inyección de dependencias pero que no usa Spring
