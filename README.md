@@ -13,3 +13,4 @@
 - spring-6-primary-bean
   - Ejemplo usando la anotación @Primary
   - Ejemplo usando la anotación @Qualifier
+  - Ejemplo usando profiles
