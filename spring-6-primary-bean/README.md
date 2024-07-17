@@ -14,3 +14,4 @@ También vamos a ver ejemplos usando Profiles, que son una forma de controlar qu
 - Ejecutar el test `PropertyInjectedControllerTest.java`
 - Ejecutar el test `SetterInjectedControllerTest.java`
 - Profiles. Ejecutar el test `Myi18NControllerTest.java`
+  - En la clase de test Myi18NControllerTest.java descomentar la anotación @ActiveProfiles para usar un nombre de profile

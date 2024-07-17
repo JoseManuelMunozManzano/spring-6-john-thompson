@@ -6,6 +6,7 @@ import org.springframework.stereotype.Service;
 import com.jmunoz.primarybean.services.GreetingService;
 
 // Los dos services EnglishGreetingService y SpanishGreetingService tienen el mismo nombre de bean.
+// Indicamos un nombre de profile.
 @Profile("EN")
 @Service("i18NService")
 public class EnglishGreetingService implements GreetingService {
