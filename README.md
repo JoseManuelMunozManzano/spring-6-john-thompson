@@ -14,3 +14,11 @@
   - Ejemplo usando la anotación @Primary
   - Ejemplo usando la anotación @Qualifier
   - Ejemplo usando profiles
+- spring-6-di-assignment
+  - Ejercicio de inyección de dependencias usando perfiles
+- spring-6-life-cycle
+  - Ejemplo del ciclo de vida de Spring
+
+## URLs con documentación
+
+- https://bootcamptoprod.com/spring-bean-life-cycle-explained/
