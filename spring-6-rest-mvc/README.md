@@ -4,6 +4,16 @@ Vamos a trabajar con servicios REST MVC y con el proyecto Lombok.
 
 ## Nota
 
+Para que funcione Lombok en IntelliJ IDEA:
+
+![alt Enable Lombok](../images/01-Enable-Lombok.png)
+
+Con `Delombok` se puede saber qué código va a insertar Lombok en la clase Java. Lo podemos dejar si necesitamos ese código, porque queramos modificar algo.
+
+Se selecciona de la siguiente manera sobre una clase anotada con anotaciones Lombok.
+
+![alt Delombok](../images/02-Delombok.png)
+
 Para que funcione `log.debug` hace falta indicar en el fichero `application.properties` la siguiente property: `logging.level.com.jmunoz=debug`
 
 ## Testing
