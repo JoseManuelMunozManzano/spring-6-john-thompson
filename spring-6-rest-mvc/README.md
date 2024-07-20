@@ -44,6 +44,22 @@ public ResponseEntity<Beer> handlePost(@RequestBody Beer beer) {
 }
 ```
 
+Otra forma, más fea, de hacer lo mismo es esta:
+
+```
+@PostMapping
+public ResponseEntity<Customer> handlePost(@RequestBody Customer customer) {
+    Customer savedCustomer = customerService.saveNewCustomer(customer);
+
+    // Otra forma de crear la property location en los headers.
+    // Es más bonita la forma mostrada en BeerController.
+    HttpHeaders headers = new HttpHeaders();
+    headers.add("Location", "/api/v1/customer/" + savedCustomer.getId().toString());
+
+    return new ResponseEntity<>(headers, HttpStatus.CREATED);
+}
+```
+
 ## Testing
 
 - Clonar el repositorio
@@ -54,4 +70,6 @@ public ResponseEntity<Beer> handlePost(@RequestBody Beer beer) {
   - Get All Customers
   - Coger uno de los Id y probar Get Customer By Id
   - Add New Beer
+    - Ir a los headers de la respuesta, a la key location, y ver que tenemos la URL
+  - Add New Customer
     - Ir a los headers de la respuesta, a la key location, y ver que tenemos la URL

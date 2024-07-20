@@ -32,7 +32,8 @@
 				"method": "GET",
 				"header": [],
 				"url": {
-					"raw": "localhost:8080/api/v1/beer/a353405d-97a7-4f6b-b731-729eca7d7624",
+					"raw": "http://localhost:8080/api/v1/beer/8dd8e098-0d94-4b96-a6a9-c08a046dc0ef",
+					"protocol": "http",
 					"host": [
 						"localhost"
 					],
@@ -41,7 +42,7 @@
 						"api",
 						"v1",
 						"beer",
-						"a353405d-97a7-4f6b-b731-729eca7d7624"
+						"8dd8e098-0d94-4b96-a6a9-c08a046dc0ef"
 					]
 				}
 			},
@@ -73,7 +74,8 @@
 				"method": "GET",
 				"header": [],
 				"url": {
-					"raw": "localhost:8080/api/v1/customer/ec1e9a2b-a0c0-4574-96df-c7f9ef9cec58",
+					"raw": "http://localhost:8080/api/v1/customer/3c763448-75f0-41f0-9f3f-3f5fbdf786c7",
+					"protocol": "http",
 					"host": [
 						"localhost"
 					],
@@ -82,7 +84,7 @@
 						"api",
 						"v1",
 						"customer",
-						"ec1e9a2b-a0c0-4574-96df-c7f9ef9cec58"
+						"3c763448-75f0-41f0-9f3f-3f5fbdf786c7"
 					]
 				}
 			},
@@ -112,6 +114,35 @@
 						"api",
 						"v1",
 						"beer"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Add New Customer",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n    \"version\": 1,\n    \"name\": \"Ferney\"\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "localhost:8080/api/v1/customer",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"api",
+						"v1",
+						"customer"
 					]
 				}
 			},
