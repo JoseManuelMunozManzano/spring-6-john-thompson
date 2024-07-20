@@ -65,7 +65,7 @@ public ResponseEntity<Customer> handlePost(@RequestBody Customer customer) {
 - Clonar el repositorio
 - Ejecutar el proyecto
 - Importar la carpeta postman a Postman y probar los endpoints
-  - Get All Bears
+  - Get All Beers
   - Coger uno de los Id y probar Get Beer By Id
   - Get All Customers
   - Coger uno de los Id y probar Get Customer By Id
@@ -73,4 +73,5 @@ public ResponseEntity<Customer> handlePost(@RequestBody Customer customer) {
     - Ir a los headers de la respuesta, a la key location, y ver que tenemos la URL
   - Add New Customer
     - Ir a los headers de la respuesta, a la key location, y ver que tenemos la URL
-  - Update Beer
+  - Update Beer usando un Id
+  - Update Customer usando un Id

@@ -101,7 +101,5 @@ public class BeerServiceImpl implements BeerService {
         existing.setUpdateDate(LocalDateTime.now());
 
         log.debug("Update Beer: {}", existing.toString());
-
-        beerMap.put(existing.getId(), existing);
     }
 }

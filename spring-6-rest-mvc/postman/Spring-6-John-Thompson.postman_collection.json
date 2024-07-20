@@ -177,6 +177,36 @@
 				}
 			},
 			"response": []
+		},
+		{
+			"name": "Update Customer",
+			"request": {
+				"method": "PUT",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n    \"name\": \"Jose Manuel UPDATED\"\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "localhost:8080/api/v1/customer/7b05b42e-a243-4ea0-9cd7-aba2bfd04c59",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"api",
+						"v1",
+						"customer",
+						"7b05b42e-a243-4ea0-9cd7-aba2bfd04c59"
+					]
+				}
+			},
+			"response": []
 		}
 	]
 }
