@@ -73,3 +73,4 @@ public ResponseEntity<Customer> handlePost(@RequestBody Customer customer) {
     - Ir a los headers de la respuesta, a la key location, y ver que tenemos la URL
   - Add New Customer
     - Ir a los headers de la respuesta, a la key location, y ver que tenemos la URL
+  - Update Beer

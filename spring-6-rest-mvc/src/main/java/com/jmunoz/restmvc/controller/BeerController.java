@@ -4,6 +4,7 @@ import com.jmunoz.restmvc.model.Beer;
 import com.jmunoz.restmvc.services.BeerService;
 import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
@@ -19,6 +20,14 @@ import java.util.UUID;
 public class BeerController {
 
     private final BeerService beerService;
+
+    @PutMapping("{beerId}")
+    public ResponseEntity<Beer> updatedById(@PathVariable("beerId") UUID beerId, @RequestBody Beer beer) {
+        beerService.updateBeerById(beerId, beer);
+
+        // NO_CONTENT: Recibimos el Request y to-do ha ocurrido normalmente. No se devuelve nada.
+        return new ResponseEntity<>(HttpStatus.NO_CONTENT);
+    }
 
     // @RequestMapping(method = RequestMethod.POST)
     @PostMapping
