@@ -1,6 +1,8 @@
 # spring-6-rest-mvc
 
-Vamos a hacer un ejemplo de app REST MVC.
+Vamos a hacer un ejemplo de app REST MVC codificando un CRUD completo.
+
+También vamos a hacer un ejemplo de testing usando Spring MockMVC con Mockito.
 
 ## Notas
 
@@ -79,3 +81,4 @@ public ResponseEntity<Customer> handlePost(@RequestBody Customer customer) {
   - Delete Customer usando un Id
   - Patch Beer usando un Id y un body
   - Patch Customer usando un Id y un body
+- Ejecutar los tests

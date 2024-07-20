@@ -26,6 +26,7 @@
 - Spring MVC Rest Services
   - spring-6-rest-mvc
     - Ejemplo CRUD completo
+    - Ejemplo de testing usando Spring MockMVC con Mockito
 
 ## URLs con documentación
 
