@@ -1,8 +1,8 @@
-# spring-6-rest-mvc
+# spring-6-lombok
 
-Vamos a trabajar con servicios REST MVC y con el proyecto Lombok.
+Vamos a hacer un ejemplo con Project Lombok.
 
-## Nota
+## Notas
 
 Para que funcione Lombok en IntelliJ IDEA:
 

@@ -21,8 +21,8 @@
   - spring-6-life-cycle
     - Ejemplo del ciclo de vida de Spring
 - Project Lombok
-  - spring-6-rest-mvc
-    - Ejemplo con Project Lombok y servicios REST MVC
+  - spring-6-lombok
+    - Ejemplo con Project Lombok
 
 ## URLs con documentación
 
