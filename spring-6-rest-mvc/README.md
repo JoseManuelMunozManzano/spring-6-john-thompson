@@ -9,3 +9,5 @@ Vamos a hacer un ejemplo de app REST MVC.
 - Importar la carpeta postman a Postman y probar los endpoints
   - Get All Bears
   - Coger uno de los Id y probar Get Beer By Id
+  - Get All Customers
+  - Coger uno de los Id y probar Get Customer By Id
