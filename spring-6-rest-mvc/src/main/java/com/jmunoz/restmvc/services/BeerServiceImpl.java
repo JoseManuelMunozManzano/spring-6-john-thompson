@@ -4,6 +4,7 @@ import com.jmunoz.restmvc.model.Beer;
 import com.jmunoz.restmvc.model.BeerStyle;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
+import org.springframework.util.StringUtils;
 
 import java.math.BigDecimal;
 import java.time.LocalDateTime;
@@ -108,5 +109,36 @@ public class BeerServiceImpl implements BeerService {
         log.debug("Delete Beer: {}", beerMap.get(beerId));
 
         beerMap.remove(beerId);
+    }
+
+    @Override
+    public void patchBeerById(UUID beerId, Beer beer) {
+        // Estas son las reglas que se deberían cumplir en un PATCH.
+        // Recordar que PATCH solo actualiza lo concreto que hay que actualizar (modificaciones parciales),
+        // no es como el PUT, que actualiza to-do el objeto.
+        // No se suele utilizar mucho.
+        Beer existing = beerMap.get(beerId);
+
+        if (StringUtils.hasText(beer.getBeerName())) {
+            existing.setBeerName(beer.getBeerName());
+        }
+
+        if (beer.getBeerStyle() != null) {
+            existing.setBeerStyle(beer.getBeerStyle());
+        }
+
+        if (beer.getPrice() != null) {
+            existing.setPrice(beer.getPrice());
+        }
+
+        if (beer.getQuantityOnHand() != null) {
+            existing.setQuantityOnHand(beer.getQuantityOnHand());
+        }
+
+        if (StringUtils.hasText(beer.getUpc())) {
+            existing.setUpc(beer.getUpc());
+        }
+
+        log.debug("Patch Beer: {}, {}", beerId, beer);
     }
 }

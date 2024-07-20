@@ -138,6 +138,36 @@
 			"response": []
 		},
 		{
+			"name": "Patch Beer",
+			"request": {
+				"method": "PATCH",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n    \"beerName\": \"Mango Bobs - JTs 5\",\n    \"price\": 12.16\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "localhost:8080/api/v1/beer/1172d1f5-10a6-47a1-a30e-13dd6586af2d",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"api",
+						"v1",
+						"beer",
+						"1172d1f5-10a6-47a1-a30e-13dd6586af2d"
+					]
+				}
+			},
+			"response": []
+		},
+		{
 			"name": "Get All Customers",
 			"request": {
 				"method": "GET",
