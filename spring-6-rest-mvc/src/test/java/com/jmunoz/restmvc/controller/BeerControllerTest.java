@@ -1,6 +1,9 @@
 package com.jmunoz.restmvc.controller;
 
+import com.jmunoz.restmvc.model.Beer;
+import com.jmunoz.restmvc.model.BeerStyle;
 import com.jmunoz.restmvc.services.BeerService;
+import com.jmunoz.restmvc.services.BeerServiceImpl;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
@@ -8,9 +11,13 @@ import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.http.MediaType;
 import org.springframework.test.web.servlet.MockMvc;
 
+import java.math.BigDecimal;
 import java.util.UUID;
 
+import static org.mockito.ArgumentMatchers.any;
+import static org.mockito.BDDMockito.given;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.content;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
 // Esta anotación indica que es un test splice, y queremos limitarlo a la clase BeerController.
@@ -28,12 +35,37 @@ class BeerControllerTest {
     @MockBean
     BeerService beerService;
 
+    // Para que los mocks devuelvan data, usaremos las implementaciones de nuestros services.
+    // No utilizamos el método @Before porque no tenemos nada que inicializar. Si empezamos a modificar
+    // data entre tests, entonces querremos inicializar la data.
+    //
+    // BeerServiceImpl beerServiceImpl = new BeerServiceImpl();
+    //
+    // NOTA: Como se indica más abajo, es mejor crear un objeto concreto de prueba de Beer.
+
     @Test
     void getBeerById() throws Exception {
+        // Podemos usar la implementación para obtener un objeto de tipo Beer
+        // Beer testBeer = beerServiceImpl.listBeers().get(0);
+        //
+        // O mejor, crearnos un objeto y no tener que usar nuestra implementación del servicio.
+        Beer testBeer = Beer.builder()
+                .beerName("My Beer Brand")
+                .beerStyle(BeerStyle.PALE_ALE)
+                .upc("beerbeer")
+                .price(new BigDecimal("12.99"))
+                .version(1)
+                .quantityOnHand(29)
+                .build();
 
-        // Aquí decimos: queremos hacer un get a esa URL y deberíamos obtener un status Ok
+        // Aquí decimos: dado el método beerService.getBeerById, si pasamos cualquier UUID nos va a devolver
+        // el objeto testBeer.
+        given(beerService.getBeerById(any(UUID.class))).willReturn(testBeer);
+
+        // Aquí decimos: queremos hacer un get a esa URL y deberíamos obtener un status Ok y contenido JSON.
         mockMvc.perform(get("/api/v1/beer/" + UUID.randomUUID())
                 .accept(MediaType.APPLICATION_JSON))
-                .andExpect(status().isOk());
+                .andExpect(status().isOk())
+                .andExpect(content().contentType(MediaType.APPLICATION_JSON));
     }
 }
