@@ -17,6 +17,33 @@ Y para que funcione en IntelliJ hay que habilitar lo siguiente en Settings:
 
 ![alt DevTools](../images/03-DevTools.png)
 
+
+Las buenas prácticas al trabajar con RESTful API indican devolver al cliente información sobre el objeto que se creó y la propiedad del header llamada `location` 
+
+```
+@PostMapping
+public ResponseEntity<Beer> handlePost(@RequestBody Beer beer) {
+    Beer savedBeer = beerService.saveNewBeer(beer);
+
+    // Una buena práctica al trabajar con RESTful APIs es devolver al cliente
+    // información sobre el objeto que se creó y la propiedad del header llamada location.
+
+    // Esto va al header
+    // La idea es tener un URL para acceder a ese id en concreto.
+    // Es decir, podemos copiar, de los headers de la respuesta al hacer el POST, esa URL
+    // e ir al endpoint Get Beer By Id y pegar ese URL.
+    // Es como una ayuda a la hora de obtener el id.
+    URI location = ServletUriComponentsBuilder
+            .fromCurrentRequest()
+            .path("/{id}")
+            .buildAndExpand(savedBeer.getId())
+            .toUri();
+
+    // Aquí devolvemos al cliente tanto la propiedad location como el registro creado
+    return ResponseEntity.created(location).body(savedBeer);
+}
+```
+
 ## Testing
 
 - Clonar el repositorio
@@ -27,3 +54,4 @@ Y para que funcione en IntelliJ hay que habilitar lo siguiente en Settings:
   - Get All Customers
   - Coger uno de los Id y probar Get Customer By Id
   - Add New Beer
+    - Ir a los headers de la respuesta, a la key location, y ver que tenemos la URL
