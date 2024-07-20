@@ -20,6 +20,15 @@ public class CustomerController {
 
     private final CustomerService customerService;
 
+    // Con solo una propiedad (name) actualizable, Customer no es un buen candidato
+    // a hacer un PATCH. Se hace por motivos didácticos.
+    @PatchMapping("{customerId}")
+    public ResponseEntity<Customer> patchById(@PathVariable("customerId") UUID id, @RequestBody Customer customer) {
+        customerService.patchCustomerById(id, customer);
+
+        return new ResponseEntity<>(HttpStatus.NO_CONTENT);
+    }
+
     @DeleteMapping("{customerId}")
     public ResponseEntity<Customer> deleteById(@PathVariable("customerId") UUID id) {
         customerService.deleteCustomerById(id);

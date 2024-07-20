@@ -25,6 +25,7 @@
     - Ejemplo con Project Lombok
 - Spring MVC Rest Services
   - spring-6-rest-mvc
+    - Ejemplo CRUD completo
 
 ## URLs con documentación
 

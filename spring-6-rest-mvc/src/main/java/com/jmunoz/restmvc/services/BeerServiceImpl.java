@@ -139,6 +139,8 @@ public class BeerServiceImpl implements BeerService {
             existing.setUpc(beer.getUpc());
         }
 
+        existing.setUpdateDate(LocalDateTime.now());
+
         log.debug("Patch Beer: {}, {}", beerId, beer);
     }
 }

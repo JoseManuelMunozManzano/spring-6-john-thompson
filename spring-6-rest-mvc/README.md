@@ -78,3 +78,4 @@ public ResponseEntity<Customer> handlePost(@RequestBody Customer customer) {
   - Delete Beer usando un Id
   - Delete Customer usando un Id
   - Patch Beer usando un Id y un body
+  - Patch Customer usando un Id y un body
