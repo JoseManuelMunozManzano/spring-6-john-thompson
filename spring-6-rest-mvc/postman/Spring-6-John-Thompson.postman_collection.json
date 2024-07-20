@@ -73,7 +73,7 @@
 				"method": "GET",
 				"header": [],
 				"url": {
-					"raw": "localhost:8080/api/v1/customer/3840598b-67da-4337-bf06-503715ac7e3a",
+					"raw": "localhost:8080/api/v1/customer/ec1e9a2b-a0c0-4574-96df-c7f9ef9cec58",
 					"host": [
 						"localhost"
 					],
@@ -82,7 +82,36 @@
 						"api",
 						"v1",
 						"customer",
-						"3840598b-67da-4337-bf06-503715ac7e3a"
+						"ec1e9a2b-a0c0-4574-96df-c7f9ef9cec58"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Add New Beer",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n    \"version\": 1,\n    \"beerName\": \"Mango Bobs - JTs 5\",\n    \"beerStyle\": \"ALE\",\n    \"upc\": \"3567234\",\n    \"quantityOnHand\": 250,\n    \"price\": 12.16\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "localhost:8080/api/v1/beer",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"api",
+						"v1",
+						"beer"
 					]
 				}
 			},

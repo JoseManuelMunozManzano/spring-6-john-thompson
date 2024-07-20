@@ -26,3 +26,4 @@ Y para que funcione en IntelliJ hay que habilitar lo siguiente en Settings:
   - Coger uno de los Id y probar Get Beer By Id
   - Get All Customers
   - Coger uno de los Id y probar Get Customer By Id
+  - Add New Beer
