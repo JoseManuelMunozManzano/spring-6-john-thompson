@@ -3,7 +3,6 @@ package com.jmunoz.restmvc.controller;
 import com.jmunoz.restmvc.model.Beer;
 import com.jmunoz.restmvc.model.BeerStyle;
 import com.jmunoz.restmvc.services.BeerService;
-import com.jmunoz.restmvc.services.BeerServiceImpl;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
@@ -14,11 +13,10 @@ import org.springframework.test.web.servlet.MockMvc;
 import java.math.BigDecimal;
 import java.util.UUID;
 
-import static org.mockito.ArgumentMatchers.any;
+import static org.hamcrest.core.Is.is;
 import static org.mockito.BDDMockito.given;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
-import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.content;
-import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
 
 // Esta anotación indica que es un test splice, y queremos limitarlo a la clase BeerController.
 @WebMvcTest(BeerController.class)
@@ -50,6 +48,7 @@ class BeerControllerTest {
         //
         // O mejor, crearnos un objeto y no tener que usar nuestra implementación del servicio.
         Beer testBeer = Beer.builder()
+                .id(UUID.randomUUID())
                 .beerName("My Beer Brand")
                 .beerStyle(BeerStyle.PALE_ALE)
                 .upc("beerbeer")
@@ -60,12 +59,18 @@ class BeerControllerTest {
 
         // Aquí decimos: dado el método beerService.getBeerById, si pasamos cualquier UUID nos va a devolver
         // el objeto testBeer.
-        given(beerService.getBeerById(any(UUID.class))).willReturn(testBeer);
+        // given(beerService.getBeerById(any(UUID.class))).willReturn(testBeer);
+        //
+        // O podemos usar el id que se ha añadido a testBeer
+        given(beerService.getBeerById(testBeer.getId())).willReturn(testBeer);
 
         // Aquí decimos: queremos hacer un get a esa URL y deberíamos obtener un status Ok y contenido JSON.
-        mockMvc.perform(get("/api/v1/beer/" + UUID.randomUUID())
+        // Sobre ese JSON hacemos aserciones.
+        mockMvc.perform(get("/api/v1/beer/" + testBeer.getId())
                 .accept(MediaType.APPLICATION_JSON))
                 .andExpect(status().isOk())
-                .andExpect(content().contentType(MediaType.APPLICATION_JSON));
+                .andExpect(content().contentType(MediaType.APPLICATION_JSON))
+                .andExpect(jsonPath("$.id", is(testBeer.getId().toString())))
+                .andExpect(jsonPath("$.beerName", is(testBeer.getBeerName())));
     }
 }

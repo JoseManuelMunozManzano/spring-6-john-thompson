@@ -33,3 +33,6 @@
 - https://bootcamptoprod.com/spring-bean-life-cycle-explained/
 - https://sfg-beer-works.github.io/brewery-api/
   - Para jugar con los endpoints
+- https://github.com/json-path/JsonPath
+  - DSL para leer documentos JSON. Se incluye en las dependencias de Spring Boot test
+  - Lo vamos a usar para realizar aserciones contra un objeto JSON devuelto

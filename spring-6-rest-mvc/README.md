@@ -62,6 +62,10 @@ public ResponseEntity<Customer> handlePost(@RequestBody Customer customer) {
 }
 ```
 
+Para la parte de Mockito, se va a usar también `Jayway JsonPath`, que es un DSL para leer documentos JSON. Se incluye en las dependencias de Spring Boot test.
+
+Lo vamos a usar para realizar aserciones contra un objeto JSON devuelto.
+
 ## Testing
 
 - Clonar el repositorio
