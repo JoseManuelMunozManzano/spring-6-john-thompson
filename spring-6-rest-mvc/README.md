@@ -2,6 +2,21 @@
 
 Vamos a hacer un ejemplo de app REST MVC.
 
+## Notas
+
+Para añadir Live Reload al proyecto hay que añadir al POM la dependencia `DevTools`:
+
+```
+<dependency>
+    <groupId>org.springframework.boot</groupId>
+    <artifactId>spring-boot-devtools</artifactId>
+</dependency>
+```
+
+Y para que funcione en IntelliJ hay que habilitar lo siguiente en Settings:
+
+![alt DevTools](../images/03-DevTools.png)
+
 ## Testing
 
 - Clonar el repositorio
