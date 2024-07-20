@@ -23,6 +23,8 @@
 - Project Lombok
   - spring-6-lombok
     - Ejemplo con Project Lombok
+- Spring MVC Rest Services
+  - spring-6-rest-mvc
 
 ## URLs con documentación
 

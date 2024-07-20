@@ -1,0 +1,30 @@
+{
+	"info": {
+		"_postman_id": "7efdba5a-4ca2-4a39-9e8b-7a1f50ca59c6",
+		"name": "Spring-6-John-Thompson",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+		"_exporter_id": "7508044"
+	},
+	"item": [
+		{
+			"name": "Get All Beers",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "localhost:8080/api/v1/beer",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"api",
+						"v1",
+						"beer"
+					]
+				}
+			},
+			"response": []
+		}
+	]
+}

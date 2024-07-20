@@ -1,0 +1,9 @@
+# spring-6-rest-mvc
+
+Vamos a hacer un ejemplo de app REST MVC.
+
+## Testing
+
+- Clonar el repositorio
+- Ejecutar el proyecto
+- Importar la carpeta postman a Postman y probar los endpoints
