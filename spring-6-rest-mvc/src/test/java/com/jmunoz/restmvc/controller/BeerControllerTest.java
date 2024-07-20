@@ -11,6 +11,8 @@ import org.springframework.http.MediaType;
 import org.springframework.test.web.servlet.MockMvc;
 
 import java.math.BigDecimal;
+import java.time.LocalDateTime;
+import java.util.List;
 import java.util.UUID;
 
 import static org.hamcrest.core.Is.is;
@@ -72,5 +74,53 @@ class BeerControllerTest {
                 .andExpect(content().contentType(MediaType.APPLICATION_JSON))
                 .andExpect(jsonPath("$.id", is(testBeer.getId().toString())))
                 .andExpect(jsonPath("$.beerName", is(testBeer.getBeerName())));
+    }
+
+    @Test
+    void testListBeers() throws Exception {
+        Beer beer1 = Beer.builder()
+                .id(UUID.randomUUID())
+                .version(1)
+                .beerName("Galaxy Cat")
+                .beerStyle(BeerStyle.PALE_ALE)
+                .upc("123456")
+                .price(new BigDecimal("12.99"))
+                .quantityOnHand(122)
+                .createdDate(LocalDateTime.now())
+                .updateDate(LocalDateTime.now())
+                .build();
+
+        Beer beer2 = Beer.builder()
+                .id(UUID.randomUUID())
+                .version(1)
+                .beerName("Crank")
+                .beerStyle(BeerStyle.PALE_ALE)
+                .upc("1235622")
+                .price(new BigDecimal("12.99"))
+                .quantityOnHand(392)
+                .createdDate(LocalDateTime.now())
+                .updateDate(LocalDateTime.now())
+                .build();
+
+        Beer beer3 = Beer.builder()
+                .id(UUID.randomUUID())
+                .version(1)
+                .beerName("Sunshine City")
+                .beerStyle(BeerStyle.IPA)
+                .upc("12356")
+                .price(new BigDecimal("13.99"))
+                .quantityOnHand(144)
+                .createdDate(LocalDateTime.now())
+                .updateDate(LocalDateTime.now())
+                .build();
+
+        given(beerService.listBeers()).willReturn(List.of(beer1, beer2, beer3));
+
+        // En este caso hacemos aserciones sobre la lista, en concreto su longitud.
+        mockMvc.perform(get("/api/v1/beer")
+                .accept(MediaType.APPLICATION_JSON))
+                .andExpect(status().isOk())
+                .andExpect(content().contentType(MediaType.APPLICATION_JSON))
+                .andExpect(jsonPath("$.length()", is(3)));
     }
 }
