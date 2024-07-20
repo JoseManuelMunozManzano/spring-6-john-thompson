@@ -21,6 +21,7 @@ public class BeerController {
 
     private final BeerService beerService;
 
+    // Funciona tanto /{customerId} como {customerId} sin la /
     @DeleteMapping("{beerId}")
     public ResponseEntity<Beer> deleteById(@PathVariable("beerId") UUID beerId) {
         beerService.deleteBeerById(beerId);
@@ -64,7 +65,7 @@ public class BeerController {
         return beerService.listBeers();
     }
 
-    @RequestMapping(value = "/{beerId}", method = RequestMethod.GET)
+    @RequestMapping(value = "{beerId}", method = RequestMethod.GET)
     public Beer getBeerById(@PathVariable("beerId") UUID beerId) {
 
         log.debug("Get Beer by Id - in controller");
