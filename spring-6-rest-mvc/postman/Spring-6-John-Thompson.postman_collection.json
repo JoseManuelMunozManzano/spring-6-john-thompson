@@ -108,6 +108,36 @@
 			"response": []
 		},
 		{
+			"name": "Delete Beer",
+			"request": {
+				"method": "DELETE",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "localhost:8080/api/v1/beer/722465fe-547c-4068-85fe-a05e312ce3c1",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"api",
+						"v1",
+						"beer",
+						"722465fe-547c-4068-85fe-a05e312ce3c1"
+					]
+				}
+			},
+			"response": []
+		},
+		{
 			"name": "Get All Customers",
 			"request": {
 				"method": "GET",

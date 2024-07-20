@@ -102,4 +102,11 @@ public class BeerServiceImpl implements BeerService {
 
         log.debug("Update Beer: {}", existing.toString());
     }
+
+    @Override
+    public void deleteBeerById(UUID beerId) {
+        log.debug("Delete Beer: {}", beerMap.get(beerId));
+
+        beerMap.remove(beerId);
+    }
 }
