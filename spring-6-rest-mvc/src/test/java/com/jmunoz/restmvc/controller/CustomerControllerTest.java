@@ -75,6 +75,18 @@ class CustomerControllerTest {
         testCustomers = Arrays.asList(jm, adri, marina);
     }
 
+    // Lanzamiento de excepción usando Mockito.
+    // Esta vez lo vamos a manejar usando ControllerAdvice, para configurar un manejador de excepción global (recordar
+    // que @ExceptionHandler es local al controller donde está definido)
+    @Test
+    void getCustomerByIdNotFound() throws Exception {
+
+        given(customerService.getCustomerById(any(UUID.class))).willThrow(NotFoundException.class);
+
+        mockMvc.perform(get("/api/v1/customer/" + testCustomers.getFirst().getId()))
+                .andExpect(status().isNotFound());
+    }
+
     @Test
     void listCustomers() throws Exception {
         given(customerService.listCustomers()).willReturn(testCustomers);
