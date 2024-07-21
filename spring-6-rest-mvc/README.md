@@ -66,6 +66,20 @@ Para la parte de Mockito, se va a usar también `Jayway JsonPath`, que es un DSL
 
 Lo vamos a usar para realizar aserciones contra un objeto JSON devuelto.
 
+**eq() vs ArgumentCaptor**
+
+In Mockito, both the eq() argument matcher and ArgumentCaptor can be used to specify argument values in method invocations during mocking and verification. However, they serve different purposes.
+
+- eq() Argument Matcher: The eq() argument matcher is used to match a specific value against an argument passed to a mocked method. It is typically used in the when() method to define the behavior of a mocked method or in the verify() method to verify that a method was called with a specific argument
+- The ArgumentCaptor is used to capture the arguments passed to a mocked method so that you can inspect and perform assertions on them later. It allows you to capture and store the actual argument values for further analysis outside of the mocking or verification phase
+
+Both approaches have their own use cases:
+
+- Use eq() when you want to match a specific value during mocking or verification
+- Use ArgumentCaptor when you need to capture the actual argument values for further analysis or assertions
+
+It's worth noting that ArgumentCaptor can be more useful in complex scenarios where you need to capture multiple arguments or perform assertions on the captured values. However, in simpler cases, using eq() directly may be more concise.
+
 ## Testing
 
 - Clonar el repositorio
