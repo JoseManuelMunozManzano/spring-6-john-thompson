@@ -5,6 +5,8 @@ import com.jmunoz.restmvc.model.Customer;
 import com.jmunoz.restmvc.services.CustomerService;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
+import org.mockito.ArgumentCaptor;
+import org.mockito.Captor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
@@ -16,6 +18,7 @@ import java.util.Arrays;
 import java.util.List;
 import java.util.UUID;
 
+import static org.assertj.core.api.Assertions.assertThat;
 import static org.hamcrest.core.Is.is;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.BDDMockito.given;
@@ -34,6 +37,11 @@ class CustomerControllerTest {
 
     @MockBean
     CustomerService customerService;
+
+    // Vemos una segunda forma de implementar ArgumentCaptor.
+    // Lo bueno de esta forma es que se puede reutilizar.
+    @Captor
+    ArgumentCaptor<UUID> uuidArgumentCaptor;
 
     List<Customer> testCustomers;
 
@@ -116,6 +124,23 @@ class CustomerControllerTest {
                 .andExpect(status().isNoContent());
 
         // En este caso, en vez de usar eq(customer.getId()) he usado any
-        verify(customerService).updateCustomerById(any(UUID.class), any(Customer.class));
+        // verify(customerService).updateCustomerById(any(UUID.class), any(Customer.class));
+
+        // Reutilizando ArgumentCaptor
+        verify(customerService).updateCustomerById(uuidArgumentCaptor.capture(), any(Customer.class));
+        assertThat(customer.getId()).isEqualTo(uuidArgumentCaptor.getValue());
+    }
+
+    @Test
+    void testDeleteCustomer() throws Exception {
+        Customer customer = testCustomers.getFirst();
+
+        mockMvc.perform(delete("/api/v1/customer/" + customer.getId())
+                .contentType(MediaType.APPLICATION_JSON))
+                .andExpect(status().isNoContent());
+
+        // Usando ArgumentCaptor (inyectado) en vez de eq() o any()
+        verify(customerService).deleteCustomerById(uuidArgumentCaptor.capture());
+        assertThat(customer.getId()).isEqualTo(uuidArgumentCaptor.getValue());
     }
 }
