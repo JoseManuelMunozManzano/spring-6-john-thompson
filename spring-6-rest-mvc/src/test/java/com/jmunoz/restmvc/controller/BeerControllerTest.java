@@ -16,7 +16,9 @@ import org.springframework.test.web.servlet.MockMvc;
 
 import java.math.BigDecimal;
 import java.time.LocalDateTime;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.UUID;
 
 import static org.assertj.core.api.Assertions.assertThat;
@@ -213,5 +215,30 @@ class BeerControllerTest {
         // Nos aseguramos que el UUID pasado al controlador a través del PathVariable se ha parseado correctamente.
         // Esto se usa mucho para verificar que las propiedades se envían correctamente.
         assertThat(beer.getId()).isEqualTo(uuidArgumentCaptor.getValue());
+    }
+
+    @Test
+    void testPatchBeer() throws Exception {
+        Beer beer = beers.getFirst();
+
+        // Obtenemos un JSON object con solo el nombre de la cerveza, que imita lo que el cliente haría cuando
+        // usa la operación PATCH.
+        Map<String, Object> beerMap = new HashMap<>();
+        beerMap.put("beerName", "New Name");
+
+        mockMvc.perform(patch("/api/v1/beer/" + beer.getId())
+                .contentType(MediaType.APPLICATION_JSON)
+                .accept(MediaType.APPLICATION_JSON)
+                        .content(objectMapper.writeValueAsString(beerMap)))
+                .andExpect(status().isNoContent());
+
+        // En vez de usar @Captor, aquí sigo usando la inicialización manual por temas pedagógicos, para ver
+        // las dos posibilidades.
+        ArgumentCaptor<UUID> uuidArgumentCaptor = ArgumentCaptor.forClass(UUID.class);
+        ArgumentCaptor<Beer> beerArgumentCaptor = ArgumentCaptor.forClass(Beer.class);
+
+        verify(beerService).patchBeerById(uuidArgumentCaptor.capture(), beerArgumentCaptor.capture());
+        assertThat(beer.getId()).isEqualTo(uuidArgumentCaptor.getValue());
+        assertThat(beerMap.get("beerName")).isEqualTo(beerArgumentCaptor.getValue().getBeerName());
     }
 }
