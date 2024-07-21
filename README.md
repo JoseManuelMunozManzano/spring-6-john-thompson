@@ -36,3 +36,4 @@
 - https://github.com/json-path/JsonPath
   - DSL para leer documentos JSON. Se incluye en las dependencias de Spring Boot test
   - Lo vamos a usar para realizar aserciones contra un objeto JSON devuelto
+- https://stackoverflow.com/questions/35722586/http-headers-accept-and-content-type-in-a-rest-context

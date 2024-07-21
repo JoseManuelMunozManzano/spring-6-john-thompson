@@ -14,9 +14,7 @@ import org.springframework.http.MediaType;
 import org.springframework.test.web.servlet.MockMvc;
 
 import java.time.LocalDateTime;
-import java.util.Arrays;
-import java.util.List;
-import java.util.UUID;
+import java.util.*;
 
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.hamcrest.core.Is.is;
@@ -42,6 +40,9 @@ class CustomerControllerTest {
     // Lo bueno de esta forma es que se puede reutilizar.
     @Captor
     ArgumentCaptor<UUID> uuidArgumentCaptor;
+
+    @Captor
+    ArgumentCaptor<Customer> customerArgumentCaptor;
 
     List<Customer> testCustomers;
 
@@ -142,5 +143,23 @@ class CustomerControllerTest {
         // Usando ArgumentCaptor (inyectado) en vez de eq() o any()
         verify(customerService).deleteCustomerById(uuidArgumentCaptor.capture());
         assertThat(customer.getId()).isEqualTo(uuidArgumentCaptor.getValue());
+    }
+
+    @Test
+    void testPatchCustomer() throws Exception {
+        Customer customer = testCustomers.getFirst();
+
+        Map<String, Object> customerMap = new HashMap<>();
+        customerMap.put("name", "New Name");
+
+        mockMvc.perform(patch("/api/v1/customer/" + customer.getId())
+                .contentType(MediaType.APPLICATION_JSON)
+                .content(objectMapper.writeValueAsString(customerMap)))
+                .andExpect(status().isNoContent());
+
+        verify(customerService).patchCustomerById(uuidArgumentCaptor.capture(), customerArgumentCaptor.capture());
+
+        assertThat(uuidArgumentCaptor.getValue()).isEqualTo(customer.getId());
+        assertThat(customerArgumentCaptor.getValue().getName()).isEqualTo(customerMap.get("name"));
     }
 }
