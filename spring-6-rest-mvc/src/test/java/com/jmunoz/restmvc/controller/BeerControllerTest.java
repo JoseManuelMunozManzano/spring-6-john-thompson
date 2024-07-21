@@ -108,8 +108,8 @@ class BeerControllerTest {
     void getBeerByIdNotFound() throws Exception {
 
         // Mockito debe devolver la excepción.
-        // Por ahora, este test falla, ya que genera una excepción.
-        // Nos falta como manejar esta excepción.
+        // Este test genera una excepción y es correcto porque tenemos en el controller
+        // el manejador de esta excepción handleNotFoundException()
         given(beerService.getBeerById(any(UUID.class))).willThrow(NotFoundException.class);
 
         mockMvc.perform(get(BeerController.BEER_PATH_ID, UUID.randomUUID()))

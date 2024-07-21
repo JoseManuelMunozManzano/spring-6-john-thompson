@@ -83,4 +83,21 @@ public class BeerController {
 
         return beerService.getBeerById(beerId);
     }
+
+    // Manejador de excepciones.
+    // Vamos a devolver una nueva ResponseEntity.
+    // Para que la excepción la maneje el framework, lo anotamos con @ExceptionHandler
+    // e indicamos las clases de excepciones que queremos que se manejen.
+    // Si, en este controlador, alguno de los métodos lanza una excepción del tipo NotFoundException,
+    // se maneja en este método handler.
+    // Indicar que en este método tenemos control total sobre lo que queremos devolver al cliente.
+    //
+    // La desventaja de este enfoque es que solo va a manejar la excepción de los métodos de este controller.
+    @ExceptionHandler(NotFoundException.class)
+    public ResponseEntity<Beer> handleNotFoundException() {
+        log.debug("In exception handler");
+
+        return ResponseEntity.notFound().build();
+    }
+
 }
