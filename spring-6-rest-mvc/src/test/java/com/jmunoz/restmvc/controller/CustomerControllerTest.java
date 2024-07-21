@@ -1,5 +1,6 @@
 package com.jmunoz.restmvc.controller;
 
+import com.fasterxml.jackson.databind.ObjectMapper;
 import com.jmunoz.restmvc.model.Customer;
 import com.jmunoz.restmvc.services.CustomerService;
 import org.junit.jupiter.api.BeforeEach;
@@ -16,8 +17,10 @@ import java.util.List;
 import java.util.UUID;
 
 import static org.hamcrest.core.Is.is;
+import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.BDDMockito.given;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
 
 @WebMvcTest(CustomerController.class)
@@ -25,6 +28,9 @@ class CustomerControllerTest {
 
     @Autowired
     MockMvc mockMvc;
+
+    @Autowired
+    ObjectMapper objectMapper;
 
     @MockBean
     CustomerService customerService;
@@ -81,5 +87,21 @@ class CustomerControllerTest {
                 .andExpect(content().contentType(MediaType.APPLICATION_JSON))
                 .andExpect(jsonPath("$.id", is(testCustomers.getFirst().getId().toString())))
                 .andExpect(jsonPath("$.name", is(testCustomers.getFirst().getName())));
+    }
+
+    @Test
+    void testCreateNewCustomer() throws Exception {
+        Customer customer = testCustomers.getFirst();
+        customer.setId(null);
+        customer.setVersion(null);
+
+        given(customerService.saveNewCustomer(any(Customer.class))).willReturn(testCustomers.get(1));
+
+        mockMvc.perform(post("/api/v1/customer")
+                .accept(MediaType.APPLICATION_JSON)
+                .contentType(MediaType.APPLICATION_JSON)
+                .content(objectMapper.writeValueAsString(customer)))
+                .andExpect(status().isCreated())
+                .andExpect(header().exists("Location"));
     }
 }
