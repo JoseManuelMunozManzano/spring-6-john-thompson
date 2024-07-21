@@ -1,5 +1,6 @@
 package com.jmunoz.restmvc.controller;
 
+import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.jmunoz.restmvc.model.Beer;
 import com.jmunoz.restmvc.model.BeerStyle;
@@ -19,9 +20,10 @@ import java.util.UUID;
 
 import static org.hamcrest.core.Is.is;
 import static org.mockito.ArgumentMatchers.any;
+import static org.mockito.ArgumentMatchers.eq;
 import static org.mockito.BDDMockito.given;
-import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
-import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
+import static org.mockito.Mockito.verify;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
 
 // Esta anotación indica que es un test splice, y queremos limitarlo a la clase BeerController.
@@ -173,5 +175,22 @@ class BeerControllerTest {
                         .content(objectMapper.writeValueAsString(beer)))
                 .andExpect(status().isCreated())
                 .andExpect(header().exists("Location"));
+    }
+
+    @Test
+    void testUpdateBeer() throws Exception {
+        Beer beer = beers.getFirst();
+
+        // En un Update, el service no devuelve nada (no hay willReturn), por lo que no hace falta el given
+
+        // Usando Mockito, vamos a verificar la interacción, es decir, que el service fue llamado.
+        mockMvc.perform(put("/api/v1/beer/" + beer.getId())
+                .accept(MediaType.APPLICATION_JSON)
+                .contentType(MediaType.APPLICATION_JSON)
+                .content(objectMapper.writeValueAsString(beer)))
+                .andExpect(status().isNoContent());
+
+        // Por defecto, verifica una interacción.
+        verify(beerService).updateBeerById(eq(beer.getId()), any(Beer.class));
     }
 }
