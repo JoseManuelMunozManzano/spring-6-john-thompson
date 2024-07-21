@@ -1,8 +1,11 @@
 package com.jmunoz.restmvc.controller;
 
+import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.databind.ObjectMapper;
 import com.jmunoz.restmvc.model.Beer;
 import com.jmunoz.restmvc.model.BeerStyle;
 import com.jmunoz.restmvc.services.BeerService;
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
@@ -28,6 +31,14 @@ class BeerControllerTest {
     @Autowired
     MockMvc mockMvc;
 
+    // Usando el Object Mapper (Jackson) del context de Spring para serializar/deserializar JSON.
+    // Obtenemos la configuración default de Spring Boot, y podemos configurarlo
+    // de forma más avanzada.
+    // Nuestros test y controladores van a usar la MISMA configuración, evitando conflictos y
+    // evitando tener que mantener dos configuraciones distintas.
+    @Autowired
+    ObjectMapper objectMapper;
+
     // Esta anotación le dice a Mockito que provea un mock de este service al contexto de Spring.
     // Sin esta anotación obtendríamos una excepción indicando que no tenemos la dependencia, teniendo
     // que proveerla manualmente.
@@ -41,43 +52,11 @@ class BeerControllerTest {
     //
     // BeerServiceImpl beerServiceImpl = new BeerServiceImpl();
     //
-    // NOTA: Como se indica más abajo, es mejor crear un objeto concreto de prueba de Beer.
+    // NOTA: Como se indica más abajo, es mejor crear objetos concretos de prueba de Beer.
+    List<Beer> beers;
 
-    @Test
-    void getBeerById() throws Exception {
-        // Podemos usar la implementación para obtener un objeto de tipo Beer
-        // Beer testBeer = beerServiceImpl.listBeers().get(0);
-        //
-        // O mejor, crearnos un objeto y no tener que usar nuestra implementación del servicio.
-        Beer testBeer = Beer.builder()
-                .id(UUID.randomUUID())
-                .beerName("My Beer Brand")
-                .beerStyle(BeerStyle.PALE_ALE)
-                .upc("beerbeer")
-                .price(new BigDecimal("12.99"))
-                .version(1)
-                .quantityOnHand(29)
-                .build();
-
-        // Aquí decimos: dado el método beerService.getBeerById, si pasamos cualquier UUID nos va a devolver
-        // el objeto testBeer.
-        // given(beerService.getBeerById(any(UUID.class))).willReturn(testBeer);
-        //
-        // O podemos usar el id que se ha añadido a testBeer
-        given(beerService.getBeerById(testBeer.getId())).willReturn(testBeer);
-
-        // Aquí decimos: queremos hacer un get a esa URL y deberíamos obtener un status Ok y contenido JSON.
-        // Sobre ese JSON hacemos aserciones.
-        mockMvc.perform(get("/api/v1/beer/" + testBeer.getId())
-                .accept(MediaType.APPLICATION_JSON))
-                .andExpect(status().isOk())
-                .andExpect(content().contentType(MediaType.APPLICATION_JSON))
-                .andExpect(jsonPath("$.id", is(testBeer.getId().toString())))
-                .andExpect(jsonPath("$.beerName", is(testBeer.getBeerName())));
-    }
-
-    @Test
-    void testListBeers() throws Exception {
+    @BeforeEach
+    void setUp() {
         Beer beer1 = Beer.builder()
                 .id(UUID.randomUUID())
                 .version(1)
@@ -114,7 +93,38 @@ class BeerControllerTest {
                 .updateDate(LocalDateTime.now())
                 .build();
 
-        given(beerService.listBeers()).willReturn(List.of(beer1, beer2, beer3));
+        beers = List.of(beer1, beer2, beer3);
+    }
+
+    @Test
+    void getBeerById() throws Exception {
+        // Podemos usar la implementación para obtener un objeto de tipo Beer
+        // Beer testBeer = beerServiceImpl.listBeers().get(0);
+        //
+        // O mejor, crearnos un objeto y no tener que usar nuestra implementación del servicio.
+        Beer testBeer = beers.getFirst();
+
+        // Aquí decimos: dado el método beerService.getBeerById, si pasamos cualquier UUID nos va a devolver
+        // el objeto testBeer.
+        // given(beerService.getBeerById(any(UUID.class))).willReturn(testBeer);
+        //
+        // O podemos usar el id que se ha añadido a testBeer
+        given(beerService.getBeerById(testBeer.getId())).willReturn(testBeer);
+
+        // Aquí decimos: queremos hacer un get a esa URL y deberíamos obtener un status Ok y contenido JSON.
+        // Sobre ese JSON hacemos aserciones.
+        mockMvc.perform(get("/api/v1/beer/" + testBeer.getId())
+                .accept(MediaType.APPLICATION_JSON))
+                .andExpect(status().isOk())
+                .andExpect(content().contentType(MediaType.APPLICATION_JSON))
+                .andExpect(jsonPath("$.id", is(testBeer.getId().toString())))
+                .andExpect(jsonPath("$.beerName", is(testBeer.getBeerName())));
+    }
+
+    @Test
+    void testListBeers() throws Exception {
+
+        given(beerService.listBeers()).willReturn(beers);
 
         // En este caso hacemos aserciones sobre la lista, en concreto su longitud.
         mockMvc.perform(get("/api/v1/beer")
@@ -122,5 +132,29 @@ class BeerControllerTest {
                 .andExpect(status().isOk())
                 .andExpect(content().contentType(MediaType.APPLICATION_JSON))
                 .andExpect(jsonPath("$.length()", is(3)));
+    }
+
+    // Usando Jackson para crear un JSON y creación de Stub.
+    @Test
+    void testCreateNewBeer() throws JsonProcessingException {
+        // Jackson tiene lo que se llama ObjectMapper, que usaremos
+        // para serializar/deserializar data de un JSON a un POJO o al revés.
+        // Para que no falle Jackson, hay que configurar sus módulos, en concreto uno
+        // para que maneje los tipos de fecha/hora.
+        // Esta sería la declaración manual.
+        //
+        // ObjectMapper objectMapper = new ObjectMapper();
+        // objectMapper.findAndRegisterModules();
+        //
+        // Pero se comenta porque lo mejor es inyectar del contexto de Spring ObjectMapper
+        // ya configurado automáticamente por Spring (ver arriba su @Autowired)
+        // Una de las diferencias con respecto a la declaración y configuración de arriba
+        // es como quedan las fechas. Spring las formatea mejor.
+
+        Beer beer = beers.getFirst();
+
+        // Creando el JSON
+        System.out.println(objectMapper.writeValueAsString(beer));
+
     }
 }
