@@ -100,6 +100,10 @@ Se enseñan 4 formas de manejar excepciones:
   - Es más sencilla de usar que @ControllerAdvice
   - Si se usa este método, no usar @ControllerAdvice
 
+Uso de Optional de Java para delegar el lanzamiento de excepciones del Service al Controller, lo que hace la implementación más limpia.
+
+Si el service devuelve null, el controller lanza la excepción gracias a .orElseThrow()
+
 ## Testing
 
 - Clonar el repositorio

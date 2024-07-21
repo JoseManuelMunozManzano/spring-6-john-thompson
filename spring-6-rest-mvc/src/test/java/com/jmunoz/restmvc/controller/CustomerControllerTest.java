@@ -85,7 +85,10 @@ class CustomerControllerTest {
     void getCustomerByIdNotFound() throws Exception {
 
         // El problema es que estamos buscando en el service para lanzar la excepción.
-        given(customerService.getCustomerById(any(UUID.class))).willThrow(NotFoundException.class);
+        // Se corrige usando el Optional de Java, de forma que ahora el service solo devuelve null y es el controller
+        // el que lanza la excepción.
+        // given(customerService.getCustomerById(any(UUID.class))).willThrow(NotFoundException.class);
+        given(customerService.getCustomerById(any(UUID.class))).willReturn(Optional.empty());
 
         mockMvc.perform(get("/api/v1/customer/" + testCustomers.getFirst().getId()))
                 .andExpect(status().isNotFound());
@@ -104,7 +107,7 @@ class CustomerControllerTest {
 
     @Test
     void getCustomerById() throws Exception {
-        given(customerService.getCustomerById(testCustomers.getFirst().getId())).willReturn(testCustomers.getFirst());
+        given(customerService.getCustomerById(testCustomers.getFirst().getId())).willReturn(Optional.of(testCustomers.getFirst()));
 
         mockMvc.perform(get("/api/v1/customer/" + testCustomers.getFirst().getId())
                 .accept(MediaType.APPLICATION_JSON))

@@ -15,10 +15,7 @@ import org.springframework.test.web.servlet.MockMvc;
 
 import java.math.BigDecimal;
 import java.time.LocalDateTime;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-import java.util.UUID;
+import java.util.*;
 
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.hamcrest.core.Is.is;
@@ -111,7 +108,12 @@ class BeerControllerTest {
         // Este test genera una excepción y es correcto porque tenemos en el controller
         // el manejador de esta excepción handleNotFoundException()
         // (Además tenemos el manejador global, pero se usa el local del controller)
-        given(beerService.getBeerById(any(UUID.class))).willThrow(NotFoundException.class);
+        //
+        // Gracias a Optional hemos delegado el lanzamiento de excepción del service al controller.
+        // Cambiamos de
+        // given(beerService.getBeerById(any(UUID.class))).willThrow(NotFoundException.class);
+        // a que el service devuelve empty.
+        given(beerService.getBeerById(any(UUID.class))).willReturn(Optional.empty());
 
         mockMvc.perform(get(BeerController.BEER_PATH_ID, UUID.randomUUID()))
                 .andExpect(status().isNotFound());
@@ -130,7 +132,9 @@ class BeerControllerTest {
         // given(beerService.getBeerById(any(UUID.class))).willReturn(testBeer);
         //
         // O podemos usar el id que se ha añadido a testBeer
-        given(beerService.getBeerById(testBeer.getId())).willReturn(testBeer);
+        //
+        // Haciendo uso del Optional de Java.
+        given(beerService.getBeerById(testBeer.getId())).willReturn(Optional.of(testBeer));
 
         // Aquí decimos: queremos hacer un get a esa URL y deberíamos obtener un status Ok y contenido JSON.
         // Sobre ese JSON hacemos aserciones.
