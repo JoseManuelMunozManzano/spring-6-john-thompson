@@ -76,11 +76,15 @@ class CustomerControllerTest {
     }
 
     // Lanzamiento de excepción usando Mockito.
-    // Esta vez lo vamos a manejar usando ControllerAdvice, para configurar un manejador de excepción global (recordar
+    //
+    // Esta vez lo vamos a manejar usando @ControllerAdvice, para configurar un manejador de excepción global (recordar
     // que @ExceptionHandler es local al controller donde está definido)
+    //
+    // Pero como ahora hemos comentado esa parte, vemos que también de forma global, es manejado por @ResponseStatus.
     @Test
     void getCustomerByIdNotFound() throws Exception {
 
+        // El problema es que estamos buscando en el service para lanzar la excepción.
         given(customerService.getCustomerById(any(UUID.class))).willThrow(NotFoundException.class);
 
         mockMvc.perform(get("/api/v1/customer/" + testCustomers.getFirst().getId()))

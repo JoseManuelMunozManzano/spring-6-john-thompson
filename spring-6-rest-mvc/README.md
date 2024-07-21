@@ -84,6 +84,22 @@ Both approaches have their own use cases:
 
 It's worth noting that ArgumentCaptor can be more useful in complex scenarios where you need to capture multiple arguments or perform assertions on the captured values. However, in simpler cases, using eq() directly may be more concise.
 
+**Exception Handling**
+
+Se enseñan 4 formas de manejar excepciones:
+
+- @ExceptionHandler
+  - Local en el controlador donde se usa
+  - Para ese controller, se puede personalizar la respuesta devuelta al cliente
+- @ControllerAdvice
+  - Global para todos los controllers
+  - Da muchas posibilidades de configuración
+  - Se puede personalizar la respuesta al cliente
+- @ResponseStatus
+  - Global para todos los controllers
+  - Es más sencilla de usar que @ControllerAdvice
+  - Si se usa este método, no usar @ControllerAdvice
+
 ## Testing
 
 - Clonar el repositorio

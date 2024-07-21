@@ -1,5 +1,15 @@
 package com.jmunoz.restmvc.controller;
 
+import org.springframework.http.HttpStatus;
+import org.springframework.web.bind.annotation.ResponseStatus;
+
+// Sin esta anotación, hablamos de la primera forma de manejar excepciones, es decir,
+// cuando se usa @ExceptionHandler en el controlador de manera local.
+//
+// Con la anotación @ResponseStatus, hablamos de la tercera forma de manejar excepciones.
+// Se lanza el status HTTP NOT_FOUND
+// Con esto, no es necesario el @ControllerAdvice en la clase ExceptionController. No se va a usar.
+@ResponseStatus(value = HttpStatus.NOT_FOUND, reason = "Value Not Found")
 public class NotFoundException extends RuntimeException {
 
     public NotFoundException() {
