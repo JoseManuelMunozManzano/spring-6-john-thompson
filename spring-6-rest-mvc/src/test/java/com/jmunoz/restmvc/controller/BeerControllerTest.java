@@ -1,6 +1,5 @@
 package com.jmunoz.restmvc.controller;
 
-import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.jmunoz.restmvc.model.Beer;
 import com.jmunoz.restmvc.model.BeerStyle;
@@ -19,8 +18,10 @@ import java.util.List;
 import java.util.UUID;
 
 import static org.hamcrest.core.Is.is;
+import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.BDDMockito.given;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
 
 // Esta anotación indica que es un test splice, y queremos limitarlo a la clase BeerController.
@@ -136,7 +137,7 @@ class BeerControllerTest {
 
     // Usando Jackson para crear un JSON y creación de Stub.
     @Test
-    void testCreateNewBeer() throws JsonProcessingException {
+    void testCreateNewBeer() throws Exception {
         // Jackson tiene lo que se llama ObjectMapper, que usaremos
         // para serializar/deserializar data de un JSON a un POJO o al revés.
         // Para que no falle Jackson, hay que configurar sus módulos, en concreto uno
@@ -153,8 +154,24 @@ class BeerControllerTest {
 
         Beer beer = beers.getFirst();
 
-        // Creando el JSON
-        System.out.println(objectMapper.writeValueAsString(beer));
+        // Creando el JSON y verlo en consola.
+        // System.out.println(objectMapper.writeValueAsString(beer));
 
+        // Más adelante veremos DTO, por ahora usamos el Entity directamente.
+        beer.setVersion(0);
+        beer.setId(null);
+
+        // Cogemos el beer(1) por el hecho de obtener un id cuando se hace un insert,
+        // para no gastar tiempo en crear más data para el test.
+        given(beerService.saveNewBeer(any(Beer.class))).willReturn(beers.get(1));
+
+        // Aquí decimos: queremos hacer un post a esa URL con un JSON (beer) y debemos obtener
+        // status de CREATED y en el header una property Location.
+        mockMvc.perform(post("/api/v1/beer")
+                .accept(MediaType.APPLICATION_JSON)
+                        .contentType(MediaType.APPLICATION_JSON)
+                        .content(objectMapper.writeValueAsString(beer)))
+                .andExpect(status().isCreated())
+                .andExpect(header().exists("Location"));
     }
 }
