@@ -102,6 +102,20 @@ class BeerControllerTest {
         beers = List.of(beer1, beer2, beer3);
     }
 
+    // Lanzamiento de excepción usando Mockito.
+    // En concreto vamos a probar la excepción 404 - Not Found
+    @Test
+    void getBeerByIdNotFound() throws Exception {
+
+        // Mockito debe devolver la excepción.
+        // Por ahora, este test falla, ya que genera una excepción.
+        // Nos falta como manejar esta excepción.
+        given(beerService.getBeerById(any(UUID.class))).willThrow(NotFoundException.class);
+
+        mockMvc.perform(get(BeerController.BEER_PATH_ID, UUID.randomUUID()))
+                .andExpect(status().isNotFound());
+    }
+
     @Test
     void getBeerById() throws Exception {
         // Podemos usar la implementación para obtener un objeto de tipo Beer

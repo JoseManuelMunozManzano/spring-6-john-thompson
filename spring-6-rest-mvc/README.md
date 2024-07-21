@@ -2,10 +2,13 @@
 
 Vamos a hacer un ejemplo de app REST MVC codificando un CRUD completo.
 
-También vamos a hacer un ejemplo de testing usando Spring MockMVC con Mockito.
+Vamos a hacer un ejemplo de testing usando Spring MockMVC con Mockito.
+
+Vamos a hacer ejemplos de manejo de excepciones con Spring MVC y usarlo en los tests.
 
 ## Notas
 
+**Live Reload**
 Para añadir Live Reload al proyecto hay que añadir al POM la dependencia `DevTools`:
 
 ```
@@ -19,6 +22,7 @@ Y para que funcione en IntelliJ hay que habilitar lo siguiente en Settings:
 
 ![alt DevTools](../images/03-DevTools.png)
 
+**Header: Property Location**
 
 Las buenas prácticas al trabajar con RESTful API indican devolver al cliente información sobre el objeto que se creó y la propiedad del header llamada `location` 
 

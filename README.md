@@ -27,6 +27,7 @@
   - spring-6-rest-mvc
     - Ejemplo CRUD completo
     - Ejemplo de testing usando Spring MockMVC con Mockito
+    - Ejemplo de manejo de excepciones con Spring MVC y uso en tests
 
 ## URLs con documentación
 
