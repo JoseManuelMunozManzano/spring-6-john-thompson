@@ -28,6 +28,9 @@
     - Ejemplo CRUD completo
     - Ejemplo de testing usando Spring MockMVC con Mockito
     - Ejemplo de manejo de excepciones con Spring MVC y uso en tests
+- Spring Data JPA with Spring MVC
+  - spring-6-jpa-mvc
+    - Ejemplo de Spring Data JPA
 
 ## URLs con documentación
 
@@ -38,3 +41,4 @@
   - DSL para leer documentos JSON. Se incluye en las dependencias de Spring Boot test
   - Lo vamos a usar para realizar aserciones contra un objeto JSON devuelto
 - https://stackoverflow.com/questions/35722586/http-headers-accept-and-content-type-in-a-rest-context
+- https://mapstruct.org/documentation/reference-guide/
