@@ -8,6 +8,8 @@ Se han refactorizado las clases del modelo para que su nombre acabe en `Dto`, de
 
 Importante es ver como en las clases Entities se usan anotaciones (ver @Column) para que Hibernate cree los campos y la tabla de BBDD para la BBDD en memoria H2.
 
+También se ve como se configura MapStruct en el fichero `pom.xml`.
+
 ## Testing
 
 - Clonar el repositorio
