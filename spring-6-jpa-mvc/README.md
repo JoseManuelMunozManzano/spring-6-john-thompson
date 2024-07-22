@@ -10,6 +10,8 @@ Importante es ver como en las clases Entities se usan anotaciones (ver @Column) 
 
 También se ve como se configura MapStruct en el fichero `pom.xml`.
 
+Una vez creados los mappers, se puede ir al ciclo de vida de `Maven` y ejecutar los pasos `clean` y `compile`. En la carpeta `target` se pueden ver las implementaciones de los mappers.
+
 ## Testing
 
 - Clonar el repositorio
