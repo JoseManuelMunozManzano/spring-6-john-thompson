@@ -1,10 +1,12 @@
 package com.jmunoz.restmvc.entities;
 
 import com.jmunoz.restmvc.model.BeerStyle;
+import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.Id;
 import jakarta.persistence.Version;
 import lombok.*;
+import org.hibernate.annotations.UuidGenerator;
 
 import java.math.BigDecimal;
 import java.time.LocalDateTime;
@@ -19,7 +21,11 @@ import java.util.UUID;
 @NoArgsConstructor
 public class BeerEntity {
 
+    // Dada esta configuración necesitamos hacer un mapeo de BBDD, de ahí el uso de @Column.
+    // Esta anotación da pistas a Hibernate para generar el SQL que crea la tabla de BBDD H2 en memoria.
     @Id
+    @UuidGenerator
+    @Column(length = 36, columnDefinition = "varchar", updatable = false, nullable = false)
     private UUID id;
 
     // Empieza en 0 y con cada actualización se incrementa en 1.
