@@ -1,6 +1,6 @@
 # spring-6-jpa-mvc
 
-Es el mismo ejemplo `spring-6-rest-mvc` pero usando Spring Data JPA.
+Es el mismo ejemplo `spring-6-rest-mvc` pero usando Spring Data JPA y trabajando con la BBDD H2.
 
 ## Notas
 

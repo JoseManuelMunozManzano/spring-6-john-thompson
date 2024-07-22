@@ -30,7 +30,7 @@
     - Ejemplo de manejo de excepciones con Spring MVC y uso en tests
 - Spring Data JPA with Spring MVC
   - spring-6-jpa-mvc
-    - Ejemplo de Spring Data JPA
+    - Ejemplo de Spring Data JPA trabajando con la BBDD H2
 
 ## URLs con documentación
 
