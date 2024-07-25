@@ -10,7 +10,7 @@ import org.springframework.stereotype.Service;
 import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
-import java.util.stream.Collectors;
+import java.util.concurrent.atomic.AtomicReference;
 
 // Como ahora vamos a tener dos implementaciones de BeerService, este que usa JPA lo hacemos @Primary
 @Service
@@ -45,15 +45,26 @@ public class BeerServiceJPA implements BeerService {
         return beerMapper.beerEntityToBeerDto(beerRepository.save(beerMapper.beerDtoToBeerEntity(beer)));
     }
 
+    // Las funciones lambda no actualizan ninguna variable local (foundBeer), ya que son effective final o final.
+    // Cuando queremos actualizar un valor dentro de una función lambda, se usa AtomicReference.
     @Override
-    public void updateBeerById(UUID beerId, BeerDto beer) {
-        beerRepository.findById(beerId).ifPresent(foundBeer -> {
+    public Optional<BeerDto> updateBeerById(UUID beerId, BeerDto beer) {
+        AtomicReference<Optional<BeerDto>> atomicReference = new AtomicReference<>();
+
+        beerRepository.findById(beerId).ifPresentOrElse(foundBeer -> {
             foundBeer.setBeerName(beer.getBeerName());
             foundBeer.setBeerStyle(beer.getBeerStyle());
             foundBeer.setUpc(beer.getUpc());
             foundBeer.setPrice(beer.getPrice());
             beerRepository.save(foundBeer);
+
+            atomicReference.set(Optional.of(beerMapper
+                    .beerEntityToBeerDto(beerRepository.save(foundBeer))));
+        }, () -> {
+            atomicReference.set(Optional.empty());
         });
+
+        return atomicReference.get();
     }
 
     @Override

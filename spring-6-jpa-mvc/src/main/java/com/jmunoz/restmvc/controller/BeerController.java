@@ -42,9 +42,11 @@ public class BeerController {
 
     @PutMapping(BEER_PATH_ID)
     public ResponseEntity<BeerDto> updatedById(@PathVariable("beerId") UUID beerId, @RequestBody BeerDto beer) {
-        beerService.updateBeerById(beerId, beer);
+        if (beerService.updateBeerById(beerId, beer).isEmpty()) {
+            throw new NotFoundException();
+        }
 
-        // NO_CONTENT: Recibimos el Request y to-do ha ocurrido normalmente. No se devuelve nada.
+        // NO_CONTENT: Recibimos el Request y to-do ha ocurrido normalmente.
         return new ResponseEntity<>(HttpStatus.NO_CONTENT);
     }
 

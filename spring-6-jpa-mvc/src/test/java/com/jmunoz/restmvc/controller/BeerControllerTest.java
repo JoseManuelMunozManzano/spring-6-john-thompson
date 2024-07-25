@@ -203,7 +203,8 @@ class BeerControllerTest {
     void testUpdateBeer() throws Exception {
         BeerDto beer = beers.getFirst();
 
-        // En un Update, el service no devuelve nada (no hay willReturn), por lo que no hace falta el given
+        // No hace falta que hagamos la actualización, pero sí devolver un valor.
+        given(beerService.updateBeerById(any(), any())).willReturn(Optional.of(beer));
 
         // Usando Mockito, vamos a verificar la interacción, es decir, que el service fue llamado.
         mockMvc.perform(put(BeerController.BEER_PATH_ID, beer.getId())
