@@ -1,6 +1,7 @@
 package com.jmunoz.restmvc.controller;
 
 import com.jmunoz.restmvc.entities.BeerEntity;
+import com.jmunoz.restmvc.mappers.BeerMapper;
 import com.jmunoz.restmvc.model.BeerDto;
 import com.jmunoz.restmvc.repositories.BeerRepository;
 import org.junit.jupiter.api.Test;
@@ -32,6 +33,9 @@ class BeerControllerIT {
 
     @Autowired
     BeerRepository beerRepository;
+
+    @Autowired
+    BeerMapper beerMapper;
 
     // En otros tests anteriores, probábamos la interacción entre el controller y el framework
     // usando Mock MVC.
@@ -102,5 +106,23 @@ class BeerControllerIT {
 
         BeerEntity beerEntity = beerRepository.findById(savedUUID).get();
         assertThat(beerEntity).isNotNull();
+    }
+
+    @Rollback
+    @Transactional
+    @Test
+    void updateExistingBeer() {
+        BeerEntity beerEntity = beerRepository.findAll().getFirst();
+        BeerDto beerDto = beerMapper.beerEntityToBeerDto(beerEntity);
+        beerDto.setId(null);
+        beerDto.setVersion(null);
+        final String beerName = "UPDATED";
+        beerDto.setBeerName(beerName);
+
+        ResponseEntity<BeerDto> responseEntity = beerController.updatedById(beerEntity.getId(), beerDto);
+        assertThat(responseEntity.getStatusCode()).isEqualTo(HttpStatusCode.valueOf(204));
+
+        BeerEntity updatedBeer = beerRepository.findById(beerEntity.getId()).get();
+        assertThat(updatedBeer.getBeerName()).isEqualTo(beerName);
     }
 }
