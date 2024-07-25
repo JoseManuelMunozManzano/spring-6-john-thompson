@@ -16,3 +16,4 @@ Una vez creados los mappers, se puede ir al ciclo de vida de `Maven` y ejecutar 
 
 - Clonar el repositorio
 - Ejecutar los tests
+  - Se testean varias cosas, como la carga de datos en `BootstrapDataTest`, y la interacción entre el service y el controller, es decir, tests de integración usando la BBDD H2, en `BeerControllerIt`

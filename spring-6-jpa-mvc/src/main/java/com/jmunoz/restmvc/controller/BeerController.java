@@ -72,7 +72,7 @@ public class BeerController {
     }
 
     @GetMapping(value = BEER_PATH)
-    private List<BeerDto> listBeers() {
+    public List<BeerDto> listBeers() {
         return beerService.listBeers();
     }
 
