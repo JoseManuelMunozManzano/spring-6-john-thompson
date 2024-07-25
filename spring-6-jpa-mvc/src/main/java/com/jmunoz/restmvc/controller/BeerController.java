@@ -35,7 +35,12 @@ public class BeerController {
     // Funciona tanto /{customerId} como {customerId} sin la /
     @DeleteMapping(BEER_PATH_ID)
     public ResponseEntity<BeerDto> deleteById(@PathVariable("beerId") UUID beerId) {
-        beerService.deleteBeerById(beerId);
+
+        // Se devuelve una bandera en vez de un Optional.
+        // Ver el service.
+        if (!beerService.deleteBeerById(beerId)) {
+            throw new NotFoundException();
+        }
 
         return new ResponseEntity<>(HttpStatus.NO_CONTENT);
     }

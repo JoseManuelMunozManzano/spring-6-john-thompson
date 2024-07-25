@@ -67,10 +67,16 @@ public class BeerServiceJPA implements BeerService {
         return atomicReference.get();
     }
 
+    // En vez de devolver un Optional y manejar una excepción en el controller, en este caso utilizamos una bandera.
+    // Si existe el id se devuelve true y si no se devuelve false.
     @Override
-    public void deleteBeerById(UUID beerId) {
+    public Boolean deleteBeerById(UUID beerId) {
+        if (beerRepository.existsById(beerId)) {
+            beerRepository.deleteById(beerId);
+            return true;
+        }
 
-        beerRepository.deleteById(beerId);
+        return false;
     }
 
     @Override

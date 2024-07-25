@@ -107,10 +107,13 @@ public class BeerServiceImpl implements BeerService {
     }
 
     @Override
-    public void deleteBeerById(UUID beerId) {
+    public Boolean deleteBeerById(UUID beerId) {
         log.debug("Delete Beer: {}", beerMap.get(beerId));
 
         beerMap.remove(beerId);
+
+        // No nos complicamos la vida en la versión con Map, ya que realmente nos interesa la que trata con JPA.
+        return true;
     }
 
     @Override

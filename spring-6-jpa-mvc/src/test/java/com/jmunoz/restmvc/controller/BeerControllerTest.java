@@ -221,6 +221,9 @@ class BeerControllerTest {
     void testDeleteBeer() throws Exception {
         BeerDto beer = beers.getFirst();
 
+        // Delete devuelve una bandera. Si existe id se hace el delete y devuelve true, y si no existe id devuelve false.
+        given(beerService.deleteBeerById(any())).willReturn(true);
+
         mockMvc.perform(delete(BeerController.BEER_PATH_ID, beer.getId())
                 .accept(MediaType.APPLICATION_JSON))
                 .andExpect(status().isNoContent());
