@@ -1,5 +1,6 @@
 package com.jmunoz.restmvc.controller;
 
+import com.jmunoz.restmvc.entities.BeerEntity;
 import com.jmunoz.restmvc.model.BeerDto;
 import com.jmunoz.restmvc.repositories.BeerRepository;
 import org.junit.jupiter.api.Test;
@@ -9,8 +10,10 @@ import org.springframework.test.annotation.Rollback;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
+import java.util.UUID;
 
 import static org.assertj.core.api.Assertions.assertThat;
+import static org.junit.jupiter.api.Assertions.assertThrows;
 
 // En este test de integración hacemos tests a la interacción entre el service y el controller.
 // Traeremos el contexto de Spring completo (@SpringBootTest) y permitiremos que Spring cree
@@ -54,5 +57,24 @@ class BeerControllerIT {
         List<BeerDto> dtos = beerController.listBeers();
 
         assertThat(dtos.size()).isEqualTo(0);
+    }
+
+    @Test
+    void testGetById() {
+        BeerEntity beer = beerRepository.findAll().getFirst();
+
+        BeerDto dto = beerController.getBeerById(beer.getId());
+
+        assertThat(dto).isNotNull();
+    }
+    
+    // Testing de excepciones
+    // Recordar que la excepción es capturada por el framework Spring MVC y la convierte en un error 404 NotFound.
+    @Test
+    void testBeerIdNotFound() {
+        assertThrows(NotFoundException.class, () -> {
+            // 99.999% de seguridad que genera un UUID distinto a los que tenemos en los datos de inicio (bootstrap)
+            beerController.getBeerById(UUID.randomUUID());
+        });
     }
 }
