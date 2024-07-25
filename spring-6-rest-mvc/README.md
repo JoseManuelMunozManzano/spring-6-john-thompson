@@ -104,6 +104,9 @@ Uso de Optional de Java para delegar el lanzamiento de excepciones del Service a
 
 Si el service devuelve null, el controller lanza la excepción gracias a .orElseThrow()
 
+El uso de Optional se suele considerar una buena práctica, ya que indica que el valor devuelto puede ser null, y reduce el chequeo del tipo null.
+El uso de Optional también ayuda a reducir los errores NullPointerError no intencionados en tiempo de ejecución.
+
 ## Testing
 
 - Clonar el repositorio
