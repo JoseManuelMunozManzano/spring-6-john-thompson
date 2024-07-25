@@ -6,6 +6,8 @@ import com.jmunoz.restmvc.repositories.BeerRepository;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.http.HttpStatusCode;
+import org.springframework.http.ResponseEntity;
 import org.springframework.test.annotation.Rollback;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -76,5 +78,29 @@ class BeerControllerIT {
             // 99.999% de seguridad que genera un UUID distinto a los que tenemos en los datos de inicio (bootstrap)
             beerController.getBeerById(UUID.randomUUID());
         });
+    }
+
+    // Para que no fallen otros tests que calculen la cantidad de elementos, no olvidar hacer rollback del
+    // elemento salvado.
+    @Rollback
+    @Transactional
+    @Test
+    void saveNewBeerTest() {
+        // Emulamos lo que hace Spring MVC, es decir, toma un objeto JSON, lo parsea a un objeto BeerDto,
+        // y Spring MVC va a llamar al método del controller con un DTO ya poblado.
+        BeerDto beerDto = BeerDto.builder()
+                .beerName("New Beer")
+                .build();
+
+        ResponseEntity<BeerDto> responseEntity = beerController.handlePost(beerDto);
+
+        assertThat(responseEntity.getStatusCode()).isEqualTo(HttpStatusCode.valueOf(201));
+        assertThat(responseEntity.getHeaders().getLocation()).isNotNull();
+
+        String[] locationUUID = responseEntity.getHeaders().getLocation().getPath().split("/");
+        UUID savedUUID = UUID.fromString((locationUUID[1]));
+
+        BeerEntity beerEntity = beerRepository.findById(savedUUID).get();
+        assertThat(beerEntity).isNotNull();
     }
 }
