@@ -10,6 +10,7 @@ import org.springframework.stereotype.Service;
 import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
+import java.util.stream.Collectors;
 
 // Como ahora vamos a tener dos implementaciones de BeerService, este que usa JPA lo hacemos @Primary
 @Service
@@ -23,12 +24,20 @@ public class BeerServiceJPA implements BeerService {
 
     @Override
     public List<BeerDto> listBeers() {
-        return List.of();
+
+        // Está bien, si no encuentra nada, que devuelva una lista vacía.
+        return beerRepository.findAll()
+                .stream()
+                .map(beerMapper::beerEntityToBeerDto)
+                .toList();
     }
 
     @Override
     public Optional<BeerDto> getBeerById(UUID id) {
-        return Optional.empty();
+        // Para una búsqueda concreta, si debemos indicar si no se ha encontrado
+        // el elemento.
+        return Optional.ofNullable(beerMapper.beerEntityToBeerDto(beerRepository.findById(id)
+                .orElse(null)));
     }
 
     @Override
