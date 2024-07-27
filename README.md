@@ -31,6 +31,9 @@
 - Spring Data JPA with Spring MVC
   - spring-6-jpa-mvc
     - Ejemplo de Spring Data JPA trabajando con la BBDD H2
+- Data Validation Framework
+  - spring-6-validations
+    - Ejemplo de Spring MVC en la que se realizan validaciones a los datos de entrada de la request
 
 ## URLs con documentación
 
