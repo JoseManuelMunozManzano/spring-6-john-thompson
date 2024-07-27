@@ -24,21 +24,27 @@ public class CustomerController {
     // a hacer un PATCH. Se hace por motivos didácticos.
     @PatchMapping("{customerId}")
     public ResponseEntity<CustomerDto> patchById(@PathVariable("customerId") UUID id, @RequestBody CustomerDto customer) {
-        customerService.patchCustomerById(id, customer);
+        if(customerService.patchCustomerById(id, customer).isEmpty()) {
+            throw new NotFoundException();
+        }
 
         return new ResponseEntity<>(HttpStatus.NO_CONTENT);
     }
 
     @DeleteMapping("{customerId}")
     public ResponseEntity<CustomerDto> deleteById(@PathVariable("customerId") UUID id) {
-        customerService.deleteCustomerById(id);
+        if (!customerService.deleteCustomerById(id)) {
+            throw new NotFoundException();
+        }
 
         return new ResponseEntity<>(HttpStatus.NO_CONTENT);
     }
 
     @PutMapping("{customerId}")
     public ResponseEntity<CustomerDto> updateById(@PathVariable("customerId") UUID id, @RequestBody CustomerDto customer) {
-        customerService.updateCustomerById(id, customer);
+        if (customerService.updateCustomerById(id, customer).isEmpty()) {
+            throw  new NotFoundException();
+        }
 
         return new ResponseEntity<>(HttpStatus.NO_CONTENT);
     }

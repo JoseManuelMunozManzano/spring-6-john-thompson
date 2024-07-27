@@ -243,6 +243,9 @@ class BeerControllerTest {
     void testPatchBeer() throws Exception {
         BeerDto beer = beers.getFirst();
 
+        // No hace falta que hagamos la actualización, pero sí devolver un valor.
+        given(beerService.patchBeerById(any(), any())).willReturn(Optional.of(beer));
+
         // Obtenemos un JSON object con solo el nombre de la cerveza, que imita lo que el cliente haría cuando
         // usa la operación PATCH.
         Map<String, Object> beerMap = new HashMap<>();

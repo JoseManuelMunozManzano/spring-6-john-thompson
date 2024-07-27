@@ -117,7 +117,7 @@ public class BeerServiceImpl implements BeerService {
     }
 
     @Override
-    public void patchBeerById(UUID beerId, BeerDto beer) {
+    public Optional<BeerDto> patchBeerById(UUID beerId, BeerDto beer) {
         // Estas son las reglas que se deberían cumplir en un PATCH.
         // Recordar que PATCH solo actualiza lo concreto que hay que actualizar (modificaciones parciales),
         // no es como el PUT, que actualiza to-do el objeto.
@@ -147,5 +147,7 @@ public class BeerServiceImpl implements BeerService {
         existing.setUpdateDate(LocalDateTime.now());
 
         log.debug("Patch Beer: {}, {}", beerId, beer);
+
+        return Optional.of(existing);
     }
 }
