@@ -148,18 +148,23 @@ class BeerControllerTest {
     }
 
     // Test de validación
+    // No hace falta hacer muchísimos tests de validación, pero sí una cantidad razonable de ellos para asegurarnos
+    // que se lanzan los errores esperados cuando fallan las validaciones.
     @Test
     void testCreateBeerNullBeerName() throws Exception {
         BeerDto beerDto = BeerDto.builder().build();
 
         given(beerService.saveNewBeer(any(BeerDto.class))).willReturn(beers.getFirst());
 
-        // Recuperando información del error devuelto por el controller. Notar el .andReturn()
+        // Recuperando información del error devuelto por el controller.
+        // Notar el último andExpect(), indicando que obtenemos dos errores de validación, y el .andReturn()
         MvcResult mvcResult = mockMvc.perform(post(BeerController.BEER_PATH)
                 .accept(MediaType.APPLICATION_JSON)
                 .contentType(MediaType.APPLICATION_JSON)
                 .content(objectMapper.writeValueAsString(beerDto)))
-                .andExpect(status().isBadRequest()).andReturn();
+                .andExpect(status().isBadRequest())
+                .andExpect(jsonPath("$.length()", is(2)))
+                .andReturn();
 
         // Con un debug en la línea siguiente he visto:
         // Veo que devuelve la excepción MethodArgumentNotValidException.class
