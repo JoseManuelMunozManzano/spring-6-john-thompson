@@ -154,8 +154,6 @@ class BeerControllerTest {
     void testCreateBeerNullBeerName() throws Exception {
         BeerDto beerDto = BeerDto.builder().build();
 
-        given(beerService.saveNewBeer(any(BeerDto.class))).willReturn(beers.getFirst());
-
         // Recuperando información del error devuelto por el controller.
         // Notar el último andExpect(), indicando que obtenemos dos errores de validación, y el .andReturn()
         MvcResult mvcResult = mockMvc.perform(post(BeerController.BEER_PATH)
@@ -163,7 +161,7 @@ class BeerControllerTest {
                 .contentType(MediaType.APPLICATION_JSON)
                 .content(objectMapper.writeValueAsString(beerDto)))
                 .andExpect(status().isBadRequest())
-                .andExpect(jsonPath("$.length()", is(2)))
+                .andExpect(jsonPath("$.length()", is(6)))
                 .andReturn();
 
         // Con un debug en la línea siguiente he visto:
@@ -241,6 +239,23 @@ class BeerControllerTest {
 
         // Por defecto, verifica una interacción.
         verify(beerService).updateBeerById(eq(beer.getId()), any(BeerDto.class));
+    }
+
+    // Test de validación
+    @Test
+    void testUpdateBeerNullBeerName() throws Exception {
+        BeerDto beer = beers.getFirst();
+        beer.setBeerName("");
+
+        MvcResult mvcResult = mockMvc.perform(put(BeerController.BEER_PATH_ID, beer.getId())
+                        .accept(MediaType.APPLICATION_JSON)
+                        .contentType(MediaType.APPLICATION_JSON)
+                        .content(objectMapper.writeValueAsString(beer)))
+                .andExpect(status().isBadRequest())
+                .andExpect(jsonPath("$.length()", is(1)))
+                .andReturn();
+
+        System.out.println(mvcResult.getResponse().getContentAsString());
     }
 
     @Test

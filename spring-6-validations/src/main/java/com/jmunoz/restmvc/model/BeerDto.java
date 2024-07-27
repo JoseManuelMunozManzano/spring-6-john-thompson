@@ -22,9 +22,18 @@ public class BeerDto {
     @NotBlank
     @NotNull
     private String beerName;
+
+    // No se utiliza el @NotBlank por ser un enum
+    @NotNull
     private BeerStyle beerStyle;
+
+    @NotBlank
+    @NotNull
     private String upc;
+
     private Integer quantityOnHand;
+
+    @NotNull
     private BigDecimal price;
     private LocalDateTime createdDate;
     private LocalDateTime updateDate;
