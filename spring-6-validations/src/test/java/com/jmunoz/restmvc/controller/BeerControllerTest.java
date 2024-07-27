@@ -12,6 +12,7 @@ import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.http.MediaType;
 import org.springframework.test.web.servlet.MockMvc;
+import org.springframework.test.web.servlet.MvcResult;
 
 import java.math.BigDecimal;
 import java.time.LocalDateTime;
@@ -153,11 +154,17 @@ class BeerControllerTest {
 
         given(beerService.saveNewBeer(any(BeerDto.class))).willReturn(beers.getFirst());
 
-        mockMvc.perform(post(BeerController.BEER_PATH)
+        // Recuperando información del error devuelto por el controller. Notar el .andReturn()
+        MvcResult mvcResult = mockMvc.perform(post(BeerController.BEER_PATH)
                 .accept(MediaType.APPLICATION_JSON)
                 .contentType(MediaType.APPLICATION_JSON)
                 .content(objectMapper.writeValueAsString(beerDto)))
-                .andExpect(status().isBadRequest());
+                .andExpect(status().isBadRequest()).andReturn();
+
+        // Con un debug en la línea siguiente he visto:
+        // Veo que devuelve la excepción MethodArgumentNotValidException.class
+        // Veo que me devuelve mirando mvcResult - mockResponse - content
+        System.out.println(mvcResult.getResponse().getContentAsString());
     }
 
     @Test

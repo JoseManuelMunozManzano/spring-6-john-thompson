@@ -62,6 +62,9 @@ public class BeerController {
     // Si no se cumplen las validaciones del DTO, Spring va a lanzar una excepción que va a ser manejada
     // internamente por el framework de Spring, en concreto por Spring MVC, que va a devolver el error 400,
     // indicando Bad Request.
+    //
+    // Por defecto, Spring Boot, al manejar la excepción, no devuelve ninguna información sobre los errores.
+    // Es amigable para el cliente devolver data del error.
     @PostMapping(BEER_PATH)
     public ResponseEntity<BeerDto> handlePost(@Validated @RequestBody BeerDto beer) {
         BeerDto savedBeer = beerService.saveNewBeer(beer);
