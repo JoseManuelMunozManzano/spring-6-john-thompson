@@ -6,6 +6,7 @@ import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
@@ -57,9 +58,12 @@ public class BeerController {
         return new ResponseEntity<>(HttpStatus.NO_CONTENT);
     }
 
-    // @RequestMapping(method = RequestMethod.POST)
+    // Usando la anotación @Validated se hace uso de las anotaciones indicadas en BeerDto.
+    // Si no se cumplen las validaciones del DTO, Spring va a lanzar una excepción que va a ser manejada
+    // internamente por el framework de Spring, en concreto por Spring MVC, que va a devolver el error 400,
+    // indicando Bad Request.
     @PostMapping(BEER_PATH)
-    public ResponseEntity<BeerDto> handlePost(@RequestBody BeerDto beer) {
+    public ResponseEntity<BeerDto> handlePost(@Validated @RequestBody BeerDto beer) {
         BeerDto savedBeer = beerService.saveNewBeer(beer);
 
         // Una buena práctica al trabajar con RESTful APIs es devolver al cliente

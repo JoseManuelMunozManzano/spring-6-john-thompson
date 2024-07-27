@@ -4,6 +4,14 @@ Es el mismo ejemplo `spring-6-rest-mvc` pero usando validaciones a la data de la
 
 Vamos a usar la API Java Bean Validation (cambiado luego su nombre a Jakarta Bean Validation)
 
+## Notas
+
+`@Valid` is a standard Java Bean Validation API annotation while `@Validated` is a Spring-specific annotation.
+
+`@Valid` is used primarily for method parameters and fields while `@Validated` can be used at the class level or method level and supports group validation (allows different validation rules to be applied based on the validation group specified).
+
+So, for basic, straightforward validation needs, use `@Valid`. For more advanced validation features, such as group validation, or when you want to apply validation at the class level, go for `@Validated`.
+
 ## Testing
 
 - Clonar el repositorio

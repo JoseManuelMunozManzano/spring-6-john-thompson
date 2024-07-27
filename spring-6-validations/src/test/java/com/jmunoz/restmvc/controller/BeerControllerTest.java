@@ -146,6 +146,20 @@ class BeerControllerTest {
                 .andExpect(jsonPath("$.beerName", is(testBeer.getBeerName())));
     }
 
+    // Test de validación
+    @Test
+    void testCreateBeerNullBeerName() throws Exception {
+        BeerDto beerDto = BeerDto.builder().build();
+
+        given(beerService.saveNewBeer(any(BeerDto.class))).willReturn(beers.getFirst());
+
+        mockMvc.perform(post(BeerController.BEER_PATH)
+                .accept(MediaType.APPLICATION_JSON)
+                .contentType(MediaType.APPLICATION_JSON)
+                .content(objectMapper.writeValueAsString(beerDto)))
+                .andExpect(status().isBadRequest());
+    }
+
     @Test
     void testListBeers() throws Exception {
 
