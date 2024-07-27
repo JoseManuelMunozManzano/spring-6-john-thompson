@@ -7,6 +7,7 @@ import jakarta.persistence.Id;
 import jakarta.persistence.Version;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
+import jakarta.validation.constraints.Size;
 import lombok.*;
 import org.hibernate.annotations.UuidGenerator;
 
@@ -18,6 +19,15 @@ import java.util.UUID;
 //
 // Para el uso de JPA Validation, es buena práctica indicar las mismas validaciones que haya en el DTO,
 // para que sean consistentes.
+//
+// Un comportamiento por defecto de Hibernate es configurar las propiedades String como varchar(255),
+// esto sobre to-do cuando crea la tabla.
+// Vemos como se usa la anotación @Column sobre beerName para indicar que su longitud es de 50 y como afecta al test
+// BeerRepositoryTest.
+// La mejor práctica es usar la validación para que haga match el constraint de BBDD con el constraint de validación.
+// En concreto se usa la anotación de Jakarta @Size, con lo que obtendremos un error de validación, en realidad
+// otra excepción, pero preferible porque proviene de una validación.
+// Para probar los dos tipos de excepciones, comentar y descomentar @Size sobre la propiedad beerName.
 @Builder
 @Setter
 @Getter
@@ -42,6 +52,8 @@ public class BeerEntity {
 
     @NotBlank
     @NotNull
+    @Size(max = 50)
+    @Column(length = 50)
     private String beerName;
 
     @NotNull
@@ -49,6 +61,7 @@ public class BeerEntity {
 
     @NotBlank
     @NotNull
+    @Size(max = 255)
     private String upc;
 
     private Integer quantityOnHand;

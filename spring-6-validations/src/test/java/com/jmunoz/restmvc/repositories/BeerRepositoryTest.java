@@ -2,6 +2,7 @@ package com.jmunoz.restmvc.repositories;
 
 import com.jmunoz.restmvc.entities.BeerEntity;
 import com.jmunoz.restmvc.model.BeerStyle;
+import jakarta.validation.ConstraintViolationException;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
@@ -9,6 +10,7 @@ import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
 import java.math.BigDecimal;
 
 import static org.assertj.core.api.Assertions.assertThat;
+import static org.junit.jupiter.api.Assertions.assertThrows;
 
 // Hibernate hará reflexión sobre las dos entidades creadas.
 // Creará la BBDD H2 en memoria autoconfigurada por Spring Boot y la inicializa.
@@ -40,5 +42,24 @@ class BeerRepositoryTest {
 
         assertThat(savedBeer).isNotNull();
         assertThat(savedBeer.getId()).isNotNull();
+    }
+
+    // JPA Validation
+    // La longitud máxima de beerName es 50.
+    // La excepción que se obtiene es DataIntegrityViolationException, pero usando la anotación @Size se obtiene
+    // un error de validación Jakarta, otra excepción que es preferible.
+    // En concreto obtenemos ConstraintViolationException
+    @Test
+    void testSaveBeerNameTooLong() {
+        assertThrows(ConstraintViolationException.class, () -> {
+            BeerEntity savedBeer = beerRepository.save(BeerEntity.builder()
+                    .beerName("My Beer Name With More Than Fifty String Characters Long")
+                    .beerStyle(BeerStyle.PALE_ALE)
+                    .upc("33412734129")
+                    .price(new BigDecimal("11.99"))
+                    .build());
+
+            beerRepository.flush();
+        });
     }
 }
