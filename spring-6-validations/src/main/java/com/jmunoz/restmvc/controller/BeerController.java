@@ -26,6 +26,8 @@ public class BeerController {
 
     private final BeerService beerService;
 
+    // Aquí no se indica @Validated porque aquí esperamos que, efectivamente, algunas de las propiedades
+    // sea null. Recordar que patch solo actualiza lo que viene.
     @PatchMapping(BEER_PATH_ID)
     public ResponseEntity<BeerDto> updateBeerPatchById(@PathVariable("beerId") UUID beerId, @RequestBody BeerDto beer) {
         if (beerService.patchBeerById(beerId, beer).isEmpty()) {

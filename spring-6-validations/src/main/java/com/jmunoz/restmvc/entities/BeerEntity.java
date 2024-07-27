@@ -5,6 +5,8 @@ import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.Id;
 import jakarta.persistence.Version;
+import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.NotNull;
 import lombok.*;
 import org.hibernate.annotations.UuidGenerator;
 
@@ -13,6 +15,9 @@ import java.time.LocalDateTime;
 import java.util.UUID;
 
 // No se recomienda @Data en Entities. Se cambia por @Setter y @Getter
+//
+// Para el uso de JPA Validation, es buena práctica indicar las mismas validaciones que haya en el DTO,
+// para que sean consistentes.
 @Builder
 @Setter
 @Getter
@@ -35,10 +40,20 @@ public class BeerEntity {
     @Version
     private Integer version;
 
+    @NotBlank
+    @NotNull
     private String beerName;
+
+    @NotNull
     private BeerStyle beerStyle;
+
+    @NotBlank
+    @NotNull
     private String upc;
+
     private Integer quantityOnHand;
+
+    @NotNull
     private BigDecimal price;
     private LocalDateTime createdDate;
     private LocalDateTime updateDate;

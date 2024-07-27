@@ -4,6 +4,8 @@ Es el mismo ejemplo `spring-6-rest-mvc` pero usando validaciones a la data de la
 
 Vamos a usar la API Java Bean Validation (cambiado luego su nombre a Jakarta Bean Validation)
 
+También vamos a usar JPA Validation, es decir, poner las mismas validaciones de los DTO's en los Entities.
+
 ## Notas
 
 `@Valid` is a standard Java Bean Validation API annotation while `@Validated` is a Spring-specific annotation.
