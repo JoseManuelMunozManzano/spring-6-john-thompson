@@ -14,6 +14,7 @@ import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.test.annotation.Rollback;
 import org.springframework.test.web.servlet.MockMvc;
+import org.springframework.test.web.servlet.MvcResult;
 import org.springframework.test.web.servlet.setup.MockMvcBuilders;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.context.WebApplicationContext;
@@ -21,9 +22,10 @@ import org.springframework.web.context.WebApplicationContext;
 import java.util.*;
 
 import static org.assertj.core.api.Assertions.assertThat;
+import static org.hamcrest.core.Is.is;
 import static org.junit.jupiter.api.Assertions.assertThrows;
-import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.patch;
-import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
 
 // En este test de integración hacemos tests a la interacción entre el service y el controller.
 // Traeremos el contexto de Spring completo (@SpringBootTest) y permitiremos que Spring cree
@@ -208,8 +210,10 @@ class BeerControllerIT {
         });
     }
 
-    // Este es un test completo que falla con excepción TransactionSystemException debido a que falla la
-    // validación en la capa JPA. Esto causa el rollback de la transacción y que burbujee hacia arriba.
+    // Este es un test completo que falla con excepción TransactionSystemException, que es la excepción
+    // que recoge todos los errores cuando algo va mal (así que hay otras excepciones por debajo),
+    // debido a que falla la validación en la capa JPA.
+    // Esto causa el rollback de la transacción y que burbujee hacia arriba.
     // Como nuestro controller no está manejando esta excepción de forma apropiada falla de esta forma
     // tan poco amistosa. Hay que manejar en el controlador esta excepción.
     @Test
@@ -222,10 +226,19 @@ class BeerControllerIT {
         Map<String, Object> beerMap = new HashMap<>();
         beerMap.put("beerName", "New Name 12345678901234567890123456789012345678901234567890123456789012345678901234567890");
 
-        mockMvc.perform(patch(BeerController.BEER_PATH_ID, beer.getId())
+        MvcResult result = mockMvc.perform(patch(BeerController.BEER_PATH_ID, beer.getId())
                         .contentType(MediaType.APPLICATION_JSON)
                         .accept(MediaType.APPLICATION_JSON)
                         .content(objectMapper.writeValueAsString(beerMap)))
-                .andExpect(status().isBadRequest());
+                .andExpect(status().isBadRequest())
+                .andExpect(jsonPath("$.length()", is(1)))
+                .andReturn();
+
+        // Ponemos aquí un debug y vemos exception-cause
+        // Vemos las excepciones
+        // Genérica - TransactionSystemException
+        // La que nos interesa - ConstraintViolationException
+        // Y la última que se lanza con el rollback - RollbackException
+        System.out.println(result.getResponse().getContentAsString());
     }
 }

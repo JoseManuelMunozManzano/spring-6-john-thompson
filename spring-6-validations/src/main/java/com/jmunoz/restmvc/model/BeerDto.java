@@ -19,6 +19,10 @@ public class BeerDto {
     // Añadimos validaciones usando Jakarta Bean Validation.
     // Se podría usar solo @NotBlank, pero de forma explícita quiero indicar que además no puede ser nulo.
     // Estas validaciones, por sí solas, no funcionan si no se indica, en el controller (request), la anotación @Validated.
+    //
+    // Indicar que BeerEntity tiene validaciones de longitud de nombre de máximo 50 caracteres que aquí no se ha indicado,
+    // y debería haberse hecho porque deberían hacer match. No se ha hecho porque se ha querido mostrar violaciones de JPA
+    // hacia arriba (al controlador) enviando al cliente un mensaje.
     @NotBlank
     @NotNull
     private String beerName;
