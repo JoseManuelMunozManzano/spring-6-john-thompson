@@ -6,6 +6,8 @@ Vamos a usar la API Java Bean Validation (cambiado luego su nombre a Jakarta Bea
 
 También vamos a usar JPA Validation, es decir, poner las mismas validaciones de los DTO's en los Entities.
 
+Se hacen tests, dentro de los tests de integración, a la capa JPA.
+
 ## Notas
 
 `@Valid` is a standard Java Bean Validation API annotation while `@Validated` is a Spring-specific annotation.

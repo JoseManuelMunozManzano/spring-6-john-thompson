@@ -1,22 +1,29 @@
 package com.jmunoz.restmvc.controller;
 
+import com.fasterxml.jackson.databind.ObjectMapper;
 import com.jmunoz.restmvc.entities.BeerEntity;
 import com.jmunoz.restmvc.mappers.BeerMapper;
 import com.jmunoz.restmvc.model.BeerDto;
 import com.jmunoz.restmvc.repositories.BeerRepository;
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.http.HttpStatusCode;
+import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.test.annotation.Rollback;
+import org.springframework.test.web.servlet.MockMvc;
+import org.springframework.test.web.servlet.setup.MockMvcBuilders;
 import org.springframework.transaction.annotation.Transactional;
+import org.springframework.web.context.WebApplicationContext;
 
-import java.util.List;
-import java.util.UUID;
+import java.util.*;
 
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.junit.jupiter.api.Assertions.assertThrows;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.patch;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
 // En este test de integración hacemos tests a la interacción entre el service y el controller.
 // Traeremos el contexto de Spring completo (@SpringBootTest) y permitiremos que Spring cree
@@ -42,6 +49,29 @@ class BeerControllerIT {
     // Ahora vamos a hacer test al controller y sus interacciones con la capa de datos JPA.
     // Para hacer esto, vamos a llamar directamente al controller, es decir, testeamos los métodos
     // del controller como si fuéramos el framework de Spring, pero no tratamos con el contexto web.
+    //
+    // Test Spring Boot completo.
+    // Como se indica en el párrafo anterior, estamos trabajando directamente con el objeto controlador,
+    // pero las violaciones a las validaciones de JPA van a burbujear de manera diferente, de la capa JPA
+    // hacia el controlador.
+    // Queremos hacer tests de las violaciones de constraints que vienen desde la BBDD en la capa JPA y
+    // vamos a usar Mock MVC, pero de manera algo diferente, inyectando WebApplicationContext, donde
+    // el nombre de la variable suele ser wac, y también se inyecta la propiedad MockMvc para el test,
+    // y se inicializan en el método setup()
+    @Autowired
+    WebApplicationContext wac;
+
+    MockMvc mockMvc;
+
+    @Autowired
+    ObjectMapper objectMapper;
+
+    @BeforeEach
+    void setUp() {
+        // Vemos que inyectamos Spring Web Application Context a MockMvc. Esto configura el entorno Mock MVC
+        // con el repository de Spring Data inyectado.
+        mockMvc = MockMvcBuilders.webAppContextSetup(wac).build();
+    }
 
     @Test
     void testListBeers() {
@@ -176,5 +206,26 @@ class BeerControllerIT {
         assertThrows(NotFoundException.class, () -> {
             beerController.updateBeerPatchById(UUID.randomUUID(), BeerDto.builder().build());
         });
+    }
+
+    // Este es un test completo que falla con excepción TransactionSystemException debido a que falla la
+    // validación en la capa JPA. Esto causa el rollback de la transacción y que burbujee hacia arriba.
+    // Como nuestro controller no está manejando esta excepción de forma apropiada falla de esta forma
+    // tan poco amistosa. Hay que manejar en el controlador esta excepción.
+    @Test
+    void testPatchBeerBadName() throws Exception {
+        BeerEntity beer = beerRepository.findAll().getFirst();
+
+        // Obtenemos un JSON object con solo el nombre de la cerveza, que imita lo que el cliente haría cuando
+        // usa la operación PATCH.
+        // Pero violamos la validación JPA de que el nombre no puede tener una longitud mayor de 50 caracteres.
+        Map<String, Object> beerMap = new HashMap<>();
+        beerMap.put("beerName", "New Name 12345678901234567890123456789012345678901234567890123456789012345678901234567890");
+
+        mockMvc.perform(patch(BeerController.BEER_PATH_ID, beer.getId())
+                        .contentType(MediaType.APPLICATION_JSON)
+                        .accept(MediaType.APPLICATION_JSON)
+                        .content(objectMapper.writeValueAsString(beerMap)))
+                .andExpect(status().isBadRequest());
     }
 }
