@@ -1,6 +1,7 @@
 package com.jmunoz.restmvc.controller;
 
 import org.springframework.http.ResponseEntity;
+import org.springframework.transaction.TransactionSystemException;
 import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.ExceptionHandler;
@@ -32,5 +33,12 @@ public class CustomErrorController {
         // return ResponseEntity.badRequest().body(exception.getBindingResult().getFieldErrors());
         //
         return ResponseEntity.badRequest().body(errorList);
+    }
+
+    // Manejamos errores de violaciones de constraints de la capa BBDD que burbujean hacia el controller.
+    // Con esta excepción se ha hecho el Rollback automático.
+    @ExceptionHandler
+    ResponseEntity<?> handleJPAViolations(TransactionSystemException exception) {
+        return ResponseEntity.badRequest().build();
     }
 }
