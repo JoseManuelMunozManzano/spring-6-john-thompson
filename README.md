@@ -34,6 +34,9 @@
 - Data Validation Framework
   - spring-6-validations
     - Ejemplo de Spring MVC en la que se realizan validaciones a los datos de entrada de la request
+- MySQL
+  - spring-6-mysql
+    - Ejemplo de Spring MVC en la que se utiliza la BBDD MySQL
 
 ## URLs con documentación
 
