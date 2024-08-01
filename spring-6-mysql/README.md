@@ -36,6 +36,20 @@ spring.jpa.properties.jakarta.persistence.schema-generation.scripts.drop-target=
 spring.jpa.properties.jakarta.persistence.schema-generation.scripts.create-target=drop-and-create.sql
 ```
 
+5. Inicializar una BD usando JPA
+
+`https://docs.spring.io/spring-boot/docs/2.1.x/reference/html/howto-database-initialization.html`
+
+Recordar que, para producción, el valor de la property `spring.jpa.hibernate.ddl-auto` que puede usarse es `validate`.
+
+Para producción, además, lo mejor es crear un fichero `import.sql` en la carpeta `resources` que contendrá los SQL de creación de BD. Spring Boot lo ejecutará automáticamente.
+
+También se pueden crear ficheros `schema.sql` y `data.sql`, que, de nuevo, Spring Boot busca de forma automática. Sirven para crear el esquema de BD y para informar data en BD.
+
+Para una plataforma específica, se puede usar `schema-${platform}.sql` y `data-${platform}.sql`, donde platform es el valor de la property `spring.datasource.platform`. Valores posibles pueden ser `h2`, `oracle`, `mysql`, `postgresql`...
+
+Todo esto queda como información, porque en este curso se va a usar una herramienta de migración llamada `Flyway` porque nos va a ayudar a manejar la evolución de la BD.
+
 ## Testing
 
 - Clonar el repositorio
