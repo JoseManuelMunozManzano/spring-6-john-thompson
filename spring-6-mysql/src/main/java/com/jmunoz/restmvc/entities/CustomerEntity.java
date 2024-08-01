@@ -1,9 +1,6 @@
 package com.jmunoz.restmvc.entities;
 
-import jakarta.persistence.Column;
-import jakarta.persistence.Entity;
-import jakarta.persistence.Id;
-import jakarta.persistence.Version;
+import jakarta.persistence.*;
 import lombok.*;
 import org.hibernate.annotations.UuidGenerator;
 
@@ -17,6 +14,7 @@ import java.util.UUID;
 @Entity
 @AllArgsConstructor
 @NoArgsConstructor
+@Table(name="customer")
 public class CustomerEntity {
 
     // Dada esta configuración necesitamos hacer un mapeo de BBDD, de ahí el uso de @Column.
