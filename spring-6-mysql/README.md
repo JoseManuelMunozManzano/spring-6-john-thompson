@@ -19,6 +19,12 @@ Se corrigen dos problemas cuando se transiciona del uso de H2 a MySQL, y que no 
 - Para el campo ID, hay que indicar la longitud del Varchar explícitamente: `varchar(36)`
 - Hibernate intenta grabar en el campo ID el valor como binary. Hay que mapear a char usando `@JdbcTypeCode(SqlTypes.CHAR)`
 
+En términos de operaciones, crear una conexión a la BD es una operación muy pesada. Si no se tiene cuidado podemos acabar con más de 200 conexiones.
+
+Hikari crea un pool de conexiones a la BD y establece la conexión de red a la BD, con la idea de tener varias conexiones establecidas (muchas menos de las 200, por ejemplo 5), lo que ayuda significativamente cuando el sistema ya tiene mucha carga.
+
+Esta configuración de Hikari se configura en el profile `application-localmysql-properties`.
+
 ## Testing
 
 - Clonar el repositorio
