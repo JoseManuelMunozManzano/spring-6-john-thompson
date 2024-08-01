@@ -1,15 +1,14 @@
 package com.jmunoz.restmvc.entities;
 
 import com.jmunoz.restmvc.model.BeerStyle;
-import jakarta.persistence.Column;
-import jakarta.persistence.Entity;
-import jakarta.persistence.Id;
-import jakarta.persistence.Version;
+import jakarta.persistence.*;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Size;
 import lombok.*;
+import org.hibernate.annotations.JdbcTypeCode;
 import org.hibernate.annotations.UuidGenerator;
+import org.hibernate.type.SqlTypes;
 
 import java.math.BigDecimal;
 import java.time.LocalDateTime;
@@ -34,13 +33,22 @@ import java.util.UUID;
 @Entity
 @AllArgsConstructor
 @NoArgsConstructor
+@Table(name="beer")
 public class BeerEntity {
 
     // Dada esta configuración necesitamos hacer un mapeo de BBDD, de ahí el uso de @Column.
     // Esta anotación da pistas a Hibernate para generar el SQL que crea la tabla de BBDD H2 en memoria.
+    //
+    // Se indica varchar(36) para corregir el error al intentar generarse la tabla para MySQL (H2 funciona sin esto)
+    // El error es que se genera un Script SQL para crear la tabla que indica el campo id como VARCHAR sin la
+    // longitud, lo que da error en MySQL.
+    //
+    // Con @JdbcTypeCode() hacemos un mapeo del UUID de binary a carácteres. Por defecto lo está escribiendo como binary
+    // lo que da un error en MySQL (no da error en H2)
     @Id
     @UuidGenerator
-    @Column(length = 36, columnDefinition = "varchar", updatable = false, nullable = false)
+    @JdbcTypeCode(SqlTypes.CHAR)
+    @Column(length = 36, columnDefinition = "varchar(36)", updatable = false, nullable = false)
     private UUID id;
 
     // Empieza en 0 y con cada actualización se incrementa en 1.

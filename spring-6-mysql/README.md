@@ -14,6 +14,11 @@ Este profile se indica en IntelliJ accediendo a `Edit...`  e informando en las `
 
 ![alt Activate Profiles](../images/04-Activate-Profiles.png)
 
+Se corrigen dos problemas cuando se transiciona del uso de H2 a MySQL, y que no dan error en H2:
+
+- Para el campo ID, hay que indicar la longitud del Varchar explícitamente: `varchar(36)`
+- Hibernate intenta grabar en el campo ID el valor como binary. Hay que mapear a char usando `@JdbcTypeCode(SqlTypes.CHAR)`
+
 ## Testing
 
 - Clonar el repositorio
