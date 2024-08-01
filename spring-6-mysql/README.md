@@ -6,7 +6,7 @@ Vamos a usar un profile para MySQL para habilitar MySQL para la app, y se va a s
 
 ## Notas
 
-Se ha creado el profile para MySQL en la carpeta resources, fuente `application-localmysql-properties`.
+1. Se ha creado el profile para MySQL en la carpeta resources, fuente `application-localmysql-properties`.
 
 Lo que hace Spring Boot es, si creamos un fichero properties que incluya `-` seguido de texto, como por ejemplo `-localmysql`, ese fichero se vuelve un profile que se activará para ese profile.
 
@@ -14,16 +14,27 @@ Este profile se indica en IntelliJ accediendo a `Edit...`  e informando en las `
 
 ![alt Activate Profiles](../images/04-Activate-Profiles.png)
 
-Se corrigen dos problemas cuando se transiciona del uso de H2 a MySQL, y que no dan error en H2:
+2. Se corrigen dos problemas cuando se transiciona del uso de H2 a MySQL, y que no dan error en H2:
 
 - Para el campo ID, hay que indicar la longitud del Varchar explícitamente: `varchar(36)`
 - Hibernate intenta grabar en el campo ID el valor como binary. Hay que mapear a char usando `@JdbcTypeCode(SqlTypes.CHAR)`
 
 En términos de operaciones, crear una conexión a la BD es una operación muy pesada. Si no se tiene cuidado podemos acabar con más de 200 conexiones.
 
-Hikari crea un pool de conexiones a la BD y establece la conexión de red a la BD, con la idea de tener varias conexiones establecidas (muchas menos de las 200, por ejemplo 5), lo que ayuda significativamente cuando el sistema ya tiene mucha carga.
+3. Hikari crea un pool de conexiones a la BD y establece la conexión de red a la BD, con la idea de tener varias conexiones establecidas (muchas menos de las 200, por ejemplo 5), lo que ayuda significativamente cuando el sistema ya tiene mucha carga.
 
 Esta configuración de Hikari se configura en el profile `application-localmysql-properties`.
+
+4. Hibernate puede crear un script de creación de BD (nombre en este caso drop-and-create.sql, que es el indicado en la última property de las aquí indicadas) usando reflexión a partir de nuestras entidades JPA.
+
+El problema es que, cada vez que se ejecuta el programa, añade de nuevo los scripts en vez de sustituirlos, pero es muy útil para prototipado, o para comenzar con H2 y rápidamente pasar a otro Sistema Gestor de BD.
+
+```
+spring.jpa.properties.jakarta.persistence.schema-generation.scripts.action=drop-and-create
+spring.jpa.properties.jakarta.persistence.schema-generation.scripts.create-source=metadata
+spring.jpa.properties.jakarta.persistence.schema-generation.scripts.drop-target=drop-and-create.sql
+spring.jpa.properties.jakarta.persistence.schema-generation.scripts.create-target=drop-and-create.sql
+```
 
 ## Testing
 
