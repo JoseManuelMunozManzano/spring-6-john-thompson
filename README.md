@@ -39,7 +39,10 @@
     - Ejemplo de Spring MVC en la que se utiliza la BBDD MySQL
 - Flyway
   - spring-6-flyway
-    - Ejemplo de Spring MVC en la que se utiliza la BBDD MySQL y el migrador Fliway
+    - Ejemplo de Spring MVC en la que se utiliza la BBDD MySQL y el migrador Flyway
+- CSV File Uploads
+  - spring-6-csv
+    - Ejemplo de Spring MVC en la que se utiliza CSV para subida de archivos. La idea es poblar de data la BD
 
 ## URLs con documentación
 
