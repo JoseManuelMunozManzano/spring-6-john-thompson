@@ -10,6 +10,16 @@ Podemos tener un entorno de desarrollo, un entorno de CI, un entorno de tests, u
 
 ## Notas
 
+1. Comandos Flyway
+
+![alt Flyway Commands](../images/05-Flyway-Commands.png)
+
+2. Pasos que vamos a realizar
+
+- Configurar Spring Boot para usar Flyway
+- Configurar una migración inicial
+- Cambiar tablas existentes con Flyway
+
 ## Testing
 
 - Clonar el repositorio

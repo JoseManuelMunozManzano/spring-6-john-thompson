@@ -52,3 +52,4 @@
 - https://stackoverflow.com/questions/35722586/http-headers-accept-and-content-type-in-a-rest-context
 - https://mapstruct.org/documentation/reference-guide/
 - https://docs.spring.io/spring-boot/docs/2.1.x/reference/html/howto-database-initialization.html
+- https://www.baeldung.com/database-migrations-with-flyway
