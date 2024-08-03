@@ -10,9 +10,14 @@ Se va a usar el paquete `OpenCSV`. Nos ayudará a mapear la fila de data CSV a u
 
 1. En la carpeta `resources` se ha creado la carpeta `csvdata` y dentro se ha colocado el archivo `beers.csv`.
 
+2. Se crea un service cuya única función es convertir la data CSV en un Java POJO.
+
+También se crea su clase de test.
+
 ## Testing
 
 - Clonar el repositorio
 - Renombrar `application-localmysql.template.properties` a `application-localmysql.properties` e indicar sus valores
 - Ejecutar el proyecto con el siguiente profile activo `-Dspring.profiles.active=localmysql`
 - Ejecutar los tests
+  - BeerCSVServiceImplTest.java
