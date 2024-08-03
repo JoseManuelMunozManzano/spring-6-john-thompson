@@ -20,6 +20,8 @@ En un proyecto real, puede que se obtenga el fichero CSV desde un directorio del
 
 En este proyecto educativo, la idea es ver como se persiste la data en BD.
 
+4. Vemos como Hibernate automáticamente puebla los campos de auditoría `createdDate` y `updatedDate`.
+
 ## Testing
 
 - Clonar el repositorio

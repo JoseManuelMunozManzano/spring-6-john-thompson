@@ -6,7 +6,9 @@ import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Size;
 import lombok.*;
+import org.hibernate.annotations.CreationTimestamp;
 import org.hibernate.annotations.JdbcTypeCode;
+import org.hibernate.annotations.UpdateTimestamp;
 import org.hibernate.annotations.UuidGenerator;
 import org.hibernate.type.SqlTypes;
 
@@ -79,6 +81,12 @@ public class BeerEntity {
 
     @NotNull
     private BigDecimal price;
+
+    // Con estas anotaciones, indicamos a Hibernate que automáticamente informe estas fechas
+    // de auditoría, al crear (este campo) y al actualizar (segundo campo) un registro
+    @CreationTimestamp
     private LocalDateTime createdDate;
+
+    @UpdateTimestamp
     private LocalDateTime updateDate;
 }
