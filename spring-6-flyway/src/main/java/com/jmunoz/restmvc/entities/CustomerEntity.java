@@ -34,6 +34,16 @@ public class CustomerEntity {
     @Column(length = 36, columnDefinition = "varchar(36)", updatable = false, nullable = false)
     private UUID id;
 
+    // Para demostrar como funciona la validación de Hibernate cuando falta una propiedad, vamos a crear un campo nuevo.
+    // Por defecto un String tiene una longitud de 255, que nos viene bien.
+    // Si se ejecuta el programa solo habiendo creado este campo, Hibernate Validation lanza una excepción indicando
+    // que en la tabla Customer no tenemos el campo email.
+    // Este es el comportamiento que queremos, para controlar que los campos que se añaden estén en la tabla en BD.
+    // Para solucionar este problema, en resources/db/migration creamos un nuevo fichero (V2__add-email-to-customer.sql)
+    // que refleje este cambio y ejecutamos el programa.
+    @Column(length = 255)
+    private String email;
+
     // Empieza en 0 y con cada actualización se incrementa en 1.
     // Al hacer un objeto, Hibernate chequeará la versión en la BD y si son diferentes, lanzarán una excepción,
     // indicando que la data ha sido cambiada por otro proceso y tu proceso tiene datos obsoletos.
