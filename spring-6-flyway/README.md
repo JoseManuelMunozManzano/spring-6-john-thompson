@@ -12,7 +12,7 @@ Podemos tener un entorno de desarrollo, un entorno de CI, un entorno de tests, u
 
 1. Comandos Flyway
 
-![alt Flyway Commands](../images/05-Flyway-Commands.png)
+![alt Commands](../images/05-Flyway-Commands.png)
 
 2. Pasos que vamos a realizar
 
