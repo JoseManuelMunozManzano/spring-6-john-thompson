@@ -37,6 +37,9 @@
 - MySQL
   - spring-6-mysql
     - Ejemplo de Spring MVC en la que se utiliza la BBDD MySQL
+- Flyway
+  - spring-6-flyway
+    - Ejemplo de Spring MVC en la que se utiliza la BBDD MySQL y el migrador Fliway
 
 ## URLs con documentación
 
@@ -48,3 +51,4 @@
   - Lo vamos a usar para realizar aserciones contra un objeto JSON devuelto
 - https://stackoverflow.com/questions/35722586/http-headers-accept-and-content-type-in-a-rest-context
 - https://mapstruct.org/documentation/reference-guide/
+- https://docs.spring.io/spring-boot/docs/2.1.x/reference/html/howto-database-initialization.html
