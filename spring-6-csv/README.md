@@ -14,10 +14,17 @@ Se va a usar el paquete `OpenCSV`. Nos ayudará a mapear la fila de data CSV a u
 
 También se crea su clase de test.
 
+3. Para cargar la data del CSV en BD, lo mejor es hacerlo desde la capa `bootstrap`.
+
+En un proyecto real, puede que se obtenga el fichero CSV desde un directorio del file system. Podemos tener un trabajo planificado que se encargue de revisar si existe ese fichero.
+
+En este proyecto educativo, la idea es ver como se persiste la data en BD.
+
 ## Testing
 
 - Clonar el repositorio
 - Renombrar `application-localmysql.template.properties` a `application-localmysql.properties` e indicar sus valores
 - Ejecutar el proyecto con el siguiente profile activo `-Dspring.profiles.active=localmysql`
+  - Se debe persistir en BD, en la tabla `beer`, toda la data del fichero .CSV
 - Ejecutar los tests
   - BeerCSVServiceImplTest.java

@@ -2,12 +2,15 @@ package com.jmunoz.restmvc.services;
 
 import com.jmunoz.restmvc.model.BeerCSVRecord;
 import com.opencsv.bean.CsvToBeanBuilder;
+import org.springframework.stereotype.Service;
 
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.util.List;
 
+// No olvidar, como he hecho yo, indicar @Service para que sea un componente de Spring
+@Service
 public class BeerCsvServiceImpl implements BeerCsvService {
 
     @Override
