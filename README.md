@@ -53,3 +53,4 @@
 - https://mapstruct.org/documentation/reference-guide/
 - https://docs.spring.io/spring-boot/docs/2.1.x/reference/html/howto-database-initialization.html
 - https://www.baeldung.com/database-migrations-with-flyway
+- - https://docs.spring.io/spring-boot/docs/2.0.0.M5/reference/html/howto-database-initialization.html#howto-execute-flyway-database-migrations-on-startup
