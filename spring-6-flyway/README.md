@@ -38,12 +38,29 @@ Con esto ya podemos ejecutar el proyecto.
 
 En SQuirreL tengo que entrar con el usuario root, sino no veré las tablas porque otros usuarios no tendrán permisos.
 
+4. Si se ejecutan los tests, que usan la BD H2, vemos que hay errores de sintaxis en sentencias SQL, porque H2 y MySQL por defecto no son enteramente compatibles.
+
+Hay dos posibilidades para corregir esto:
+
+- Permitir a Hibernate gestionar el schema cuando se hace testing en BD H2
+- Configurar Flyway para gestionar la BD usando un vendor específico
+
+En esta aplicación se deshabilita Flyway en `application.properties` para H2, y se habilita en `application-localmysql.properties`.
+
+Con esto, para los tests no se tiene en cuenta Flyway, pero si para la aplicación.
+
+Si se vuelven a lanzar los tests, ya funcionan.
+
+Y si se ejecuta la aplicación, sigue funcionando normalmente.
+
 ## Testing
 
 - Clonar el repositorio
 - Renombrar `application-localmysql.template.properties` a `application-localmysql.properties` e indicar sus valores
 - Ejecutar el proyecto con el siguiente profile activo `-Dspring.profiles.active=localmysql`
   - Deben generarse las tablas `beer`, `customer` y un historial de flyway `flyway_schema_history` donde podemos ver en que estado está la BD, que scripts se han aplicado y cuales no.
+- Ejecutar los tests
+ 
 
 ## IMPORTANTE
 
