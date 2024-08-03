@@ -64,7 +64,10 @@ public class BeerEntity {
     @Column(length = 50)
     private String beerName;
 
+    // Añadido @JdbcTypeCode(value = SqlTypes.TINYINT) como ejemplo de qué hacer si falla la validación de campos
+    // de Hibernate. En este caso realmente no era necesario porque ya en resources/db/migration/V1__init-mysql-database.sql ya era tinyint
     @NotNull
+    @JdbcTypeCode(value = SqlTypes.TINYINT)
     private BeerStyle beerStyle;
 
     @NotBlank

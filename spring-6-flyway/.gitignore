@@ -33,4 +33,3 @@ build/
 .vscode/
 
 application-localmysql.properties
-drop-and-create.sql

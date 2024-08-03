@@ -55,3 +55,11 @@ Todo esto queda como información, porque en este curso se va a usar una herrami
 - Clonar el repositorio
 - Renombrar `application-localmysql.template.properties` a `application-localmysql.properties` e indicar sus valores
 - Ejecutar los tests
+- 
+## IMPORTANTE
+
+En ficheros `.properties` hay que indicar que el encoding sea UTF-8 ya que por defecto es ISO-8859-1 y esto falla al hacer el Maven Compile.
+
+Ir a Settings y hacer esto:
+
+![alt Encoding UTF-8](../images/06-Encoding-UTF8.png)
