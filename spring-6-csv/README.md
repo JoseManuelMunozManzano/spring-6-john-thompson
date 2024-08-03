@@ -30,3 +30,4 @@ En este proyecto educativo, la idea es ver como se persiste la data en BD.
   - Se debe persistir en BD, en la tabla `beer`, toda la data del fichero .CSV
 - Ejecutar los tests
   - BeerCSVServiceImplTest.java
+  - BootstrapDataTest.java

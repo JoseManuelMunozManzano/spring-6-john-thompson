@@ -79,7 +79,7 @@ class BeerControllerIT {
     void testListBeers() {
         List<BeerDto> dtos = beerController.listBeers();
 
-        assertThat(dtos.size()).isEqualTo(3);
+        assertThat(dtos.size()).isEqualTo(2413);
     }
 
     // En los tests splices, Spring Boot automáticamente hace un rollback, es decir, se ejecuta en una transacción,
