@@ -1,11 +1,13 @@
 package com.jmunoz.restmvc.controller;
 
+import com.jmunoz.restmvc.entities.BeerEntity;
 import com.jmunoz.restmvc.model.BeerDto;
 import com.jmunoz.restmvc.services.BeerService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.util.StringUtils;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
@@ -92,7 +94,18 @@ public class BeerController {
     // Actualizado para que lleguen Query Parameters. No es requerido.
     @GetMapping(value = BEER_PATH)
     public List<BeerDto> listBeers(@RequestParam(name = "beerName", required = false) String beerName) {
-        return beerService.listBeers(beerName);
+
+        List<BeerDto> beers;
+
+        // Es buena práctica que los servicios estén focalizados en tareas específicas, y se mueva la lógica
+        // condicional, de a qué método llamar, al controller.
+        if (StringUtils.hasText(beerName)) {
+            beers = beerService.listBeersByName(beerName);
+        } else {
+            beers = beerService.listBeers();
+        }
+
+        return beers;
     }
 
     @GetMapping(value = BEER_PATH_ID)

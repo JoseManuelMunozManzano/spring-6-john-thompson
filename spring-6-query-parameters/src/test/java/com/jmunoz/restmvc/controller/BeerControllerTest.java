@@ -173,7 +173,7 @@ class BeerControllerTest {
     @Test
     void testListBeers() throws Exception {
 
-        given(beerService.listBeers(null)).willReturn(beers);
+        given(beerService.listBeers()).willReturn(beers);
 
         // En este caso hacemos aserciones sobre la lista, en concreto su longitud.
         mockMvc.perform(get(BeerController.BEER_PATH)

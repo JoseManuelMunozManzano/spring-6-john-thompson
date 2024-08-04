@@ -12,7 +12,9 @@ import java.util.UUID;
 // cuando es null, lance la excepción, pero la lanza el controller!!
 public interface BeerService {
 
-    List<BeerDto> listBeers(String beerName);
+    List<BeerDto> listBeers();
+
+    List<BeerDto> listBeersByName(String beerName);
 
     Optional<BeerDto> getBeerById(UUID id);
 

@@ -1,5 +1,6 @@
 package com.jmunoz.restmvc.services;
 
+import com.jmunoz.restmvc.entities.BeerEntity;
 import com.jmunoz.restmvc.mappers.BeerMapper;
 import com.jmunoz.restmvc.model.BeerDto;
 import com.jmunoz.restmvc.repositories.BeerRepository;
@@ -8,6 +9,7 @@ import org.springframework.context.annotation.Primary;
 import org.springframework.stereotype.Service;
 import org.springframework.util.StringUtils;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
@@ -24,13 +26,17 @@ public class BeerServiceJPA implements BeerService {
     private final BeerMapper beerMapper;
 
     @Override
-    public List<BeerDto> listBeers(String beerName) {
+    public List<BeerDto> listBeers() {
 
         // Está bien, si no encuentra nada, que devuelva una lista vacía.
         return beerRepository.findAll()
                 .stream()
                 .map(beerMapper::beerEntityToBeerDto)
                 .toList();
+    }
+
+    public List<BeerDto> listBeersByName(String beerName) {
+        return new ArrayList<>();
     }
 
     @Override

@@ -61,8 +61,13 @@ public class BeerServiceImpl implements BeerService {
     }
 
     @Override
-    public List<BeerDto> listBeers(String beerName) {
+    public List<BeerDto> listBeers() {
         return new ArrayList<>(beerMap.values());
+    }
+
+    @Override
+    public List<BeerDto> listBeersByName(String beerName) {
+        return beerMap.values().stream().filter(beer -> beer.getBeerName().equals(beerName)).toList();
     }
 
     @Override
