@@ -17,5 +17,5 @@ Hay que configurar Spring MVC para que lo parsee.
 - Clonar el repositorio
 - Renombrar `application-localmysql.template.properties` a `application-localmysql.properties` e indicar sus valores
 - Ejecutar el proyecto con el siguiente profile activo `-Dspring.profiles.active=localmysql`
-- Ejecutar los tests
-    - `BeerControllerIT`, método `testListBeersByName()`
+- Ejecutar todos los tests
+  - Prestar atención a `BeerControllerIT`, método `testListBeersByName()`

@@ -89,8 +89,9 @@ public class BeerController {
         return ResponseEntity.created(location).body(savedBeer);
     }
 
+    // Actualizado para que lleguen Query Parameters. No es requerido.
     @GetMapping(value = BEER_PATH)
-    public List<BeerDto> listBeers() {
+    public List<BeerDto> listBeers(@RequestParam(name = "beerName", required = false) String beerName) {
         return beerService.listBeers();
     }
 
