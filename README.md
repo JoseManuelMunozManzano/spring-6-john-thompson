@@ -63,3 +63,4 @@
 - https://github.com/plotly/datasets
   - Distintos sets de data en formato .CSV para trabajar con ellos
 - https://opencsv.sourceforge.net/
+- https://docs.spring.io/spring-data/jpa/reference/jpa/query-methods.html
