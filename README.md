@@ -43,6 +43,9 @@
 - CSV File Uploads
   - spring-6-csv
     - Ejemplo de Spring MVC en la que se utiliza CSV para subida de archivos. La idea es poblar de data la BD
+- Query Parameters with Spring MVC
+  - spring-6-query-parameters
+    - Ejemplo de uso de Spring MVC que acepta Query Parameters y Spring Data JPA para devolver y consultar la BD
 
 ## URLs con documentación
 
