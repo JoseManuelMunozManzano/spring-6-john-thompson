@@ -91,21 +91,28 @@ public class BeerController {
         return ResponseEntity.created(location).body(savedBeer);
     }
 
-    // Actualizado para que lleguen Query Parameters. No es requerido.
+    // Actualizado para que lleguen Query Parameters. No son requeridos.
     @GetMapping(value = BEER_PATH)
     public List<BeerDto> listBeers(@RequestParam(name = "beerName", required = false) String beerName,
-                                   @RequestParam(name = "beerStyle", required = false) BeerStyle beerStyle) {
+                                   @RequestParam(name = "beerStyle", required = false) BeerStyle beerStyle,
+                                   @RequestParam(name = "showInventory", required = false) Boolean showInventory) {
 
         List<BeerDto> beers;
 
         // Es buena práctica que los servicios estén focalizados en tareas específicas, y se mueva la lógica
         // condicional, de a qué método llamar, al controller.
-        if (StringUtils.hasText(beerName) && beerStyle == null) {
+        if (StringUtils.hasText(beerName) && beerStyle != null) {
+            beers = beerService.listBeersByNameAndStyle(beerName, beerStyle);
+        } else if (StringUtils.hasText(beerName)) {
             beers = beerService.listBeersByNameContainingIgnoreCase(beerName);
-        } else if (!StringUtils.hasText(beerName) && beerStyle != null) {
+        } else if (beerStyle != null) {
             beers = beerService.listBeersByStyle(beerStyle);
         } else {
             beers = beerService.listBeers();
+        }
+
+        if (showInventory != null && !showInventory) {
+            beers.forEach(beer -> beer.setQuantityOnHand(null));
         }
 
         return beers;

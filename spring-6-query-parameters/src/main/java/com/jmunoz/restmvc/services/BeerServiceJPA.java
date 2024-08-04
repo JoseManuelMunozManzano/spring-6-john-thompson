@@ -34,6 +34,14 @@ public class BeerServiceJPA implements BeerService {
                 .toList();
     }
 
+    @Override
+    public List<BeerDto> listBeersByNameAndStyle(String beerName, BeerStyle beerStyle) {
+        return beerRepository.findAllByBeerNameIsLikeIgnoreCaseAndBeerStyle("%" + beerName + "%", beerStyle)
+                .stream()
+                .map(beerMapper::beerEntityToBeerDto)
+                .toList();
+    }
+
     public List<BeerDto> listBeersByNameContainingIgnoreCase(String beerName) {
         return beerRepository.findAllByBeerNameIsLikeIgnoreCase("%" + beerName + "%")
                 .stream()

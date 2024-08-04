@@ -15,6 +15,8 @@ public interface BeerService {
 
     List<BeerDto> listBeers();
 
+    List<BeerDto> listBeersByNameAndStyle(String beerName, BeerStyle beerStyle);
+
     List<BeerDto> listBeersByNameContainingIgnoreCase(String beerName);
 
     List<BeerDto> listBeersByStyle(BeerStyle beerStyle);
