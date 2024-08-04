@@ -66,7 +66,7 @@ public class BeerServiceImpl implements BeerService {
     }
 
     @Override
-    public List<BeerDto> listBeersByName(String beerName) {
+    public List<BeerDto> listBeersByNameContainingIgnoreCase(String beerName) {
         return beerMap.values().stream().filter(beer -> beer.getBeerName().equals(beerName)).toList();
     }
 

@@ -1,6 +1,5 @@
 package com.jmunoz.restmvc.controller;
 
-import com.jmunoz.restmvc.entities.BeerEntity;
 import com.jmunoz.restmvc.model.BeerDto;
 import com.jmunoz.restmvc.services.BeerService;
 import lombok.RequiredArgsConstructor;
@@ -100,7 +99,7 @@ public class BeerController {
         // Es buena práctica que los servicios estén focalizados en tareas específicas, y se mueva la lógica
         // condicional, de a qué método llamar, al controller.
         if (StringUtils.hasText(beerName)) {
-            beers = beerService.listBeersByName(beerName);
+            beers = beerService.listBeersByNameContainingIgnoreCase(beerName);
         } else {
             beers = beerService.listBeers();
         }

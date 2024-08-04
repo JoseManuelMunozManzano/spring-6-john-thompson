@@ -14,7 +14,7 @@ public interface BeerService {
 
     List<BeerDto> listBeers();
 
-    List<BeerDto> listBeersByName(String beerName);
+    List<BeerDto> listBeersByNameContainingIgnoreCase(String beerName);
 
     Optional<BeerDto> getBeerById(UUID id);
 
