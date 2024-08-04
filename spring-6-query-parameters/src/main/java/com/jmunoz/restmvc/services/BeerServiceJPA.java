@@ -24,7 +24,7 @@ public class BeerServiceJPA implements BeerService {
     private final BeerMapper beerMapper;
 
     @Override
-    public List<BeerDto> listBeers() {
+    public List<BeerDto> listBeers(String beerName) {
 
         // Está bien, si no encuentra nada, que devuelva una lista vacía.
         return beerRepository.findAll()

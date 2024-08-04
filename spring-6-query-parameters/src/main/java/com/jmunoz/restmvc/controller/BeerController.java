@@ -92,7 +92,7 @@ public class BeerController {
     // Actualizado para que lleguen Query Parameters. No es requerido.
     @GetMapping(value = BEER_PATH)
     public List<BeerDto> listBeers(@RequestParam(name = "beerName", required = false) String beerName) {
-        return beerService.listBeers();
+        return beerService.listBeers(beerName);
     }
 
     @GetMapping(value = BEER_PATH_ID)
