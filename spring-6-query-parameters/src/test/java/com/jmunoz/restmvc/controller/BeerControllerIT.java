@@ -241,4 +241,15 @@ class BeerControllerIT {
         // Y la última que se lanza con el rollback - RollbackException
         System.out.println(result.getResponse().getContentAsString());
     }
+
+    // Tests en los que se usa Query Parameters para afectar el tamaño y número de registros a devolver.
+    // Se hace un test de integración porque quiero que la BD esté levantada y con data (la proveniente del CSV)
+    @Test
+    void testListBeersByName() throws Exception {
+
+        mockMvc.perform(get(BeerController.BEER_PATH)
+                .queryParam("beerName", "IPA"))
+                .andExpect(status().isOk())
+                .andExpect(jsonPath("$.size()", is(100)));
+    }
 }
