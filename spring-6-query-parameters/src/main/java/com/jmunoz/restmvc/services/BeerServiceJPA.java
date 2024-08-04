@@ -2,6 +2,7 @@ package com.jmunoz.restmvc.services;
 
 import com.jmunoz.restmvc.mappers.BeerMapper;
 import com.jmunoz.restmvc.model.BeerDto;
+import com.jmunoz.restmvc.model.BeerStyle;
 import com.jmunoz.restmvc.repositories.BeerRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.context.annotation.Primary;
@@ -35,6 +36,14 @@ public class BeerServiceJPA implements BeerService {
 
     public List<BeerDto> listBeersByNameContainingIgnoreCase(String beerName) {
         return beerRepository.findAllByBeerNameIsLikeIgnoreCase("%" + beerName + "%")
+                .stream()
+                .map(beerMapper::beerEntityToBeerDto)
+                .toList();
+    }
+
+    @Override
+    public List<BeerDto> listBeersByStyle(BeerStyle beerStyle) {
+        return beerRepository.findAllByBeerStyle(beerStyle)
                 .stream()
                 .map(beerMapper::beerEntityToBeerDto)
                 .toList();

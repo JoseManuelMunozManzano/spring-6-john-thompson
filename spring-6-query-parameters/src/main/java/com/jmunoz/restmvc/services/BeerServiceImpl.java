@@ -71,6 +71,11 @@ public class BeerServiceImpl implements BeerService {
     }
 
     @Override
+    public List<BeerDto> listBeersByStyle(BeerStyle beerStyle) {
+        return beerMap.values().stream().filter(beer -> beer.getBeerStyle().equals(beerStyle)).toList();
+    }
+
+    @Override
     public Optional<BeerDto> getBeerById(UUID id) {
         log.debug("Get Beer by Id - in service. Id: " + id.toString());
         return Optional.of(beerMap.get(id));

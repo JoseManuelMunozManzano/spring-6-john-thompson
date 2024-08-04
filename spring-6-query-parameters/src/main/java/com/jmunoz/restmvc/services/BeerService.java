@@ -1,6 +1,7 @@
 package com.jmunoz.restmvc.services;
 
 import com.jmunoz.restmvc.model.BeerDto;
+import com.jmunoz.restmvc.model.BeerStyle;
 
 import java.util.List;
 import java.util.Optional;
@@ -15,6 +16,8 @@ public interface BeerService {
     List<BeerDto> listBeers();
 
     List<BeerDto> listBeersByNameContainingIgnoreCase(String beerName);
+
+    List<BeerDto> listBeersByStyle(BeerStyle beerStyle);
 
     Optional<BeerDto> getBeerById(UUID id);
 

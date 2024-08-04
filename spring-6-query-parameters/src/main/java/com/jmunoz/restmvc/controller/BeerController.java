@@ -1,6 +1,7 @@
 package com.jmunoz.restmvc.controller;
 
 import com.jmunoz.restmvc.model.BeerDto;
+import com.jmunoz.restmvc.model.BeerStyle;
 import com.jmunoz.restmvc.services.BeerService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -92,14 +93,17 @@ public class BeerController {
 
     // Actualizado para que lleguen Query Parameters. No es requerido.
     @GetMapping(value = BEER_PATH)
-    public List<BeerDto> listBeers(@RequestParam(name = "beerName", required = false) String beerName) {
+    public List<BeerDto> listBeers(@RequestParam(name = "beerName", required = false) String beerName,
+                                   @RequestParam(name = "beerStyle", required = false) BeerStyle beerStyle) {
 
         List<BeerDto> beers;
 
         // Es buena práctica que los servicios estén focalizados en tareas específicas, y se mueva la lógica
         // condicional, de a qué método llamar, al controller.
-        if (StringUtils.hasText(beerName)) {
+        if (StringUtils.hasText(beerName) && beerStyle == null) {
             beers = beerService.listBeersByNameContainingIgnoreCase(beerName);
+        } else if (!StringUtils.hasText(beerName) && beerStyle != null) {
+            beers = beerService.listBeersByStyle(beerStyle);
         } else {
             beers = beerService.listBeers();
         }
