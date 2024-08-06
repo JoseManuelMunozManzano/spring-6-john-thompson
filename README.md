@@ -46,6 +46,9 @@
 - Query Parameters with Spring MVC
   - spring-6-query-parameters
     - Ejemplo de uso de Spring MVC que acepta Query Parameters y Spring Data JPA para devolver y consultar la BD
+- Paging and Sorting
+  - spring-6-paging-sorting
+    - Ejemplo de uso de Spring MVC con paginación y ordenamiento
 
 ## URLs con documentación
 
