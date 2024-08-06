@@ -6,6 +6,7 @@ import com.jmunoz.restmvc.model.BeerStyle;
 import com.jmunoz.restmvc.repositories.BeerRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.context.annotation.Primary;
+import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Service;
 import org.springframework.util.StringUtils;
 
@@ -24,8 +25,14 @@ public class BeerServiceJPA implements BeerService {
     private final BeerRepository beerRepository;
     private final BeerMapper beerMapper;
 
+    // El número de página es 0-index, pero en nuestra API empieza por 1, así que eso hay que configurarlo
+    private static final int DEFAULT_PAGE = 0;
+    private static final int DEFAULT_PAGE_SIZE = 25;
+
     @Override
     public List<BeerDto> listBeers(Integer pageNumber, Integer pageSize) {
+
+        PageRequest pageRequest = buildPageRequest(pageNumber, pageSize);
 
         // Está bien, si no encuentra nada, que devuelva una lista vacía.
         return beerRepository.findAll()
@@ -36,6 +43,9 @@ public class BeerServiceJPA implements BeerService {
 
     @Override
     public List<BeerDto> listBeersByNameAndStyle(String beerName, BeerStyle beerStyle, Integer pageNumber, Integer pageSize) {
+
+        PageRequest pageRequest = buildPageRequest(pageNumber, pageSize);
+
         return beerRepository.findAllByBeerNameIsLikeIgnoreCaseAndBeerStyle("%" + beerName + "%", beerStyle)
                 .stream()
                 .map(beerMapper::beerEntityToBeerDto)
@@ -43,6 +53,9 @@ public class BeerServiceJPA implements BeerService {
     }
 
     public List<BeerDto> listBeersByNameContainingIgnoreCase(String beerName, Integer pageNumber, Integer pageSize) {
+
+        PageRequest pageRequest = buildPageRequest(pageNumber, pageSize);
+
         return beerRepository.findAllByBeerNameIsLikeIgnoreCase("%" + beerName + "%")
                 .stream()
                 .map(beerMapper::beerEntityToBeerDto)
@@ -51,10 +64,39 @@ public class BeerServiceJPA implements BeerService {
 
     @Override
     public List<BeerDto> listBeersByStyle(BeerStyle beerStyle, Integer pageNumber, Integer pageSize) {
+
+        PageRequest pageRequest = buildPageRequest(pageNumber, pageSize);
+
         return beerRepository.findAllByBeerStyle(beerStyle)
                 .stream()
                 .map(beerMapper::beerEntityToBeerDto)
                 .toList();
+    }
+
+    // Este es nuestro método para configurar PageRequest.
+    // Tiene un control para que el tamaño de registros requeridos nunca sea mayor de 1000.
+    public PageRequest buildPageRequest(Integer pageNumber, Integer pageSize) {
+        int queryPageNumber;
+        int queryPageSize;
+
+        if (pageNumber != null && pageNumber > 0) {
+            queryPageNumber = pageNumber - 1;
+        } else {
+            queryPageNumber = DEFAULT_PAGE;
+        }
+
+        if (pageSize == null) {
+            queryPageSize = DEFAULT_PAGE_SIZE;
+        } else {
+            if (pageSize > 1000) {
+                queryPageSize = 1000;
+            } else {
+                queryPageSize = pageSize;
+            }
+        }
+
+        // Todavía no ordenamos, por eso no se usa los parámetros Direction
+        return PageRequest.of(queryPageNumber, queryPageSize);
     }
 
     @Override
