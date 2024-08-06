@@ -5,6 +5,7 @@ import com.jmunoz.restmvc.model.BeerStyle;
 import com.jmunoz.restmvc.services.BeerService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.data.domain.Page;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.util.StringUtils;
@@ -13,7 +14,6 @@ import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
 import java.net.URI;
-import java.util.List;
 import java.util.UUID;
 
 @Slf4j
@@ -93,15 +93,15 @@ public class BeerController {
 
     // Actualizado para que lleguen Query Parameters. No son requeridos.
     //
-    // Actualizado para tener paginación, pageNumber (0 index) y pageSize.
+    // Actualizado para tener paginación, pageNumber (0 index) y pageSize y devolver un objeto Page en vez de una List.
     @GetMapping(value = BEER_PATH)
-    public List<BeerDto> listBeers(@RequestParam(name = "beerName", required = false) String beerName,
+    public Page<BeerDto> listBeers(@RequestParam(name = "beerName", required = false) String beerName,
                                    @RequestParam(name = "beerStyle", required = false) BeerStyle beerStyle,
                                    @RequestParam(name = "showInventory", required = false) Boolean showInventory,
                                    @RequestParam(name = "pageNumber", required = false) Integer pageNumber,
                                    @RequestParam(name = "pageSize", required = false) Integer pageSize) {
 
-        List<BeerDto> beers;
+        Page<BeerDto> beers;
 
         // Es buena práctica que los servicios estén focalizados en tareas específicas, y se mueva la lógica
         // condicional, de a qué método llamar, al controller.

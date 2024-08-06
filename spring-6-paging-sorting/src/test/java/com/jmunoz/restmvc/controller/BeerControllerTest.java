@@ -10,6 +10,8 @@ import org.mockito.ArgumentCaptor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageImpl;
 import org.springframework.http.MediaType;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.MvcResult;
@@ -57,10 +59,12 @@ class BeerControllerTest {
     // BeerServiceImpl beerServiceImpl = new BeerServiceImpl();
     //
     // NOTA: Como se indica más abajo, es mejor crear objetos concretos de prueba de Beer.
-    List<BeerDto> beers;
+    Page<BeerDto> beers;
 
     @BeforeEach
     void setUp() {
+        List<BeerDto> listBeers;
+
         BeerDto beer1 = BeerDto.builder()
                 .id(UUID.randomUUID())
                 .version(1)
@@ -97,7 +101,9 @@ class BeerControllerTest {
                 .updateDate(LocalDateTime.now())
                 .build();
 
-        beers = List.of(beer1, beer2, beer3);
+        listBeers = List.of(beer1, beer2, beer3);
+
+        beers = new PageImpl<>(listBeers);
     }
 
     // Lanzamiento de excepción usando Mockito.
@@ -126,7 +132,7 @@ class BeerControllerTest {
         // Beer testBeer = beerServiceImpl.listBeers().get(0);
         //
         // O mejor, crearnos un objeto y no tener que usar nuestra implementación del servicio.
-        BeerDto testBeer = beers.getFirst();
+        BeerDto testBeer = beers.getContent().getFirst();
 
         // Aquí decimos: dado el método beerService.getBeerById, si pasamos cualquier UUID nos va a devolver
         // el objeto testBeer.
@@ -180,7 +186,7 @@ class BeerControllerTest {
                 .accept(MediaType.APPLICATION_JSON))
                 .andExpect(status().isOk())
                 .andExpect(content().contentType(MediaType.APPLICATION_JSON))
-                .andExpect(jsonPath("$.length()", is(3)));
+                .andExpect(jsonPath("$.content.length()", is(3)));
     }
 
     // Usando Jackson para crear un JSON y creación de Stub.
@@ -200,7 +206,7 @@ class BeerControllerTest {
         // Una de las diferencias con respecto a la declaración y configuración de arriba
         // es como quedan las fechas. Spring las formatea mejor.
 
-        BeerDto beer = beers.getFirst();
+        BeerDto beer = beers.getContent().getFirst();
 
         // Creando el JSON y verlo en consola.
         // System.out.println(objectMapper.writeValueAsString(beer));
@@ -211,7 +217,7 @@ class BeerControllerTest {
 
         // Cogemos el beer(1) por el hecho de obtener un id cuando se hace un insert,
         // para no gastar tiempo en crear más data para el test.
-        given(beerService.saveNewBeer(any(BeerDto.class))).willReturn(beers.get(1));
+        given(beerService.saveNewBeer(any(BeerDto.class))).willReturn(beers.getContent().get(1));
 
         // Aquí decimos: queremos hacer un post a esa URL con un JSON (beer) y debemos obtener
         // status de CREATED y en el header una property Location.
@@ -225,7 +231,7 @@ class BeerControllerTest {
 
     @Test
     void testUpdateBeer() throws Exception {
-        BeerDto beer = beers.getFirst();
+        BeerDto beer = beers.getContent().getFirst();
 
         // No hace falta que hagamos la actualización, pero sí devolver un valor.
         given(beerService.updateBeerById(any(), any())).willReturn(Optional.of(beer));
@@ -244,7 +250,7 @@ class BeerControllerTest {
     // Test de validación
     @Test
     void testUpdateBeerNullBeerName() throws Exception {
-        BeerDto beer = beers.getFirst();
+        BeerDto beer = beers.getContent().getFirst();
         beer.setBeerName("");
 
         MvcResult mvcResult = mockMvc.perform(put(BeerController.BEER_PATH_ID, beer.getId())
@@ -260,7 +266,7 @@ class BeerControllerTest {
 
     @Test
     void testDeleteBeer() throws Exception {
-        BeerDto beer = beers.getFirst();
+        BeerDto beer = beers.getContent().getFirst();
 
         // Delete devuelve una bandera. Si existe id se hace el delete y devuelve true, y si no existe id devuelve false.
         given(beerService.deleteBeerById(any())).willReturn(true);
@@ -282,7 +288,7 @@ class BeerControllerTest {
 
     @Test
     void testPatchBeer() throws Exception {
-        BeerDto beer = beers.getFirst();
+        BeerDto beer = beers.getContent().getFirst();
 
         // No hace falta que hagamos la actualización, pero sí devolver un valor.
         given(beerService.patchBeerById(any(), any())).willReturn(Optional.of(beer));

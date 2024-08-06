@@ -6,11 +6,11 @@ import com.jmunoz.restmvc.model.BeerStyle;
 import com.jmunoz.restmvc.repositories.BeerRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.context.annotation.Primary;
+import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Service;
 import org.springframework.util.StringUtils;
 
-import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
 import java.util.concurrent.atomic.AtomicReference;
@@ -30,47 +30,38 @@ public class BeerServiceJPA implements BeerService {
     private static final int DEFAULT_PAGE_SIZE = 25;
 
     @Override
-    public List<BeerDto> listBeers(Integer pageNumber, Integer pageSize) {
+    public Page<BeerDto> listBeers(Integer pageNumber, Integer pageSize) {
 
         PageRequest pageRequest = buildPageRequest(pageNumber, pageSize);
 
-        // Está bien, si no encuentra nada, que devuelva una lista vacía.
-        return beerRepository.findAll()
-                .stream()
-                .map(beerMapper::beerEntityToBeerDto)
-                .toList();
+        // Está bien si no encuentra nada
+        return beerRepository.findAll(pageRequest).map(beerMapper::beerEntityToBeerDto);
     }
 
     @Override
-    public List<BeerDto> listBeersByNameAndStyle(String beerName, BeerStyle beerStyle, Integer pageNumber, Integer pageSize) {
+    public Page<BeerDto> listBeersByNameAndStyle(String beerName, BeerStyle beerStyle, Integer pageNumber, Integer pageSize) {
 
         PageRequest pageRequest = buildPageRequest(pageNumber, pageSize);
 
-        return beerRepository.findAllByBeerNameIsLikeIgnoreCaseAndBeerStyle("%" + beerName + "%", beerStyle)
-                .stream()
-                .map(beerMapper::beerEntityToBeerDto)
-                .toList();
+        return beerRepository.findAllByBeerNameIsLikeIgnoreCaseAndBeerStyle("%" + beerName + "%", beerStyle, pageRequest)
+                .map(beerMapper::beerEntityToBeerDto);
     }
 
-    public List<BeerDto> listBeersByNameContainingIgnoreCase(String beerName, Integer pageNumber, Integer pageSize) {
+    public Page<BeerDto> listBeersByNameContainingIgnoreCase(String beerName, Integer pageNumber, Integer pageSize) {
 
         PageRequest pageRequest = buildPageRequest(pageNumber, pageSize);
 
-        return beerRepository.findAllByBeerNameIsLikeIgnoreCase("%" + beerName + "%")
-                .stream()
-                .map(beerMapper::beerEntityToBeerDto)
-                .toList();
+        return beerRepository.findAllByBeerNameIsLikeIgnoreCase("%" + beerName + "%", pageRequest)
+                .map(beerMapper::beerEntityToBeerDto);
     }
 
     @Override
-    public List<BeerDto> listBeersByStyle(BeerStyle beerStyle, Integer pageNumber, Integer pageSize) {
+    public Page<BeerDto> listBeersByStyle(BeerStyle beerStyle, Integer pageNumber, Integer pageSize) {
 
         PageRequest pageRequest = buildPageRequest(pageNumber, pageSize);
 
-        return beerRepository.findAllByBeerStyle(beerStyle)
-                .stream()
-                .map(beerMapper::beerEntityToBeerDto)
-                .toList();
+        return beerRepository.findAllByBeerStyle(beerStyle, pageRequest)
+                .map(beerMapper::beerEntityToBeerDto);
     }
 
     // Este es nuestro método para configurar PageRequest.

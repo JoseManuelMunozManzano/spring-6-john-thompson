@@ -28,3 +28,4 @@ Recordar que las operaciones de página comienzan en 0 (0 index)
 - Ejecutar el proyecto con el siguiente profile activo `-Dspring.profiles.active=localmysql`
 - Ejecutar todos los tests
   - En concreto, `BeerControllerIT`, test `testListBeersByStyleAndNameShowInventoryTruePage2()`
+  - Pero al cambiar el return al tipo Page se rompieron todos los tests, así que es bueno ejecutarlos todos

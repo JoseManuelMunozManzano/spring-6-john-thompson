@@ -2,8 +2,8 @@ package com.jmunoz.restmvc.services;
 
 import com.jmunoz.restmvc.model.BeerDto;
 import com.jmunoz.restmvc.model.BeerStyle;
+import org.springframework.data.domain.Page;
 
-import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
 
@@ -13,13 +13,13 @@ import java.util.UUID;
 // cuando es null, lance la excepción, pero la lanza el controller!!
 public interface BeerService {
 
-    List<BeerDto> listBeers(Integer pageNumber, Integer pageSize);
+    Page<BeerDto> listBeers(Integer pageNumber, Integer pageSize);
 
-    List<BeerDto> listBeersByNameAndStyle(String beerName, BeerStyle beerStyle, Integer pageNumber, Integer pageSize);
+    Page<BeerDto> listBeersByNameAndStyle(String beerName, BeerStyle beerStyle, Integer pageNumber, Integer pageSize);
 
-    List<BeerDto> listBeersByNameContainingIgnoreCase(String beerName, Integer pageNumber, Integer pageSize);
+    Page<BeerDto> listBeersByNameContainingIgnoreCase(String beerName, Integer pageNumber, Integer pageSize);
 
-    List<BeerDto> listBeersByStyle(BeerStyle beerStyle, Integer pageNumber, Integer pageSize);
+    Page<BeerDto> listBeersByStyle(BeerStyle beerStyle, Integer pageNumber, Integer pageSize);
 
     Optional<BeerDto> getBeerById(UUID id);
 

@@ -3,6 +3,8 @@ package com.jmunoz.restmvc.services;
 import com.jmunoz.restmvc.model.BeerDto;
 import com.jmunoz.restmvc.model.BeerStyle;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageImpl;
 import org.springframework.stereotype.Service;
 import org.springframework.util.StringUtils;
 
@@ -61,25 +63,26 @@ public class BeerServiceImpl implements BeerService {
     }
 
     @Override
-    public List<BeerDto> listBeers(Integer pageNumber, Integer pageSize) {
-        return new ArrayList<>(beerMap.values());
+    public Page<BeerDto> listBeers(Integer pageNumber, Integer pageSize) {
+        // Notar que se devuelve un PageImpl
+        return new PageImpl<>(new ArrayList<>(beerMap.values()));
     }
 
     @Override
-    public List<BeerDto> listBeersByNameAndStyle(String beerName, BeerStyle beerStyle, Integer pageNumber, Integer pageSize) {
-        return beerMap.values().stream()
+    public Page<BeerDto> listBeersByNameAndStyle(String beerName, BeerStyle beerStyle, Integer pageNumber, Integer pageSize) {
+        return new PageImpl<>(beerMap.values().stream()
                 .filter(beer -> beer.getBeerName().equals(beerName) && beer.getBeerStyle().equals(beerStyle))
-                .toList();
+                .toList());
     }
 
     @Override
-    public List<BeerDto> listBeersByNameContainingIgnoreCase(String beerName, Integer pageNumber, Integer pageSize) {
-        return beerMap.values().stream().filter(beer -> beer.getBeerName().equals(beerName)).toList();
+    public Page<BeerDto> listBeersByNameContainingIgnoreCase(String beerName, Integer pageNumber, Integer pageSize) {
+        return new PageImpl<>(beerMap.values().stream().filter(beer -> beer.getBeerName().equals(beerName)).toList());
     }
 
     @Override
-    public List<BeerDto> listBeersByStyle(BeerStyle beerStyle, Integer pageNumber, Integer pageSize) {
-        return beerMap.values().stream().filter(beer -> beer.getBeerStyle().equals(beerStyle)).toList();
+    public Page<BeerDto> listBeersByStyle(BeerStyle beerStyle, Integer pageNumber, Integer pageSize) {
+        return new PageImpl<>(beerMap.values().stream().filter(beer -> beer.getBeerStyle().equals(beerStyle)).toList());
     }
 
     @Override
