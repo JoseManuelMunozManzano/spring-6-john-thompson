@@ -21,6 +21,10 @@ Para implementarlos fácilmente en query methods Spring Data JPA:
 
 Recordar que las operaciones de página comienzan en 0 (0 index)
 
+3. La ordenación, objeto `Sort` forma parte de la clase `BeerServiceJPA.java`, método `buildPageRequest()`, donde creamos el `PageRequest`.
+
+En este ejemplo no se ha hecho test de la ordenación.
+
 ## Testing
 
 - Clonar el repositorio

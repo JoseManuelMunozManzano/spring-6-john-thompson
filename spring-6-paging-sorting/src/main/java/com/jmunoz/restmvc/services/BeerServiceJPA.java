@@ -8,6 +8,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.context.annotation.Primary;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 import org.springframework.util.StringUtils;
 
@@ -86,8 +87,15 @@ public class BeerServiceJPA implements BeerService {
             }
         }
 
+        // Añadimos ordenación. Puede ser muy complejo si lo necesitamos, pero aquí lo vamos a hacer muy sencillo.
+        // El .asc es por defecto, pero siempre viene bien indicarlo, por si lo ve otro desarrollador sepa qué es.
+        Sort sort = Sort.by(Sort.Order.asc("beerName"));
+
         // Todavía no ordenamos, por eso no se usa los parámetros Direction
-        return PageRequest.of(queryPageNumber, queryPageSize);
+        // return PageRequest.of(queryPageNumber, queryPageSize);
+        //
+        // Ordenando
+        return PageRequest.of(queryPageNumber, queryPageSize, sort);
     }
 
     @Override
