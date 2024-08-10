@@ -7,6 +7,7 @@ import org.hibernate.annotations.UuidGenerator;
 import org.hibernate.type.SqlTypes;
 
 import java.time.LocalDateTime;
+import java.util.Set;
 import java.util.UUID;
 
 // No se recomienda @Data en Entities. Se cambia por @Setter y @Getter
@@ -54,4 +55,10 @@ public class CustomerEntity {
     private String name;
     private LocalDateTime createdDate;
     private LocalDateTime lastModifiedDate;
+
+    // Relación con BeerEntity
+    // Se usa Set muchas veces para evitar bucles circulares
+    // customer es una propiedad de la entidad destino (BeerOrderEntity)
+    @OneToMany(mappedBy = "customer")
+    private Set<BeerOrderEntity> beerOrders;
 }

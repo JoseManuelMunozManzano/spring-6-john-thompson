@@ -14,6 +14,7 @@ import org.hibernate.type.SqlTypes;
 
 import java.math.BigDecimal;
 import java.time.LocalDateTime;
+import java.util.Set;
 import java.util.UUID;
 
 // No se recomienda @Data en Entities. Se cambia por @Setter y @Getter
@@ -81,6 +82,10 @@ public class BeerEntity {
 
     @NotNull
     private BigDecimal price;
+
+    // Relación con BeerOrderLineEntity
+    @OneToMany(mappedBy = "beer")
+    private Set<BeerOrderLineEntity> beerOrderLines;
 
     // Con estas anotaciones, indicamos a Hibernate que automáticamente informe estas fechas
     // de auditoría, al crear (este campo) y al actualizar (segundo campo) un registro
