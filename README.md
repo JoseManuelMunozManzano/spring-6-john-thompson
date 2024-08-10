@@ -49,6 +49,9 @@
 - Paging and Sorting
   - spring-6-paging-sorting
     - Ejemplo de uso de Spring MVC con paginación y ordenamiento
+- Database Relationship Mapping
+  - spring-6-db-relationships
+    - Ejemplo de uso de Spring MVC con mapeos de relaciones entre tablas
 
 ## URLs con documentación
 
