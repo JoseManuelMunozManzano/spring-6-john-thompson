@@ -23,3 +23,4 @@ Se muestra el Diagrama entidad-relación (ERD) de las tablas y sus relaciones en
 - Aunque no haga falta, porque usamos Flyway, existe la carpeta `scripts` y dentro un fichero con los SQLs necesarios para crear las nuevas tablas necesarias para trabajar con la aplicación
   - Flyway: en la carpeta `resources/db.migration` vemos la migración `V3__add-order-tables.sql` que hace lo mismo que el fichero de la carpeta `scripts`
 - Ejecutar todos los tests
+  - En concreto, nos concentramos en `BeerOrderRepositoryTest.java`
