@@ -24,6 +24,10 @@ Se muestra el Diagrama entidad-relación (ERD) de las tablas y sus relaciones en
 
   En relaciones Many To Many es incluso más beneficioso tener estos helper methods.
 
+3. En vez de usar helper methods para grabar la relaciones entre entidades, se puede usar la operación Cascade con el tipo `PERSIST`.
+
+Lo vemos en `BeerOrderEntity.java`.
+
 ## Testing
 
 - Clonar el repositorio

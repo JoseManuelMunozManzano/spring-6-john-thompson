@@ -2,6 +2,7 @@ package com.jmunoz.restmvc.repositories;
 
 import com.jmunoz.restmvc.entities.BeerEntity;
 import com.jmunoz.restmvc.entities.BeerOrderEntity;
+import com.jmunoz.restmvc.entities.BeerOrderShipmentEntity;
 import com.jmunoz.restmvc.entities.CustomerEntity;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -55,9 +56,14 @@ class BeerOrderRepositoryTest {
         // System.out.println(testBeer.getBeerName());
 
         // Componemos una BeerOrderEntity
+        // La relación BeerOrderShipmentEntity se carga gracias a la operación Cascade con tipo PERSIST y,
+        // beerOrderShipment.beerOrder se carga con un helper method.
         BeerOrderEntity beerOrder = BeerOrderEntity.builder()
                 .customerRef("Test order")
                 .customer(testCustomer)
+                .beerOrderShipment(BeerOrderShipmentEntity.builder()
+                        .trackingNumber("1235r")
+                        .build())
                 .build();
 
         // Importante hacer el flush para que Hibernate persista inmediatamente la data a la BD.

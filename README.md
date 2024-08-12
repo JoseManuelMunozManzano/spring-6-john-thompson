@@ -53,6 +53,7 @@
   - spring-6-db-relationships
     - Ejemplo de uso de Spring MVC con mapeos de relaciones entre tablas
     - También hay un par de ejemplos de helper methods para ayudar a cargar datos en los campos que estableces relaciones con otras entidades
+    - Y, en vez de usar helper methods, también se puede usar persistencia en cascada. Vemos un ejemplo
 
 ## URLs con documentación
 

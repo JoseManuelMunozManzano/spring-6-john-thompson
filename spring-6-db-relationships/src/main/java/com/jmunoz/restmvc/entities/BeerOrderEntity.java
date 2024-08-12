@@ -34,7 +34,7 @@ public class BeerOrderEntity {
         this.customerRef = customerRef;
         this.setCustomer(customer);
         this.beerOrderLines = beerOrderLines;
-        this.beerOrderShipment = beerOrderShipment;
+        this.setBeerOrderShipment(beerOrderShipment);
     }
 
     @Id
@@ -66,7 +66,8 @@ public class BeerOrderEntity {
     private Set<BeerOrderLineEntity> beerOrderLines;
 
     // Ejemplo de relacion uno a uno
-    @OneToOne
+    // Vemos aquí el ejemplo de la operación Cascade.
+    @OneToOne(cascade = CascadeType.PERSIST)
     private BeerOrderShipmentEntity beerOrderShipment;
 
     public boolean isNew() {
@@ -81,5 +82,11 @@ public class BeerOrderEntity {
     public void setCustomer(CustomerEntity customer) {
         this.customer = customer;
         customer.getBeerOrders().add(this);
+    }
+
+    // Helper method
+    public void setBeerOrderShipment(BeerOrderShipmentEntity beerOrderShipment) {
+        this.beerOrderShipment = beerOrderShipment;
+        beerOrderShipment.setBeerOrder(this);
     }
 }
