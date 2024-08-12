@@ -13,14 +13,28 @@ import java.util.Set;
 import java.util.UUID;
 
 // No se recomienda @Data en Entities. Se cambia por @Setter y @Getter
+// El @Builder no accede a los setter definidos explícitamente. Eliminamos @AllArgsConstructor y creamos nuestro
+// constructor
 @Getter
 @Setter
 @Entity
 @NoArgsConstructor
-@AllArgsConstructor
+// @AllArgsConstructor
 @Builder
 @Table(name="beer_order")
 public class BeerOrderEntity {
+
+    // Creamos nuestro constructor y
+    //   - Usamos nuestro setter
+    public BeerOrderEntity(UUID id, Long version, Timestamp createdDate, Timestamp lastModifiedDate, String customerRef, CustomerEntity customer, Set<BeerOrderLineEntity> beerOrderLines) {
+        this.id = id;
+        this.version = version;
+        this.createdDate = createdDate;
+        this.lastModifiedDate = lastModifiedDate;
+        this.customerRef = customerRef;
+        this.setCustomer(customer);
+        this.beerOrderLines = beerOrderLines;
+    }
 
     @Id
     @UuidGenerator
@@ -54,4 +68,13 @@ public class BeerOrderEntity {
         return this.id == null;
     }
 
+    // Helper method
+    // La idea es, dado un Customer, guardarlo y añadirlo a beerOrders
+    // Con esto evitamos el flush() en el test, porque ya lo hacemos aquí directamente.
+    // El único problema que podemos tener es que el Set de beerOrders no esté inicializado, por lo que
+    // lo inicializamos directamente en la clase CustomerEntity.
+    public void setCustomer(CustomerEntity customer) {
+        this.customer = customer;
+        customer.getBeerOrders().add(this);
+    }
 }

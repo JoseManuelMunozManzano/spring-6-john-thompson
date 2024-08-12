@@ -69,7 +69,13 @@ class BeerOrderRepositoryTest {
         //
         // A partir de ahora, en el test, se debe usar el objeto devuelto por el repositorio porque no se garantiza
         // que al hacer el save() se devuelva la misma referencia.
-        BeerOrderEntity savedBeerOrder = beerOrderRepository.saveAndFlush(beerOrder);
+        //
+        // El problema de saveAndFlush() es que causa una degradación del rendimiento en operaciones complejas,
+        // por lo que se vuelve a usar save() y se va a crear un helper method (un setter sobreescrito en este caso)
+        // en BeerOrderEntity.
+        //
+        //BeerOrderEntity savedBeerOrder = beerOrderRepository.saveAndFlush(beerOrder);
+        BeerOrderEntity savedBeerOrder = beerOrderRepository.save(beerOrder);
 
         System.out.println(savedBeerOrder.getCustomerRef());
     }

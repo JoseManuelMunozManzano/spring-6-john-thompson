@@ -7,6 +7,7 @@ import org.hibernate.annotations.UuidGenerator;
 import org.hibernate.type.SqlTypes;
 
 import java.time.LocalDateTime;
+import java.util.HashSet;
 import java.util.Set;
 import java.util.UUID;
 
@@ -59,6 +60,12 @@ public class CustomerEntity {
     // Relación con BeerEntity
     // Se usa Set muchas veces para evitar bucles circulares
     // customer es una propiedad de la entidad destino (BeerOrderEntity)
+    //
+    // Como añadimos en BeerOrderEntity el cliente, usando el helper method, aquí nos aseguramos
+    // de que esté inicializado.
+    // Para project Lombok indicamos @Builder.Default
+    // Con esto, Lombok genera el código y lo inicializa a un hash set vacío.
+    @Builder.Default
     @OneToMany(mappedBy = "customer")
-    private Set<BeerOrderEntity> beerOrders;
+    private Set<BeerOrderEntity> beerOrders = new HashSet<>();
 }

@@ -14,6 +14,14 @@ Se muestra el Diagrama entidad-relación (ERD) de las tablas y sus relaciones en
 
 ![alt ERD](../images/09-ERD.png)
 
+2. Vemos que, para crear un helper mehod para evitar hacer el flush (problemas de rendimiento) tenemos que:
+
+  - BeerOrderRepositoryTest.java - Usar save() en vez de saveAndFlush()
+  - BeerOrderEntity.java - Sobreescribir setCustomer, donde añadimos al Set el customer.
+    - También eliminamos @AllArgsConstructor, porque si no, el builder del test no accede al setter
+    - Creamos nuestros constructor y usamos nuestro setter
+  - CustomerEntity.java - Inicializar el Set y Usar @Builder.Default para que Lombok (parte del builder) lo inicialice como hash set vacío 
+
 ## Testing
 
 - Clonar el repositorio
@@ -23,4 +31,4 @@ Se muestra el Diagrama entidad-relación (ERD) de las tablas y sus relaciones en
 - Aunque no haga falta, porque usamos Flyway, existe la carpeta `scripts` y dentro un fichero con los SQLs necesarios para crear las nuevas tablas necesarias para trabajar con la aplicación
   - Flyway: en la carpeta `resources/db.migration` vemos la migración `V3__add-order-tables.sql` que hace lo mismo que el fichero de la carpeta `scripts`
 - Ejecutar todos los tests
-  - En concreto, nos concentramos en `BeerOrderRepositoryTest.java`
+  - En concreto, nos concentramos en `BeerOrderRepositoryTest.java` donde vemos el concepto de flush y el de helper method.
