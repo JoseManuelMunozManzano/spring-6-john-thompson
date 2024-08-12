@@ -26,7 +26,7 @@ public class BeerOrderEntity {
 
     // Creamos nuestro constructor y
     //   - Usamos nuestro setter
-    public BeerOrderEntity(UUID id, Long version, Timestamp createdDate, Timestamp lastModifiedDate, String customerRef, CustomerEntity customer, Set<BeerOrderLineEntity> beerOrderLines) {
+    public BeerOrderEntity(UUID id, Long version, Timestamp createdDate, Timestamp lastModifiedDate, String customerRef, CustomerEntity customer, Set<BeerOrderLineEntity> beerOrderLines, BeerOrderShipmentEntity beerOrderShipment) {
         this.id = id;
         this.version = version;
         this.createdDate = createdDate;
@@ -34,6 +34,7 @@ public class BeerOrderEntity {
         this.customerRef = customerRef;
         this.setCustomer(customer);
         this.beerOrderLines = beerOrderLines;
+        this.beerOrderShipment = beerOrderShipment;
     }
 
     @Id
@@ -63,6 +64,10 @@ public class BeerOrderEntity {
     // Relación con BeerOrderLineEntity
     @OneToMany(mappedBy = "beerOrder")
     private Set<BeerOrderLineEntity> beerOrderLines;
+
+    // Ejemplo de relacion uno a uno
+    @OneToOne
+    private BeerOrderShipmentEntity beerOrderShipment;
 
     public boolean isNew() {
         return this.id == null;
