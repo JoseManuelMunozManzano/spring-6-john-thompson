@@ -87,6 +87,13 @@ public class BeerEntity {
     @OneToMany(mappedBy = "beer")
     private Set<BeerOrderLineEntity> beerOrderLines;
 
+    // Inversa de la relación Many To Many
+    @ManyToMany
+    @JoinTable(name = "beer_category",
+        joinColumns = @JoinColumn(name = "beer_id"),
+        inverseJoinColumns = @JoinColumn(name = "category_id"))
+    private Set<CategoryEntity> categories;
+
     // Con estas anotaciones, indicamos a Hibernate que automáticamente informe estas fechas
     // de auditoría, al crear (este campo) y al actualizar (segundo campo) un registro
     @CreationTimestamp
