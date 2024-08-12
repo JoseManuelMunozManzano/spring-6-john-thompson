@@ -52,6 +52,7 @@
 - Database Relationship Mapping
   - spring-6-db-relationships
     - Ejemplo de uso de Spring MVC con mapeos de relaciones entre tablas
+    - También hay un par de ejemplos de helper methods para ayudar a cargar datos en los campos que estableces relaciones con otras entidades
 
 ## URLs con documentación
 

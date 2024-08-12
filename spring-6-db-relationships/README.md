@@ -20,7 +20,7 @@ Se muestra el Diagrama entidad-relación (ERD) de las tablas y sus relaciones en
   - BeerOrderEntity.java - Sobreescribir setCustomer, donde añadimos al Set el customer.
     - También eliminamos @AllArgsConstructor, porque si no, el builder del test no accede al setter
     - Creamos nuestros constructor y usamos nuestro setter
-  - CustomerEntity.java - Inicializar el Set y Usar @Builder.Default para que Lombok (parte del builder) lo inicialice como hash set vacío 
+  - CustomerEntity.java - Inicializar el Set para evitar tener que preguntar si es null, y Usar @Builder.Default para que Lombok (parte del builder) lo inicialice como hash set vacío 
 
   En relaciones Many To Many es incluso más beneficioso tener estos helper methods.
 
