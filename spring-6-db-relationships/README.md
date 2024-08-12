@@ -22,6 +22,8 @@ Se muestra el Diagrama entidad-relación (ERD) de las tablas y sus relaciones en
     - Creamos nuestros constructor y usamos nuestro setter
   - CustomerEntity.java - Inicializar el Set y Usar @Builder.Default para que Lombok (parte del builder) lo inicialice como hash set vacío 
 
+  En relaciones Many To Many es incluso más beneficioso tener estos helper methods.
+
 ## Testing
 
 - Clonar el repositorio
@@ -33,3 +35,4 @@ Se muestra el Diagrama entidad-relación (ERD) de las tablas y sus relaciones en
   - Flyway: en la carpeta `resources/db.migration` vemos la migración `V4__category.sql` donde se crean tablas para el ejemplo con relación Many to Many
 - Ejecutar todos los tests
   - En concreto, nos concentramos en `BeerOrderRepositoryTest.java` donde vemos el concepto de flush y el de helper method.
+  - También en `CategoryRepositoryTest.java`

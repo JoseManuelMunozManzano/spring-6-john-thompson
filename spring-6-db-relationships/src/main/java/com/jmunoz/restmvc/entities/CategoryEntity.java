@@ -1,10 +1,7 @@
 package com.jmunoz.restmvc.entities;
 
 import jakarta.persistence.*;
-import lombok.AllArgsConstructor;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.Setter;
+import lombok.*;
 import org.hibernate.annotations.CreationTimestamp;
 import org.hibernate.annotations.JdbcTypeCode;
 import org.hibernate.annotations.UpdateTimestamp;
@@ -12,10 +9,12 @@ import org.hibernate.annotations.UuidGenerator;
 import org.hibernate.type.SqlTypes;
 
 import java.sql.Timestamp;
+import java.util.HashSet;
 import java.util.Set;
 import java.util.UUID;
 
 // No se recomienda @Data en Entities. Se cambia por @Setter y @Getter
+@Builder
 @Getter
 @Setter
 @NoArgsConstructor
@@ -43,11 +42,15 @@ public class CategoryEntity {
     private String description;
 
     // Ejemplo de relación Many To Many
+    // Inicializándolo evitamos tener que estar preguntando si es null.
+    // No olvidar @Builder.Default para que el builder lo inicialice implícitamente.
+    // Y esto me vale para crear el helper method, aunque aquí no se crea como tal, si se crea en CategoryEntity.
+    @Builder.Default
     @ManyToMany
     @JoinTable(name = "beer_category",
         joinColumns = @JoinColumn(name = "category_id"),
         inverseJoinColumns = @JoinColumn(name = "beer_id"))
-    private Set<BeerEntity> beers;
+    private Set<BeerEntity> beers = new HashSet<>();
 
     @Override
     public boolean equals(Object o) {

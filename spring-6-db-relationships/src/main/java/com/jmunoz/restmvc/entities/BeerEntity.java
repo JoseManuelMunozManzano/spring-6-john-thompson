@@ -14,6 +14,7 @@ import org.hibernate.type.SqlTypes;
 
 import java.math.BigDecimal;
 import java.time.LocalDateTime;
+import java.util.HashSet;
 import java.util.Set;
 import java.util.UUID;
 
@@ -88,11 +89,15 @@ public class BeerEntity {
     private Set<BeerOrderLineEntity> beerOrderLines;
 
     // Inversa de la relación Many To Many
+    // Inicializándolo evitamos tener que estar preguntando si es null.
+    // No olvidar @Builder.Default para que el builder lo inicialice implícitamente.
+    // Y esto me vale para crear el helper method.
+    @Builder.Default
     @ManyToMany
     @JoinTable(name = "beer_category",
         joinColumns = @JoinColumn(name = "beer_id"),
         inverseJoinColumns = @JoinColumn(name = "category_id"))
-    private Set<CategoryEntity> categories;
+    private Set<CategoryEntity> categories = new HashSet<>();
 
     // Con estas anotaciones, indicamos a Hibernate que automáticamente informe estas fechas
     // de auditoría, al crear (este campo) y al actualizar (segundo campo) un registro
@@ -101,4 +106,15 @@ public class BeerEntity {
 
     @UpdateTimestamp
     private LocalDateTime updateDate;
+
+    // Helper method para mantener la relación bidireccional con CategoryEntity
+    public void addCategory(CategoryEntity category) {
+        this.categories.add(category);
+        category.getBeers().add(this);
+    }
+
+    public void removeCategory(CategoryEntity category) {
+        this.categories.remove(category);
+        category.getBeers().remove(this);
+    }
 }

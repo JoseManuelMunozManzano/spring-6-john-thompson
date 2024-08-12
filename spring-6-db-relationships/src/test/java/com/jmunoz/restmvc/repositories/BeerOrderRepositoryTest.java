@@ -77,6 +77,7 @@ class BeerOrderRepositoryTest {
         //BeerOrderEntity savedBeerOrder = beerOrderRepository.saveAndFlush(beerOrder);
         BeerOrderEntity savedBeerOrder = beerOrderRepository.save(beerOrder);
 
+        // Aquí podemos poner un debug para ver si se ha establecido bien la relación
         System.out.println(savedBeerOrder.getCustomerRef());
     }
 }
