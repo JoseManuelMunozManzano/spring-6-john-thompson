@@ -115,22 +115,34 @@ public class BeerServiceJPA implements BeerService {
     // Cuando queremos actualizar un valor dentro de una función lambda, se usa AtomicReference porque es thread safe.
     @Override
     public Optional<BeerDto> updateBeerById(UUID beerId, BeerDto beer) {
-        AtomicReference<Optional<BeerDto>> atomicReference = new AtomicReference<>();
 
-        beerRepository.findById(beerId).ifPresentOrElse(foundBeer -> {
-            foundBeer.setBeerName(beer.getBeerName());
-            foundBeer.setBeerStyle(beer.getBeerStyle());
-            foundBeer.setUpc(beer.getUpc());
-            foundBeer.setPrice(beer.getPrice());
-            foundBeer.setQuantityOnHand(beer.getQuantityOnHand());
+        // Estas sentencias trabajan en una transacción, así que Hibernate no lanza ningún error.
+//        AtomicReference<Optional<BeerDto>> atomicReference = new AtomicReference<>();
+//
+//        beerRepository.findById(beerId).ifPresentOrElse(foundBeer -> {
+//            foundBeer.setBeerName(beer.getBeerName());
+//            foundBeer.setBeerStyle(beer.getBeerStyle());
+//            foundBeer.setUpc(beer.getUpc());
+//            foundBeer.setPrice(beer.getPrice());
+//            foundBeer.setQuantityOnHand(beer.getQuantityOnHand());
+//            foundBeer.setVersion(beer.getVersion());
+//
+//            atomicReference.set(Optional.of(beerMapper
+//                    .beerEntityToBeerDto(beerRepository.save(foundBeer))));
+//        }, () -> {
+//            atomicReference.set(Optional.empty());
+//        });
+//
+//        return atomicReference.get();
 
-            atomicReference.set(Optional.of(beerMapper
-                    .beerEntityToBeerDto(beerRepository.save(foundBeer))));
-        }, () -> {
-            atomicReference.set(Optional.empty());
-        });
-
-        return atomicReference.get();
+        // Comentar todas las sentencias de arriba, y descomentar este return
+        // para probar el error ObjectOptimisticLockingFailureException
+        // Ocurre porque esta sentencia está fuera de una transacción y el valor del bloqueo optimista en la property
+        // version es diferente.
+        //
+        return Optional.of(beerMapper.beerEntityToBeerDto(
+                beerRepository.save(beerMapper.beerDtoToBeerEntity(beer))
+        ));
     }
 
     // En vez de devolver un Optional y manejar una excepción en el controller, en este caso utilizamos una bandera.

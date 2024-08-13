@@ -8,6 +8,7 @@ import com.jmunoz.restmvc.model.BeerStyle;
 import com.jmunoz.restmvc.repositories.BeerRepository;
 import org.hamcrest.core.IsNull;
 import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
@@ -319,5 +320,42 @@ class BeerControllerIT {
                 .andExpect(status().isOk())
                 .andExpect(jsonPath("$.content.size()", is(50)))
                 .andExpect(jsonPath("$.content[0].quantityOnHand").value(IsNull.notNullValue()));
+    }
+
+    // Test de ejemplo de fallo de bloqueo optimista (usa versiones)
+    // Trabajamos con mockMvc porque vamos a emular una transacción larga.
+//    @Disabled
+    @Test
+    void testUpdateBeerBadVersion() throws Exception {
+        BeerEntity beer = beerRepository.findAll().getFirst();
+
+        BeerDto beerDto = beerMapper.beerEntityToBeerDto(beer);
+
+        beerDto.setBeerName("Updated Name");
+
+        MvcResult result = mockMvc.perform(put(BeerController.BEER_PATH_ID, beer.getId())
+                .contentType(MediaType.APPLICATION_JSON)
+                .accept(MediaType.APPLICATION_JSON)
+                .content(objectMapper.writeValueAsString(beerDto)))
+                .andExpect(status().isNoContent())
+                .andReturn();
+
+        System.out.println(result.getResponse().getContentAsString());
+
+        // Cojo el objeto original.
+        // La propiedad versión que se devuelve sigue valiendo 0
+        beerDto.setBeerName("Updated Name 2");
+
+        // Esperamos una excepción aquí: .andExpect(status().isNoContent())
+        // Pero falla porque hemos cambiado BeerServiceJpa.updateBeerById()
+        // Si dejamos el código original, no falla (ver explicación)
+        MvcResult result2 = mockMvc.perform(put(BeerController.BEER_PATH_ID, beer.getId())
+                        .contentType(MediaType.APPLICATION_JSON)
+                        .accept(MediaType.APPLICATION_JSON)
+                        .content(objectMapper.writeValueAsString(beerDto)))
+                .andExpect(status().isNoContent())
+                .andReturn();
+
+        System.out.println(result2.getResponse().getStatus());
     }
 }

@@ -56,7 +56,7 @@
     - Y, en vez de usar helper methods, también se puede usar persistencia en cascada. Vemos un ejemplo
 - Database Transactions & Locking
   - spring-6-db-transactions
-    - Ejemplo donde se ve la funcionalidad de los bloqueos de BD y las transacciones
+    - Ejemplo donde se ve un ejemplo de fallo de bloqueo optimista
 
 ## URLs con documentación
 
