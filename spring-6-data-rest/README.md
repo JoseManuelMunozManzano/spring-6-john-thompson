@@ -26,3 +26,13 @@ Esto no vamos a querer hacerlo siempre, pero es muy útil para proveer una forma
 ## Testing
 
 - Clonar el repositorio
+- Ejecuta el proyecto
+- En la carpeta postman existen endpoints de prueba
+  - Si se ejecuta `List Beers` veremos que obtenemos la lista de cervezas, pero en el proyecto no hay definido ningún controller
+  - Por defecto, Spring Data JPA nos devuelve la lista embebida en una propiedad llamada `_embedded`
+
+  ![alt Embedded Property](../images/10-Postman-property-embedded.png)
+
+  Desde la property `beerName` hasta la property `lastModifiedDate` viene directamente de la entidad Beer. Vemos que la property `version` de la entidad no se expone en la respuesta.
+
+  Pero Spring Data REST también devuelve `_links`, siguiente el principio HateOas (https://www.arquitecturajava.com/que-es-el-principio-de-hateoas/) que básicamente son links a objetos, en este caso, de beer.

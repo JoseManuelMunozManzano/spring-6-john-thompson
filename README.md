@@ -80,3 +80,4 @@
 - https://docs.spring.io/spring-data/jpa/reference/jpa/query-methods.html
 - https://github.com/spring-projects/spring-data-rest
   - Repositorio del proyecto Spring Data Rest. Se puede ir a la documentación oficial, hay ejemplo, se indica como configurar Maven...
+- https://www.arquitecturajava.com/que-es-el-principio-de-hateoas/
