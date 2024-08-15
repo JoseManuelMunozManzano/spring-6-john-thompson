@@ -81,3 +81,4 @@
 - https://github.com/spring-projects/spring-data-rest
   - Repositorio del proyecto Spring Data Rest. Se puede ir a la documentación oficial, hay ejemplo, se indica como configurar Maven...
 - https://www.arquitecturajava.com/que-es-el-principio-de-hateoas/
+- https://docs.spring.io/spring-data/rest/reference/etags-and-other-conditionals.html 

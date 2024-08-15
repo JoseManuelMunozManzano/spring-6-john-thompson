@@ -34,10 +34,18 @@ Esto no vamos a querer hacerlo siempre, pero es muy útil para proveer una forma
 
   ![alt Embedded Property](../images/10-Postman-property-embedded.png)
 
-  Desde la property `beerName` hasta la property `lastModifiedDate` viene directamente de la entidad Beer. Vemos que la property `version` de la entidad no se expone en la respuesta.
+  Desde la property `beerName` hasta la property `lastModifiedDate` viene directamente de la entidad Beer. Vemos que la property `version` de la entidad no se expone en el body de la respuesta.
 
   Pero Spring Data REST también devuelve `_links`, siguiente el principio HateOas (https://www.arquitecturajava.com/que-es-el-principio-de-hateoas/) que básicamente son links a objetos, en este caso, de beer.
 
   - Todo el comportamiento por defecto se puede cambiar
     - Ver `application.properties` para ver qué cambios se han hecho
     - Ver también `BeerRepository`
+
+  - Para que se muestre la propiedad `version` se usa lo que se llama ETag (https://docs.spring.io/spring-data/rest/reference/etags-and-other-conditionals.html)
+
+  En concreto, se ejecuta el endpoint en Postman, se coge uno de los links proporcionados por HateOas y nos vamos a los headers de la respuesta.
+
+  ![alt Embedded Property](../images/11-Spring-Data-Rest-ETag.png)
+
+  Es decir, la propiedad `version` si que aparece en la response, pero no en el body, sino en el header como un ETag. 
