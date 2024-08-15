@@ -57,6 +57,9 @@
 - Database Transactions & Locking
   - spring-6-db-transactions
     - Ejemplo donde se ve un ejemplo de fallo de bloqueo optimista
+- Introduction to Spring Data REST
+  - spring-6-data-rest
+    - Es un ejemplo de, solo definiendo nuestras entidades y los repositorios, se genera una creación automática de controladores
 
 ## URLs con documentación
 
