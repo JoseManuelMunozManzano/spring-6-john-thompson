@@ -48,4 +48,6 @@ Esto no vamos a querer hacerlo siempre, pero es muy útil para proveer una forma
 
   ![alt Embedded Property](../images/11-Spring-Data-Rest-ETag.png)
 
-  Es decir, la propiedad `version` si que aparece en la response, pero no en el body, sino en el header como un ETag. 
+  Es decir, la propiedad `version` si que aparece en la response, pero no en el body, sino en el header como un ETag.
+
+  - Si ejecutamos el endpoint de `Create New Beer` veremos que nos devuelve un status 201 y de nuevos los links proporcionados por HateOas
