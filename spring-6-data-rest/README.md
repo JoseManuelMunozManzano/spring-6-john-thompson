@@ -38,4 +38,6 @@ Esto no vamos a querer hacerlo siempre, pero es muy útil para proveer una forma
 
   Pero Spring Data REST también devuelve `_links`, siguiente el principio HateOas (https://www.arquitecturajava.com/que-es-el-principio-de-hateoas/) que básicamente son links a objetos, en este caso, de beer.
 
-  - Todo el comportamiento por defecto se puede cambiar. Ver `application.properties` para ver qué cambios se han hecho
+  - Todo el comportamiento por defecto se puede cambiar
+    - Ver `application.properties` para ver qué cambios se han hecho
+    - Ver también `BeerRepository`
