@@ -87,6 +87,37 @@
 				}
 			},
 			"response": []
+		},
+		{
+			"name": "Delete Beer",
+			"request": {
+				"method": "DELETE",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://localhost:8080/api/v1/beer/374b7c1f-1c7f-416b-9f92-a493381f52fb",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"api",
+						"v1",
+						"beer",
+						"374b7c1f-1c7f-416b-9f92-a493381f52fb"
+					]
+				}
+			},
+			"response": []
 		}
 	]
 }

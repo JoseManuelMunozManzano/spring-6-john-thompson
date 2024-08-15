@@ -53,3 +53,5 @@ Esto no vamos a querer hacerlo siempre, pero es muy útil para proveer una forma
   - Si ejecutamos el endpoint de `Create New Beer` veremos que nos devuelve un status 201 y de nuevos los links proporcionados por HateOas
   - Para ejecutar el endpoint de Postman de `Update Beer` hay que ejecutar primero el endpoint de Postman `List Beers` y coger un link que es el que actualizamos
     - Si ahora volvemos a `List Beers` y cogemos el link para hacer un GET con ese link, veremos en los headers de la respuesta, en ETag, que se ha incrementado la version
+  - Para ejecutar el endpoint de Postman de `Delete Beer` hay que ejecutar primero el endpoint de Postman `List Beers` y coger un link que es el que borramos
+    - Vemos que nos devuelve un status 200 y el body con el beer eliminado. Es un borrado físico
