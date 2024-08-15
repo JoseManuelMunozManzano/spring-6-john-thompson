@@ -14,6 +14,15 @@ Esto no vamos a querer hacerlo siempre, pero es muy útil para proveer una forma
 
 2. Para el ejemplo se usa la BD en memoria H2
 
+3. Aunque en el Github del proyecto se indica otra cosa (spring-data-rest), en el POM se añade la dependencia siguiente, ya que viene curada para Spring Boot
+
+```
+<dependency>
+    <groupId>org.springframework.boot</groupId>
+    <artifactId>spring-boot-starter-data-rest</artifactId>
+</dependency>
+```
+
 ## Testing
 
 - Clonar el repositorio
