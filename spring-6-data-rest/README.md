@@ -55,3 +55,7 @@ Esto no vamos a querer hacerlo siempre, pero es muy útil para proveer una forma
     - Si ahora volvemos a `List Beers` y cogemos el link para hacer un GET con ese link, veremos en los headers de la respuesta, en ETag, que se ha incrementado la version
   - Para ejecutar el endpoint de Postman de `Delete Beer` hay que ejecutar primero el endpoint de Postman `List Beers` y coger un link que es el que borramos
     - Vemos que nos devuelve un status 200 y el body con el beer eliminado. Es un borrado físico
+  - Para usar búsquedas con filtros, ejecutar en Postman el endpoint `Find By Upc`, que es un GET a `http://localhost:8080/api/v1/beer/search/findByUpc?upc=0631234200036`
+    - Hay que indicar como query parameter `upc`
+    - Lo podemos ejecutar porque en `BeerRepository.java` existe la función `Beer findByUpc(String upc);`
+  - Si se prueba en Postman `Search` que hace un GET a este endpoint `http://localhost:8080/api/v1/beer/search` veremos todas las opciones de búsqueda que hay
