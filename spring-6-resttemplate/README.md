@@ -14,3 +14,4 @@ Indicar que ahora se usa más WebClient como Rest Client reactivo. Lo veremos m�
   - Nos concentramos en el método listBeers()
 - Ejecutar los tests de este proyecto, que será el cliente y llamará a los endpoints del proyecto backend
   - Mirar el test `BeerClientImplTest`
+  - No ejecutar el proyecto, solo el test, ya que fallará indicando que el puerto 8080 ya se está usando
