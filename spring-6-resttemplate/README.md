@@ -6,13 +6,21 @@ Indicar que ahora se usa m√°s WebClient como Rest Client reactivo. Lo veremos m√
 
 ## Notas
 
-1. Vemos pruebas de uso de
+1. Vemos pruebas de uso de Jackson para hacer parseo de JSON usando:
 
   ResponseEntity<String>
 
   ResponseEntity<Map>
 
   ResponseEntity<JsonNode>
+
+  ResponseEntity<mi_pojo_java>
+
+2. Vemos como mapear de un JSON a una clase POJO usando anotaciones
+
+Ver `BeerDTOPageImpl.java`.
+
+![alt Jackson to Pojo](../images/12-Jackson-to-POJO.png)
 
 ## Testing
 

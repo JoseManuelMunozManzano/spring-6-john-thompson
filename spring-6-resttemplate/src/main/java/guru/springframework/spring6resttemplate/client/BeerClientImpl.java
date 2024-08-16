@@ -2,6 +2,7 @@ package guru.springframework.spring6resttemplate.client;
 
 import com.fasterxml.jackson.databind.JsonNode;
 import guru.springframework.spring6resttemplate.model.BeerDTO;
+import guru.springframework.spring6resttemplate.model.BeerDTOPageImpl;
 import lombok.RequiredArgsConstructor;
 import org.springframework.boot.web.client.RestTemplateBuilder;
 import org.springframework.data.domain.Page;
@@ -28,7 +29,9 @@ public class BeerClientImpl implements BeerClient {
         // Lo primero siempre es obtener una instancia de RestTemplate, usando el builder.
         RestTemplate restTemplate = restTemplateBuilder.build();
 
-        // Devolvemos String porque al final del día un JSON es un String.
+        // Vamos a ver distintos tipos de trabajar con un JSON devuelto por el backend.
+
+        // 1. Devolvemos String porque al final del día un JSON es un String.
         // Es decir, todavía no parseamos el JSON.
         //
         // No olvidar ejecutar el proyecto spring-6-db-relationships en el puerto 8080, en otra ventana de IntelliJ.
@@ -41,7 +44,7 @@ public class BeerClientImpl implements BeerClient {
                 restTemplate.getForEntity(BASE_URL + GET_BEER_PATH, String.class);
 
 
-        // Podemos indicar que queremos un tipo de response diferente a la retornada, parseando el body.
+        // 2. Podemos indicar que queremos un tipo de response diferente a la retornada, parseando el body.
         // Aquí Spring invoca Jackson para parsear el JSON a un mapa de Java.
         // Haciendo un debug vemos que el body>content se convierte a un Linked HashMap.
         //
@@ -52,7 +55,7 @@ public class BeerClientImpl implements BeerClient {
 
         System.out.println(stringResponse.getBody());
 
-        // Vamos a usar ahora Jackson para deserializar el JSON y navegar hasta beerName.
+        // 3. Vamos a usar ahora Jackson para deserializar el JSON y navegar hasta beerName.
         // Mostramos todos los beerName de la lista de beers.
         // Esto podemos hacerlo con un mapa de Java, como arriba, o con un JsonNode, que es lo que vamos a hacer.
         // Un JsonNode nos aporta todavía más flexibilidad que un Map a la hora de trabajar con respuestas JSON.
@@ -63,6 +66,14 @@ public class BeerClientImpl implements BeerClient {
                 .forEachRemaining(node -> {
                     System.out.println(node.get("beerName").asText());
                 });
+
+
+        // 4. Uso de Jackson para enlazar con una clase Java POJO, un tipo de Java.
+        // Es lo que más poder y flexibilidad da porque usamos las capacidades de fuerte tipado de Java.
+        // Como Page es una interface, usamos su implementación, pero Jackson no sabe como construirlo.
+        // Lo que hay que hacer es extender nuestra propia implementación. Ver BeerDTOPageImpl.java
+        ResponseEntity<BeerDTOPageImpl> pageResponse =
+                restTemplate.getForEntity(BASE_URL + GET_BEER_PATH, BeerDTOPageImpl.class);
 
         return null;
     }
