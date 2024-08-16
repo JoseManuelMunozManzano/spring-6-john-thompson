@@ -60,6 +60,9 @@
 - Introduction to Spring Data REST
   - spring-6-data-rest
     - Es un ejemplo de, solo definiendo nuestras entidades y los repositorios, se genera una creación automática de controladores
+- Spring RestTemplate
+  - spring-6-resttemplate
+    - Proyecto nuevo con un ejemplo de uso de RestTemplate para hacer de cliente y realizar llamadas a endpoints del proyecto `spring-6-data-rest`
 
 ## URLs con documentación
 
@@ -81,4 +84,4 @@
 - https://github.com/spring-projects/spring-data-rest
   - Repositorio del proyecto Spring Data Rest. Se puede ir a la documentación oficial, hay ejemplo, se indica como configurar Maven...
 - https://www.arquitecturajava.com/que-es-el-principio-de-hateoas/
-- https://docs.spring.io/spring-data/rest/reference/etags-and-other-conditionals.html 
+- https://docs.spring.io/spring-data/rest/reference/etags-and-other-conditionals.html
