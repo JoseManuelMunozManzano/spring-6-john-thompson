@@ -9,6 +9,7 @@ Indicar que ahora se usa más WebClient como Rest Client reactivo. Lo veremos m�
 ## Testing
 
 - Clonar el repositorio
-- Ejecutar el proyecto `spring-6-data-rest` que será nuestro programa de backend
+- Ejecutar el proyecto `spring-6-db-relationships` que será nuestro programa de backend
   - Se ejecuta en el puerto 8080
 - Ejecutar los tests de este proyecto, que será el cliente y llamará a los endpoints del proyecto backend
+  - Mirar el test `BeerClientImplTest`
