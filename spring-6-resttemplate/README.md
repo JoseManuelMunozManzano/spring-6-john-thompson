@@ -6,6 +6,14 @@ Indicar que ahora se usa m√°s WebClient como Rest Client reactivo. Lo veremos m√
 
 ## Notas
 
+1. Vemos pruebas de uso de
+
+  ResponseEntity<String>
+
+  ResponseEntity<Map>
+
+  ResponseEntity<JsonNode>
+
 ## Testing
 
 - Clonar el repositorio
