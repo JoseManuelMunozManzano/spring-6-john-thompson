@@ -47,7 +47,6 @@ Configuramos nuestro RestTemplate para utilizar UriComponentsBuilder, ya que, gr
 - Clonar el repositorio
 - Ejecutar el proyecto `spring-6-db-relationships` que será nuestro programa de backend
   - Se ejecuta en el puerto 8080
-  - Nos concentramos en los métodos listBeers(), listBeerById()
 - Ejecutar los tests de este proyecto, que será el cliente y llamará a los endpoints del proyecto backend
   - Mirar el test `BeerClientImplTest`
   - No ejecutar el proyecto, solo los tests, ya que el proyecto fallará indicando que el puerto 8080 ya se está usando

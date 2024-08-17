@@ -12,6 +12,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.web.client.RestTemplate;
 import org.springframework.web.util.UriComponentsBuilder;
 
+import java.net.URI;
 import java.util.Map;
 import java.util.Optional;
 import java.util.UUID;
@@ -120,5 +121,38 @@ public class BeerClientImpl implements BeerClient {
         // El tipo de retorno esperado es BeerDTO, así que Spring va a trabajar con Jackson para parsear el JSON
         // devuelto por la API para transformarlo a BeerDTO.
         return restTemplate.getForObject(GET_BEER_BY_ID_PATH, BeerDTO.class, beerId);
+    }
+
+    @Override
+    public BeerDTO createBeer(BeerDTO beerDto) {
+
+        RestTemplate restTemplate = restTemplateBuilder.build();
+
+        // Pasamos, usando postForEntity, el objeto beerDto, que será el JSON con la información a guardar.
+
+        // Ejemplo cuando en el body tenemos el objeto creado (BeerDTO.class la usamos para saber el tipo de la respuesta)
+        //
+        // ResponseEntity<BeerDTO> respoonse = restTemplate.postForEntity(GET_BEER_PATH, beerDto, BeerDTO.class);
+
+        // En nuestro caso, en el body no viene el objeto creado.
+        //
+        // Lo que tenemos en la respuesta, en la cabecera, es la property location para la entidad creada.
+        // Obtenemos el URI de la property location, hacemos el get de ese path obteniendo el objeto, con tipo
+        // esperado BeerDTO.class
+        URI uri = restTemplate.postForLocation(GET_BEER_PATH, beerDto);
+
+        return restTemplate.getForObject(uri.getPath(), BeerDTO.class);
+    }
+
+    @Override
+    public BeerDTO updateBeer(BeerDTO beerDto) {
+
+        RestTemplate restTemplate = restTemplateBuilder.build();
+
+        // El méto-do put tiene tres implementaciones, pero todas devuelven void.
+        restTemplate.put(GET_BEER_BY_ID_PATH, beerDto, beerDto.getId());
+
+        // Usamos por tanto el méto-do getBeerById para obtener el objeto
+        return getBeerById(beerDto.getId());
     }
 }
