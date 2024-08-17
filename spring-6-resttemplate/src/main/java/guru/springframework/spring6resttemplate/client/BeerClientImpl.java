@@ -78,9 +78,9 @@ public class BeerClientImpl implements BeerClient {
         // Es lo que más poder y flexibilidad da porque usamos las capacidades de fuerte tipado de Java.
         // Como Page es una interface, usamos su implementación, pero Jackson no sabe como construirlo.
         // Lo que hay que hacer es extender nuestra propia implementación. Ver BeerDTOPageImpl.java
-        ResponseEntity<BeerDTOPageImpl> pageResponse =
+        ResponseEntity<BeerDTOPageImpl> response =
                 restTemplate.getForEntity(GET_BEER_PATH, BeerDTOPageImpl.class);
 
-        return null;
+        return response.getBody();
     }
 }
