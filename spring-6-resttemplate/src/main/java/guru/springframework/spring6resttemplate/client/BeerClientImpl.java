@@ -155,4 +155,11 @@ public class BeerClientImpl implements BeerClient {
         // Usamos por tanto el méto-do getBeerById para obtener el objeto
         return getBeerById(beerDto.getId());
     }
+
+    @Override
+    public void deleteBeer(UUID beerId) {
+
+        RestTemplate restTemplate = restTemplateBuilder.build();
+        restTemplate.delete(GET_BEER_BY_ID_PATH, beerId);
+    }
 }
