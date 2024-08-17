@@ -22,6 +22,16 @@ Ver `BeerDTOPageImpl.java`.
 
 ![alt Jackson to Pojo](../images/12-Jackson-to-POJO.png)
 
+3. Cuando se está desarrollando contra una API, lo normal es consumirla desde más de un entorno.
+
+Típicamente tendremos un entorno de test para ejecutarlo contra el test del backend y un entorno de producción, y lo normal es que las bases de URL sean distintas.
+
+Lo que se hace para tratar esta problemática es configurar la instancia de RestTemplateBuilder dentro de Spring Boot (anotación @Configuration) para establecer la base de URL basada en una propiedad externalizada.
+
+Cuando hablamos de base de URL nos referimos a `http://localhost:8080`.
+
+Lo normal es mantener las configuraciones en un paquete `config` para mantenerlo todo organizado.
+
 ## Testing
 
 - Clonar el repositorio

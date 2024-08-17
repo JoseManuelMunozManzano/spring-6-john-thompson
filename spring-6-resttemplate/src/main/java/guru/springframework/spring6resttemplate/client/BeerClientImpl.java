@@ -21,7 +21,10 @@ public class BeerClientImpl implements BeerClient {
     private final RestTemplateBuilder restTemplateBuilder;
 
     // Más tarde en el curso, esta primera constante será una propiedad que Spring manejará en tiempo de configuración.
-    private static final String BASE_URL = "http://localhost:8080";
+    // private static final String BASE_URL = "http://localhost:8080";
+    //
+    // Teniendo ya la propiedad, esta constante sobra porque la coge de la configuración.
+
     private static final String GET_BEER_PATH = "/api/v1/beer";
 
     @Override
@@ -41,7 +44,8 @@ public class BeerClientImpl implements BeerClient {
         //
         // Tal y como está no invocamos Jackson.
         ResponseEntity<String> stringResponse =
-                restTemplate.getForEntity(BASE_URL + GET_BEER_PATH, String.class);
+                restTemplate.getForEntity(//BASE_URL +
+                        GET_BEER_PATH, String.class);
 
 
         // 2. Podemos indicar que queremos un tipo de response diferente a la retornada, parseando el body.
@@ -51,7 +55,8 @@ public class BeerClientImpl implements BeerClient {
         // Cuando no se sabe exactamente que devuelve una API, es útil usar un Map para obtener la información.
         // Nos da mucha flexibilidad en la respuesta, pero al final vamos a querer enlazarlo a BeerDto.
         ResponseEntity<Map> mapResponse =
-                restTemplate.getForEntity(BASE_URL + GET_BEER_PATH, Map.class);
+                restTemplate.getForEntity(//BASE_URL +
+                        GET_BEER_PATH, Map.class);
 
         System.out.println(stringResponse.getBody());
 
@@ -60,7 +65,8 @@ public class BeerClientImpl implements BeerClient {
         // Esto podemos hacerlo con un mapa de Java, como arriba, o con un JsonNode, que es lo que vamos a hacer.
         // Un JsonNode nos aporta todavía más flexibilidad que un Map a la hora de trabajar con respuestas JSON.
         ResponseEntity<JsonNode> jsonResponse =
-                restTemplate.getForEntity(BASE_URL + GET_BEER_PATH, JsonNode.class);
+                restTemplate.getForEntity(//BASE_URL +
+                        GET_BEER_PATH, JsonNode.class);
 
         jsonResponse.getBody().findPath("content").elements()
                 .forEachRemaining(node -> {
@@ -73,7 +79,7 @@ public class BeerClientImpl implements BeerClient {
         // Como Page es una interface, usamos su implementación, pero Jackson no sabe como construirlo.
         // Lo que hay que hacer es extender nuestra propia implementación. Ver BeerDTOPageImpl.java
         ResponseEntity<BeerDTOPageImpl> pageResponse =
-                restTemplate.getForEntity(BASE_URL + GET_BEER_PATH, BeerDTOPageImpl.class);
+                restTemplate.getForEntity(GET_BEER_PATH, BeerDTOPageImpl.class);
 
         return null;
     }
