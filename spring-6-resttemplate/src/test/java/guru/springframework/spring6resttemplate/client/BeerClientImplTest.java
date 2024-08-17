@@ -12,10 +12,18 @@ class BeerClientImplTest {
     @Autowired
     BeerClientImpl beerClient;
 
+    // Esto no son tests como tal, más bien pruebas. Van a evolucionar.
+
+    @Test
+    void listBeersNoBeerName() {
+
+        beerClient.listBeers(null);
+    }
+
     @Test
     void listBeers() {
 
-        // Esto no es un test como tal, más bien una prueba. Va a evolucionar.
-        beerClient.listBeers();
+        beerClient.listBeers("ALE");
     }
+
 }

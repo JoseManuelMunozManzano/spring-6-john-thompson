@@ -12,6 +12,7 @@ import org.springframework.web.client.RestTemplate;
 import org.springframework.web.util.UriComponentsBuilder;
 
 import java.util.Map;
+import java.util.Optional;
 
 @RequiredArgsConstructor
 @Service
@@ -29,12 +30,15 @@ public class BeerClientImpl implements BeerClient {
     private static final String GET_BEER_PATH = "/api/v1/beer";
 
     @Override
-    public Page<BeerDTO> listBeers() {
+    public Page<BeerDTO> listBeers(String beerName) {
         // Lo primero siempre es obtener una instancia de RestTemplate, usando el builder.
         RestTemplate restTemplate = restTemplateBuilder.build();
 
         // Uso de UriComponentsBuilder para construir el path y poder incluir query parameters.
         UriComponentsBuilder uriComponentsBuilder = UriComponentsBuilder.fromPath(GET_BEER_PATH);
+
+        // Parámetro opcional: enlazamos beerName a nuestra entity.
+        uriComponentsBuilder.queryParamIfPresent("beerName", Optional.ofNullable(beerName));
 
         // Vamos a ver distintos tipos de trabajar con un JSON devuelto por el backend.
 
@@ -84,6 +88,7 @@ public class BeerClientImpl implements BeerClient {
         // Lo que hay que hacer es extender nuestra propia implementación. Ver BeerDTOPageImpl.java
         //
         // Seguimos evolucionando este y dejamos los demás como ejemplos.
+        //
         // Usamos nuestro UriComponentsBuilder.
         ResponseEntity<BeerDTOPageImpl> response =
                 restTemplate.getForEntity(uriComponentsBuilder.toUriString(), BeerDTOPageImpl.class);

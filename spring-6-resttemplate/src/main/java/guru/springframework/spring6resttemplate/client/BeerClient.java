@@ -9,5 +9,7 @@ public interface BeerClient {
     // spring-data-commons
     // Indicar que en el proyecto spring-6-db-relationships, en el constructor BeerController, el método listBeers
     // devuelve también Page<BeerDTO>. Mantenemos la consistencia.
-    Page<BeerDTO> listBeers();
+    //
+    // En este ejemplo pasamos parámetros.
+    Page<BeerDTO> listBeers(String beerName);
 }
