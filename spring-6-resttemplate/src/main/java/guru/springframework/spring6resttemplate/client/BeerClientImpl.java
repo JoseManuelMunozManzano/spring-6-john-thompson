@@ -67,9 +67,10 @@ public class BeerClientImpl implements BeerClient {
         // para indicar que va a ser el body, y eso afecta a como Spring Framework parseará la respuesta.
         //
         // Tal y como está no invocamos Jackson.
-        ResponseEntity<String> stringResponse =
-                restTemplate.getForEntity(//BASE_URL +
-                        GET_BEER_PATH, String.class);
+        //
+//        ResponseEntity<String> stringResponse =
+//                restTemplate.getForEntity(//BASE_URL +
+//                        GET_BEER_PATH, String.class);
 
 
         // 2. Podemos indicar que queremos un tipo de response diferente a la retornada, parseando el body.
@@ -78,24 +79,25 @@ public class BeerClientImpl implements BeerClient {
         //
         // Cuando no se sabe exactamente que devuelve una API, es útil usar un Map para obtener la información.
         // Nos da mucha flexibilidad en la respuesta, pero al final vamos a querer enlazarlo a BeerDto.
-        ResponseEntity<Map> mapResponse =
-                restTemplate.getForEntity(//BASE_URL +
-                        GET_BEER_PATH, Map.class);
+//        ResponseEntity<Map> mapResponse =
+//                restTemplate.getForEntity(//BASE_URL +
+//                        GET_BEER_PATH, Map.class);
 
-        System.out.println(stringResponse.getBody());
+//        System.out.println(stringResponse.getBody());
 
         // 3. Vamos a usar ahora Jackson para deserializar el JSON y navegar hasta beerName.
         // Mostramos todos los beerName de la lista de beers.
         // Esto podemos hacerlo con un mapa de Java, como arriba, o con un JsonNode, que es lo que vamos a hacer.
         // Un JsonNode nos aporta todavía más flexibilidad que un Map a la hora de trabajar con respuestas JSON.
-        ResponseEntity<JsonNode> jsonResponse =
-                restTemplate.getForEntity(//BASE_URL +
-                        GET_BEER_PATH, JsonNode.class);
+        //
+//        ResponseEntity<JsonNode> jsonResponse =
+//                restTemplate.getForEntity(//BASE_URL +
+//                        GET_BEER_PATH, JsonNode.class);
 
-        jsonResponse.getBody().findPath("content").elements()
-                .forEachRemaining(node -> {
-                    System.out.println(node.get("beerName").asText());
-                });
+//        jsonResponse.getBody().findPath("content").elements()
+//                .forEachRemaining(node -> {
+//                    System.out.println(node.get("beerName").asText());
+//                });
 
 
         // 4. Uso de Jackson para enlazar con una clase Java POJO, un tipo de Java.

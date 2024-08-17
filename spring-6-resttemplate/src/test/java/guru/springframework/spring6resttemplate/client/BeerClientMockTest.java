@@ -2,22 +2,30 @@ package guru.springframework.spring6resttemplate.client;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import guru.springframework.spring6resttemplate.config.RestTemplateBuilderConfig;
 import guru.springframework.spring6resttemplate.model.BeerDTO;
 import guru.springframework.spring6resttemplate.model.BeerDTOPageImpl;
 import guru.springframework.spring6resttemplate.model.BeerStyle;
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
+import org.mockito.Mock;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.client.RestClientTest;
+import org.springframework.boot.test.web.client.MockServerRestTemplateCustomizer;
+import org.springframework.boot.web.client.RestTemplateBuilder;
+import org.springframework.context.annotation.Import;
 import org.springframework.data.domain.Page;
 import org.springframework.http.HttpMethod;
 import org.springframework.http.MediaType;
 import org.springframework.test.web.client.MockRestServiceServer;
+import org.springframework.web.client.RestTemplate;
 
 import java.math.BigDecimal;
-import java.util.Arrays;
+import java.util.Collections;
 import java.util.UUID;
 
 import static org.assertj.core.api.Assertions.assertThat;
+import static org.mockito.Mockito.when;
 import static org.springframework.test.web.client.match.MockRestRequestMatchers.method;
 import static org.springframework.test.web.client.match.MockRestRequestMatchers.requestTo;
 import static org.springframework.test.web.client.response.MockRestResponseCreators.withSuccess;
@@ -27,32 +35,62 @@ import static org.springframework.test.web.client.response.MockRestResponseCreat
 // Y, para testear, necesitamos un endpoint de prueba.
 // Lo que podemos hacer es usar un mock de un cliente, igual que hacíamos con Spring Mock MVC, donde podemos crear
 // un mock de un servidor con el que trabajar. Esto conlleva cierta configuración.
-@RestClientTest(BeerClientImpl.class)
+//
+// Para evitar el fallo del test, quitamos el enlace a la clase e importamos nuestra configuración de RestTemplate.
+// @RestClientTest(BeerClientImpl.class)
+@RestClientTest
+@Import(RestTemplateBuilderConfig.class)
 public class BeerClientMockTest {
 
     static final String URL = "http://localhost:8080";
 
-    @Autowired
+    // Para evitar el fallo del test, no necesitamos el client del contexto.
+    // @Autowired
     BeerClient beerClient;
 
-    @Autowired
+    // Para evitar el fallo del test, no obtenemos el server del contexto.
+    // Lo inicializamos en el méto-do setUp.
+    // @Autowired
     MockRestServiceServer server;
+
+    // Y necesitamos nuestra configuración de RestTemplateBuilder
+    @Autowired
+    RestTemplateBuilder restTemplateBuilderConfigured;
 
     // SpringBoot por defecto crea una instancia de Jackson ObjectMapper.
     @Autowired
     ObjectMapper objectMapper;
 
+    // Creamos un template builder especializado.
+    @Mock
+    RestTemplateBuilder mockRestTemplateBuilder = new RestTemplateBuilder(new MockServerRestTemplateCustomizer());
+
+    @BeforeEach
+    void setUp() {
+        // Creamos una instancia de RestTemplate usando nuestro builder por defecto.
+        // Este es el RestTemplate object que ha sido enlazado al server.
+        RestTemplate restTemplate = restTemplateBuilderConfigured.build();
+        server = MockRestServiceServer.bindTo(restTemplate).build();
+        when(mockRestTemplateBuilder.build()).thenReturn(restTemplate);
+
+        // Inyectamos a la implementación de BeerClient nuestro template builder.
+        beerClient = new BeerClientImpl(mockRestTemplateBuilder);
+    }
+
     // Este test nos falla con el siguiente error:
     // Unable to use auto-configured MockRestServiceServer since a mock server customizer has not
     // been bound to a RestTemplate or RestClient.
     //
-    // El problema es que estamos usando RestTemplateBuilder. RestTemplate es construido dentro de nuestro método
-    // y quiere que lo enlacemos a el.
+    // El problema es que estamos usando RestTemplateBuilder dentro de la clase y estamos creando un nuevo Rest Template,
+    // y este Rest Template no queda enlazado al server.
     //
     // Lo que vamos a hacer es que el RestTemplate quede enlazado al mock server y usaremos Mockito para crear
     // un mock que devolverá el template del méto-do builder.
     // Es decir, vamos a imitar el comportamiento que queremos para testear nuestro rest client, proporcionándole
     // un RestTemplate debidamente configurado que queda enlazado al mock server usando Mockito.
+    //
+    // Comparar el commit anterior con este para ver las diferencias a la hora de resolver el problema.
+    // El test ya funciona.
     @Test
     void testListBeers() throws JsonProcessingException {
 
@@ -65,6 +103,7 @@ public class BeerClientMockTest {
                 .andRespond(withSuccess(payload, MediaType.APPLICATION_JSON));
 
         Page<BeerDTO> dtos = beerClient.listBeers();
+
         assertThat(dtos.getContent().size()).isGreaterThan(0);
     }
 
@@ -79,7 +118,7 @@ public class BeerClientMockTest {
                 .build();
     }
 
-    BeerDTOPageImpl getPage() {
-        return new BeerDTOPageImpl(Arrays.asList(getBeerDto()), 1, 25, 1);
+    BeerDTOPageImpl<BeerDTO> getPage() {
+        return new BeerDTOPageImpl<>(Collections.singletonList(getBeerDto()), 1, 25, 1);
     }
 }
