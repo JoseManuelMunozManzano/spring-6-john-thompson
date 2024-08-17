@@ -3,6 +3,7 @@ package guru.springframework.spring6resttemplate.client;
 import com.fasterxml.jackson.databind.JsonNode;
 import guru.springframework.spring6resttemplate.model.BeerDTO;
 import guru.springframework.spring6resttemplate.model.BeerDTOPageImpl;
+import guru.springframework.spring6resttemplate.model.BeerStyle;
 import lombok.RequiredArgsConstructor;
 import org.springframework.boot.web.client.RestTemplateBuilder;
 import org.springframework.data.domain.Page;
@@ -30,15 +31,26 @@ public class BeerClientImpl implements BeerClient {
     private static final String GET_BEER_PATH = "/api/v1/beer";
 
     @Override
-    public Page<BeerDTO> listBeers(String beerName) {
+    public Page<BeerDTO> listBeers() {
+
+        return this.listBeers(null, null, null, null, null);
+    }
+
+    @Override
+    public Page<BeerDTO> listBeers(String beerName, BeerStyle beerStyle,Boolean showInventory,
+                                   Integer pageNumber, Integer pageSize) {
         // Lo primero siempre es obtener una instancia de RestTemplate, usando el builder.
         RestTemplate restTemplate = restTemplateBuilder.build();
 
         // Uso de UriComponentsBuilder para construir el path y poder incluir query parameters.
         UriComponentsBuilder uriComponentsBuilder = UriComponentsBuilder.fromPath(GET_BEER_PATH);
 
-        // Parámetro opcional: enlazamos beerName a nuestra entity.
+        // Parámetros opcionales: enlazamos beerName a nuestra entity (y las demás)
         uriComponentsBuilder.queryParamIfPresent("beerName", Optional.ofNullable(beerName));
+        uriComponentsBuilder.queryParamIfPresent("beerStyle", Optional.ofNullable(beerStyle));
+        uriComponentsBuilder.queryParamIfPresent("showInventory", Optional.ofNullable(showInventory));
+        uriComponentsBuilder.queryParamIfPresent("pageNumber", Optional.ofNullable(pageNumber));
+        uriComponentsBuilder.queryParamIfPresent("pageSize", Optional.ofNullable(pageSize));
 
         // Vamos a ver distintos tipos de trabajar con un JSON devuelto por el backend.
 
