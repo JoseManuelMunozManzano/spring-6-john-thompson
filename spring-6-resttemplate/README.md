@@ -36,6 +36,10 @@ Lo normal es mantener las configuraciones en un paquete `config` para mantenerlo
 
 Se usa la anotación `@Value` y la property se crea en `application.properties`.
 
+5. UriComponentsBuilder: Nos permite construir el path para incluir query parameters.
+
+Configuramos nuestro RestTemplate para utilizar UriComponentsBuilder, ya que, gracias a él, vamos a poder pasar parámetros, sobre todo lo que hace es componer la URI, tratando caracteres especiales que necesiten encoding.
+
 ## Testing
 
 - Clonar el repositorio

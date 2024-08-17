@@ -9,6 +9,7 @@ import org.springframework.data.domain.Page;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 import org.springframework.web.client.RestTemplate;
+import org.springframework.web.util.UriComponentsBuilder;
 
 import java.util.Map;
 
@@ -31,6 +32,9 @@ public class BeerClientImpl implements BeerClient {
     public Page<BeerDTO> listBeers() {
         // Lo primero siempre es obtener una instancia de RestTemplate, usando el builder.
         RestTemplate restTemplate = restTemplateBuilder.build();
+
+        // Uso de UriComponentsBuilder para construir el path y poder incluir query parameters.
+        UriComponentsBuilder uriComponentsBuilder = UriComponentsBuilder.fromPath(GET_BEER_PATH);
 
         // Vamos a ver distintos tipos de trabajar con un JSON devuelto por el backend.
 
@@ -78,8 +82,11 @@ public class BeerClientImpl implements BeerClient {
         // Es lo que más poder y flexibilidad da porque usamos las capacidades de fuerte tipado de Java.
         // Como Page es una interface, usamos su implementación, pero Jackson no sabe como construirlo.
         // Lo que hay que hacer es extender nuestra propia implementación. Ver BeerDTOPageImpl.java
+        //
+        // Seguimos evolucionando este y dejamos los demás como ejemplos.
+        // Usamos nuestro UriComponentsBuilder.
         ResponseEntity<BeerDTOPageImpl> response =
-                restTemplate.getForEntity(GET_BEER_PATH, BeerDTOPageImpl.class);
+                restTemplate.getForEntity(uriComponentsBuilder.toUriString(), BeerDTOPageImpl.class);
 
         return response.getBody();
     }
