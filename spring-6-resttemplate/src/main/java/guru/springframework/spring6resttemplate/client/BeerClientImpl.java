@@ -14,6 +14,7 @@ import org.springframework.web.util.UriComponentsBuilder;
 
 import java.util.Map;
 import java.util.Optional;
+import java.util.UUID;
 
 @RequiredArgsConstructor
 @Service
@@ -29,6 +30,7 @@ public class BeerClientImpl implements BeerClient {
     // Teniendo ya la propiedad, esta constante sobra porque la coge de la configuración.
 
     private static final String GET_BEER_PATH = "/api/v1/beer";
+    private static final String GET_BEER_BY_ID_PATH = "/api/v1/beer/{beerId}";
 
     @Override
     public Page<BeerDTO> listBeers() {
@@ -106,5 +108,17 @@ public class BeerClientImpl implements BeerClient {
                 restTemplate.getForEntity(uriComponentsBuilder.toUriString(), BeerDTOPageImpl.class);
 
         return response.getBody();
+    }
+
+    @Override
+    public BeerDTO getBeerById(UUID beerId) {
+
+        RestTemplate restTemplate = restTemplateBuilder.build();
+
+        // Esta vez, en vez de obtener ResponseEntity vamos a obtener (por motivos de enseñanza) el objeto.
+        // El parámetro beerId sustituye el valor {beerId} de GET_BEER_BY_ID_PATH (no tienen por qué llamarse igual)
+        // El tipo de retorno esperado es BeerDTO, así que Spring va a trabajar con Jackson para parsear el JSON
+        // devuelto por la API para transformarlo a BeerDTO.
+        return restTemplate.getForObject(GET_BEER_BY_ID_PATH, BeerDTO.class, beerId);
     }
 }

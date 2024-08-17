@@ -4,6 +4,8 @@ import guru.springframework.spring6resttemplate.model.BeerDTO;
 import guru.springframework.spring6resttemplate.model.BeerStyle;
 import org.springframework.data.domain.Page;
 
+import java.util.UUID;
+
 public interface BeerClient {
 
     // Para poder trabajar con Page directamente sin usar Spring Data JPA, se incluye en el POM la dependencia
@@ -16,4 +18,6 @@ public interface BeerClient {
     // En este ejemplo pasamos parámetros.
     Page<BeerDTO> listBeers(String beerName, BeerStyle beerStyle, Boolean showInventory,
                             Integer pageNumber, Integer pageSize);
+
+    BeerDTO getBeerById(UUID beerId);
 }
