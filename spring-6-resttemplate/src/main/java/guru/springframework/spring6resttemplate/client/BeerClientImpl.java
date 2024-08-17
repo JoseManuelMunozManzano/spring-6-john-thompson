@@ -30,8 +30,9 @@ public class BeerClientImpl implements BeerClient {
     //
     // Teniendo ya la propiedad, esta constante sobra porque la coge de la configuración.
 
-    private static final String GET_BEER_PATH = "/api/v1/beer";
-    private static final String GET_BEER_BY_ID_PATH = "/api/v1/beer/{beerId}";
+    // Cambiadas de private a public para poder usarlas en los tests.
+    public static final String GET_BEER_PATH = "/api/v1/beer";
+    public static final String GET_BEER_BY_ID_PATH = "/api/v1/beer/{beerId}";
 
     @Override
     public Page<BeerDTO> listBeers() {

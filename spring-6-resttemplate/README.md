@@ -4,6 +4,8 @@ Proyecto nuevo con un ejemplo de uso de RestTemplate para hacer de cliente y rea
 
 Indicar que ahora se usa más WebClient como Rest Client reactivo. Lo veremos más adelante en el curso.
 
+Vamos a ver también ejemplos de como testear RestTemplate. Indicar que es difícil de testear.
+
 ## Notas
 
 1. Vemos pruebas de uso de Jackson para hacer parseo de JSON usando:
@@ -49,4 +51,5 @@ Configuramos nuestro RestTemplate para utilizar UriComponentsBuilder, ya que, gr
   - Se ejecuta en el puerto 8080
 - Ejecutar los tests de este proyecto, que será el cliente y llamará a los endpoints del proyecto backend
   - Mirar el test `BeerClientImplTest`
+  - Los tests que realmente prueban RestTemplate pueden verse en `BeerClientMockTest`
   - No ejecutar el proyecto, solo los tests, ya que el proyecto fallará indicando que el puerto 8080 ya se está usando
