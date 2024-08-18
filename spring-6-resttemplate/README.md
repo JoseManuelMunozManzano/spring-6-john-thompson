@@ -44,6 +44,21 @@ Configuramos nuestro RestTemplate para utilizar UriComponentsBuilder, ya que, gr
 
 6. Vemos como pasar también parámetros de URL usando RestTemplate.
 
+7. En tests, si queremos pasar query parameters que contengan espacios, se puede hacer esto:
+
+```
+  // Notar que para el espacio en blanco se indica %20 (temas de encoding)
+  URI uri = UriComponentsBuilder.fromHttpUrl(URL + BeerClientImpl.GET_BEER_PATH)
+          .queryParam("beerName", "Magic%20Apple")
+          .build().toUri();
+
+  server.expect(method(HttpMethod.GET))
+          .andExpect(requestTo(uri))
+          // Esto ya no haría falta
+          //.andExpect(queryParam("beerName", "Magic%20Apple"))
+          .andRespond(withSuccess(response, MediaType.APPLICATION_JSON));
+```
+
 ## Testing
 
 - Clonar el repositorio

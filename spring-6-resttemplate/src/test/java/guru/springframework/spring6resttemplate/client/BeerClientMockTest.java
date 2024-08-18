@@ -191,6 +191,30 @@ public class BeerClientMockTest {
         // Como delete no devuelve nada, solo verificamos que se ha realizado la llamada al mock.
         server.verify();
     }
+    
+    // Test donde se usan query parameters
+    @Test
+    void testListBeersWithQueryParam() throws JsonProcessingException {
+
+        String response = objectMapper.writeValueAsString(getPage());
+
+        // Aquí indicamos los query parameters.
+        // Notar que para el espacio en blanco se indica %20 (temas de encoding)
+        URI uri = UriComponentsBuilder.fromHttpUrl(URL + BeerClientImpl.GET_BEER_PATH)
+                .queryParam("beerName", "Magic%20Apple")
+                .build().toUri();
+
+        server.expect(method(HttpMethod.GET))
+                .andExpect(requestTo(uri))
+                // Esto ya no haría falta
+                //.andExpect(queryParam("beerName", "Magic%20Apple"))
+                .andRespond(withSuccess(response, MediaType.APPLICATION_JSON));
+
+        Page<BeerDTO> responsePage = beerClient
+                .listBeers("Magic Apple", null, null, null, null);
+
+        assertThat(responsePage.getContent().size()).isEqualTo(1);
+    }
 
     private void mockGetOperation() {
         server.expect(method(HttpMethod.GET))
