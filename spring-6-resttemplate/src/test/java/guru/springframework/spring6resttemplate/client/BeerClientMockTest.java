@@ -18,6 +18,7 @@ import org.springframework.data.domain.Page;
 import org.springframework.http.HttpMethod;
 import org.springframework.http.MediaType;
 import org.springframework.test.web.client.MockRestServiceServer;
+import org.springframework.web.client.HttpClientErrorException;
 import org.springframework.web.client.RestTemplate;
 import org.springframework.web.util.UriComponentsBuilder;
 
@@ -27,6 +28,7 @@ import java.util.Collections;
 import java.util.UUID;
 
 import static org.assertj.core.api.Assertions.assertThat;
+import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.mockito.Mockito.when;
 import static org.springframework.test.web.client.match.MockRestRequestMatchers.*;
 import static org.springframework.test.web.client.response.MockRestResponseCreators.*;
@@ -158,6 +160,23 @@ public class BeerClientMockTest {
 
         BeerDTO responseDto = beerClient.updateBeer(beerDto);
         assertThat(responseDto.getId()).isEqualTo(beerDto.getId());
+    }
+
+    @Test
+    void testDeleteNotFound() {
+
+        // Indicamos en el .andRespond: withResourceNotFound()
+        server.expect(method(HttpMethod.DELETE))
+                .andExpect(requestToUriTemplate(URL + BeerClientImpl.GET_BEER_BY_ID_PATH, beerDto.getId()))
+                .andRespond(withResourceNotFound());
+
+        // He sabido que era esta excepción ejecutando deleteBeer y viendo qué excepción me daba.
+        assertThrows(HttpClientErrorException.class, () -> {
+            beerClient.deleteBeer(beerDto.getId());
+        });
+
+        // Verificamos que se lanza la excepción.
+        server.verify();
     }
 
     @Test

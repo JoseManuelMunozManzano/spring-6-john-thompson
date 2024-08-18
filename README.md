@@ -64,7 +64,7 @@
   - spring-6-resttemplate
     - Proyecto nuevo con un ejemplo de uso de RestTemplate para hacer de cliente y realizar llamadas a endpoints del proyecto `spring-6-db-relationships`
     - Se ven muchos ejemplos de uso de Jackson
-    - Se ve como se testea Spring RestTemplate
+    - Se ve como se testea Spring RestTemplate usando Mockito
 
 ## URLs con documentación
 
