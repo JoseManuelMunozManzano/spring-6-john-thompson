@@ -26,8 +26,7 @@ import java.util.UUID;
 
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.mockito.Mockito.when;
-import static org.springframework.test.web.client.match.MockRestRequestMatchers.method;
-import static org.springframework.test.web.client.match.MockRestRequestMatchers.requestTo;
+import static org.springframework.test.web.client.match.MockRestRequestMatchers.*;
 import static org.springframework.test.web.client.response.MockRestResponseCreators.withSuccess;
 
 // La dificultad de hacer testing a RestTemplate es que por debajo se está usando el cliente RestTemplate real,
@@ -89,7 +88,6 @@ public class BeerClientMockTest {
     // Es decir, vamos a imitar el comportamiento que queremos para testear nuestro rest client, proporcionándole
     // un RestTemplate debidamente configurado que queda enlazado al mock server usando Mockito.
     //
-    // Comparar el commit anterior con este para ver las diferencias a la hora de resolver el problema.
     // El test ya funciona.
     @Test
     void testListBeers() throws JsonProcessingException {
@@ -105,6 +103,25 @@ public class BeerClientMockTest {
         Page<BeerDTO> dtos = beerClient.listBeers();
 
         assertThat(dtos.getContent().size()).isGreaterThan(0);
+    }
+
+    @Test
+    void testGetBeerById() throws JsonProcessingException {
+
+        // Obtenemos un BeerDTO con un id concreto.
+        BeerDTO beerDTO = getBeerDto();
+
+        // Configuramos el mock para devolver el response JSON.
+        String response = objectMapper.writeValueAsString(beerDTO);
+
+        // Configuramos la interacción con el mock
+        server.expect(method(HttpMethod.GET))
+                .andExpect(requestToUriTemplate(URL + BeerClientImpl.GET_BEER_BY_ID_PATH, beerDTO.getId()))
+                .andRespond(withSuccess(response, MediaType.APPLICATION_JSON));
+
+        BeerDTO responseDto = beerClient.getBeerById(beerDTO.getId());
+
+        assertThat(responseDto.getId()).isEqualTo(beerDTO.getId());
     }
 
     BeerDTO getBeerDto() {
