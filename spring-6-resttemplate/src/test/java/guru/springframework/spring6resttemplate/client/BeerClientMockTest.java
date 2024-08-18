@@ -19,14 +19,17 @@ import org.springframework.http.HttpMethod;
 import org.springframework.http.MediaType;
 import org.springframework.test.web.client.MockRestServiceServer;
 import org.springframework.web.client.RestTemplate;
+import org.springframework.web.util.UriComponentsBuilder;
 
 import java.math.BigDecimal;
+import java.net.URI;
 import java.util.Collections;
 import java.util.UUID;
 
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.mockito.Mockito.when;
 import static org.springframework.test.web.client.match.MockRestRequestMatchers.*;
+import static org.springframework.test.web.client.response.MockRestResponseCreators.withAccepted;
 import static org.springframework.test.web.client.response.MockRestResponseCreators.withSuccess;
 
 // La dificultad de hacer testing a RestTemplate es que por debajo se está usando el cliente RestTemplate real,
@@ -109,19 +112,47 @@ public class BeerClientMockTest {
     void testGetBeerById() throws JsonProcessingException {
 
         // Obtenemos un BeerDTO con un id concreto.
-        BeerDTO beerDTO = getBeerDto();
+        BeerDTO beerDto = getBeerDto();
 
         // Configuramos el mock para devolver el response JSON.
-        String response = objectMapper.writeValueAsString(beerDTO);
+        String response = objectMapper.writeValueAsString(beerDto);
 
         // Configuramos la interacción con el mock
         server.expect(method(HttpMethod.GET))
-                .andExpect(requestToUriTemplate(URL + BeerClientImpl.GET_BEER_BY_ID_PATH, beerDTO.getId()))
+                .andExpect(requestToUriTemplate(URL + BeerClientImpl.GET_BEER_BY_ID_PATH, beerDto.getId()))
                 .andRespond(withSuccess(response, MediaType.APPLICATION_JSON));
 
-        BeerDTO responseDto = beerClient.getBeerById(beerDTO.getId());
+        BeerDTO responseDto = beerClient.getBeerById(beerDto.getId());
 
-        assertThat(responseDto.getId()).isEqualTo(beerDTO.getId());
+        assertThat(responseDto.getId()).isEqualTo(beerDto.getId());
+    }
+
+    @Test
+    void testCreateBeer() throws JsonProcessingException {
+
+        // Obtenemos un BeerDTO con un id concreto.
+        BeerDTO beerDto = getBeerDto();
+
+        // Configuramos el mock para devolver el response JSON.
+        String response = objectMapper.writeValueAsString(beerDto);
+
+        // Para la parte del POST.
+        // Notar el andRespond, donde indicamos que hay un location correcto (el POST no devolvía nada)
+        URI uri = UriComponentsBuilder.fromPath(BeerClientImpl.GET_BEER_BY_ID_PATH)
+                        .build(beerDto.getId());
+
+        server.expect(method(HttpMethod.POST))
+                .andExpect(requestTo(URL + BeerClientImpl.GET_BEER_PATH))
+                .andRespond(withAccepted().location(uri));
+
+        // Para la parte del GET (el POST no devolvía nada)
+        server.expect(method(HttpMethod.GET))
+                .andExpect(requestToUriTemplate(URL + BeerClientImpl.GET_BEER_BY_ID_PATH, beerDto.getId()))
+                .andRespond(withSuccess(response, MediaType.APPLICATION_JSON));
+
+        BeerDTO responseDto = beerClient.createBeer(beerDto);
+
+        assertThat(responseDto.getId()).isEqualTo(beerDto.getId());
     }
 
     BeerDTO getBeerDto() {
