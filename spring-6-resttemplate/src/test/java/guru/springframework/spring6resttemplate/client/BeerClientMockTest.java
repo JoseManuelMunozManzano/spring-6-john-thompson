@@ -67,8 +67,11 @@ public class BeerClientMockTest {
     @Mock
     RestTemplateBuilder mockRestTemplateBuilder = new RestTemplateBuilder(new MockServerRestTemplateCustomizer());
 
+    BeerDTO beerDto;
+    String dtoJson;
+
     @BeforeEach
-    void setUp() {
+    void setUp() throws JsonProcessingException {
         // Creamos una instancia de RestTemplate usando nuestro builder por defecto.
         // Este es el RestTemplate object que ha sido enlazado al server.
         RestTemplate restTemplate = restTemplateBuilderConfigured.build();
@@ -77,6 +80,12 @@ public class BeerClientMockTest {
 
         // Inyectamos a la implementación de BeerClient nuestro template builder.
         beerClient = new BeerClientImpl(mockRestTemplateBuilder);
+
+        // Obtenemos un BeerDTO con un id concreto.
+        beerDto = getBeerDto();
+
+        // Configuramos el mock para devolver esta respuesta JSON.
+        dtoJson = objectMapper.writeValueAsString(beerDto);
     }
 
     // Este test nos falla con el siguiente error:
@@ -109,18 +118,12 @@ public class BeerClientMockTest {
     }
 
     @Test
-    void testGetBeerById() throws JsonProcessingException {
-
-        // Obtenemos un BeerDTO con un id concreto.
-        BeerDTO beerDto = getBeerDto();
-
-        // Configuramos el mock para devolver el response JSON.
-        String response = objectMapper.writeValueAsString(beerDto);
+    void testGetBeerById() {
 
         // Configuramos la interacción con el mock
         server.expect(method(HttpMethod.GET))
                 .andExpect(requestToUriTemplate(URL + BeerClientImpl.GET_BEER_BY_ID_PATH, beerDto.getId()))
-                .andRespond(withSuccess(response, MediaType.APPLICATION_JSON));
+                .andRespond(withSuccess(dtoJson, MediaType.APPLICATION_JSON));
 
         BeerDTO responseDto = beerClient.getBeerById(beerDto.getId());
 
@@ -128,13 +131,7 @@ public class BeerClientMockTest {
     }
 
     @Test
-    void testCreateBeer() throws JsonProcessingException {
-
-        // Obtenemos un BeerDTO con un id concreto.
-        BeerDTO beerDto = getBeerDto();
-
-        // Configuramos el mock para devolver el response JSON.
-        String response = objectMapper.writeValueAsString(beerDto);
+    void testCreateBeer() {
 
         // Para la parte del POST.
         // Notar el andRespond, donde indicamos que hay un location correcto (el POST no devolvía nada)
@@ -148,7 +145,7 @@ public class BeerClientMockTest {
         // Para la parte del GET (el POST no devolvía nada)
         server.expect(method(HttpMethod.GET))
                 .andExpect(requestToUriTemplate(URL + BeerClientImpl.GET_BEER_BY_ID_PATH, beerDto.getId()))
-                .andRespond(withSuccess(response, MediaType.APPLICATION_JSON));
+                .andRespond(withSuccess(dtoJson, MediaType.APPLICATION_JSON));
 
         BeerDTO responseDto = beerClient.createBeer(beerDto);
 
