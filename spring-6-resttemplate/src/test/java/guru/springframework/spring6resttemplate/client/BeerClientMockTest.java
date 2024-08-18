@@ -29,8 +29,7 @@ import java.util.UUID;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.mockito.Mockito.when;
 import static org.springframework.test.web.client.match.MockRestRequestMatchers.*;
-import static org.springframework.test.web.client.response.MockRestResponseCreators.withAccepted;
-import static org.springframework.test.web.client.response.MockRestResponseCreators.withSuccess;
+import static org.springframework.test.web.client.response.MockRestResponseCreators.*;
 
 // La dificultad de hacer testing a RestTemplate es que por debajo se está usando el cliente RestTemplate real,
 // por lo que, por defecto, va a intentar conectarse a un servidor real.
@@ -121,9 +120,7 @@ public class BeerClientMockTest {
     void testGetBeerById() {
 
         // Configuramos la interacción con el mock
-        server.expect(method(HttpMethod.GET))
-                .andExpect(requestToUriTemplate(URL + BeerClientImpl.GET_BEER_BY_ID_PATH, beerDto.getId()))
-                .andRespond(withSuccess(dtoJson, MediaType.APPLICATION_JSON));
+        mockGetOperation();
 
         BeerDTO responseDto = beerClient.getBeerById(beerDto.getId());
 
@@ -143,13 +140,30 @@ public class BeerClientMockTest {
                 .andRespond(withAccepted().location(uri));
 
         // Para la parte del GET (el POST no devolvía nada)
-        server.expect(method(HttpMethod.GET))
-                .andExpect(requestToUriTemplate(URL + BeerClientImpl.GET_BEER_BY_ID_PATH, beerDto.getId()))
-                .andRespond(withSuccess(dtoJson, MediaType.APPLICATION_JSON));
+        mockGetOperation();
 
         BeerDTO responseDto = beerClient.createBeer(beerDto);
 
         assertThat(responseDto.getId()).isEqualTo(beerDto.getId());
+    }
+
+    @Test
+    void testUpdateBeer() {
+
+        server.expect(method(HttpMethod.PUT))
+                .andExpect(requestToUriTemplate(URL + BeerClientImpl.GET_BEER_BY_ID_PATH, beerDto.getId()))
+                .andRespond(withNoContent());
+
+        mockGetOperation();
+
+        BeerDTO responseDto = beerClient.updateBeer(beerDto);
+        assertThat(responseDto.getId()).isEqualTo(beerDto.getId());
+    }
+
+    private void mockGetOperation() {
+        server.expect(method(HttpMethod.GET))
+                .andExpect(requestToUriTemplate(URL + BeerClientImpl.GET_BEER_BY_ID_PATH, beerDto.getId()))
+                .andRespond(withSuccess(dtoJson, MediaType.APPLICATION_JSON));
     }
 
     BeerDTO getBeerDto() {
