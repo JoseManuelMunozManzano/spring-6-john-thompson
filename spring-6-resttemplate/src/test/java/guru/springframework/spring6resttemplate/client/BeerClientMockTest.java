@@ -131,7 +131,7 @@ public class BeerClientMockTest {
     void testCreateBeer() {
 
         // Para la parte del POST.
-        // Notar el andRespond, donde indicamos que hay un location correcto (el POST no devolvía nada)
+        // Notar el andRespond, donde indicamos que hay un location correcto (en el Body no viene el objeto creado)
         URI uri = UriComponentsBuilder.fromPath(BeerClientImpl.GET_BEER_BY_ID_PATH)
                         .build(beerDto.getId());
 
@@ -139,7 +139,7 @@ public class BeerClientMockTest {
                 .andExpect(requestTo(URL + BeerClientImpl.GET_BEER_PATH))
                 .andRespond(withAccepted().location(uri));
 
-        // Para la parte del GET (el POST no devolvía nada)
+        // Para la parte del GET (en el body no venía el objeto creado)
         mockGetOperation();
 
         BeerDTO responseDto = beerClient.createBeer(beerDto);
@@ -158,6 +158,19 @@ public class BeerClientMockTest {
 
         BeerDTO responseDto = beerClient.updateBeer(beerDto);
         assertThat(responseDto.getId()).isEqualTo(beerDto.getId());
+    }
+
+    @Test
+    void testDeleteBeer() {
+
+        server.expect(method(HttpMethod.DELETE))
+                .andExpect(requestToUriTemplate(URL + BeerClientImpl.GET_BEER_BY_ID_PATH, beerDto.getId()))
+                .andRespond(withNoContent());
+
+        beerClient.deleteBeer(beerDto.getId());
+
+        // Como delete no devuelve nada, solo verificamos que se ha realizado la llamada al mock.
+        server.verify();
     }
 
     private void mockGetOperation() {
