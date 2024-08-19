@@ -65,6 +65,9 @@
     - Proyecto nuevo con un ejemplo de uso de RestTemplate para hacer de cliente y realizar llamadas a endpoints del proyecto `spring-6-db-relationships`
     - Se ven muchos ejemplos de uso de Jackson
     - Se ve como se testea Spring RestTemplate usando Mockito
+- Spring Security Basic Auth
+  - spring-6-security-basic
+    - Seguimos con el proyecto `spring-6-db-relationships` con un ejemplo de como securizar nuestras APIs
 
 ## URLs con documentación
 
