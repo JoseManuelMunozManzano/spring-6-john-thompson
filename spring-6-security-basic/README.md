@@ -24,6 +24,12 @@ Y, en esta imagen de la ejecución del proyecto, puede verse que se ha autogener
 
 ![alt Basic Authentication](../images/14-Postman-Basic-Auth.png)
 
+3. Cómo configurar el usuario y el password para evitar que sean las que da Spring Security por defecto.
+
+Se configuran en `application.properties`.
+
+Ahora deberemos cambiar el Username y el Password de Postman a estos valores seleccionados por nosotros.
+
 ## Testing
 
 - Clonar el repositorio
