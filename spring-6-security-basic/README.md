@@ -52,6 +52,14 @@ Para testing se añade una nueva dependencia:
 </dependency>
 ```
 
+5. Testing. Clase de configuración para deshabilitar CSRF
+
+Para poder testear endpoints distintos a GET, se debe deshabilitar CSRF. Si no, el test arroja un error 403.
+
+Esto se hace con una clase de configuración (ver `config/SpringSecConfig.java`) y se añade un Spring Security Filter Chain para deshabilitar CSRF.
+
+Luego se importa esta clase de configuración al test (ver `BeerControllerTest.java`)
+
 ## Testing
 
 - Clonar el repositorio

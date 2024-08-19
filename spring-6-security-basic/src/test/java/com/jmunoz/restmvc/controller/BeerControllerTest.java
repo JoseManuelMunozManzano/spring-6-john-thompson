@@ -1,6 +1,7 @@
 package com.jmunoz.restmvc.controller;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.jmunoz.restmvc.config.SpringSecConfig;
 import com.jmunoz.restmvc.model.BeerDto;
 import com.jmunoz.restmvc.model.BeerStyle;
 import com.jmunoz.restmvc.services.BeerService;
@@ -11,6 +12,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
+import org.springframework.context.annotation.Import;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageImpl;
 import org.springframework.http.MediaType;
@@ -32,7 +34,11 @@ import static org.springframework.test.web.servlet.request.MockMvcRequestBuilder
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
 
 // Esta anotación indica que es un test splice, y queremos limitarlo a la clase BeerController.
+//
+// Security: Para que no fallen los endpoints distintos a GET (como POST, PUT...) hemos creado una clase de
+// configuración que tenemos que importar.
 @WebMvcTest(BeerController.class)
+@Import(SpringSecConfig.class)
 class BeerControllerTest {
 
     // Cogemos de las properties los valores de user y password usados con Http Basic Authentication
@@ -173,7 +179,9 @@ class BeerControllerTest {
         // Notar el último andExpect(), indicando que obtenemos dos errores de validación, y el .andReturn()
         //
         // Añadimos la parte de seguridad. Con un POST no funciona porque por defecto, Spring Security solo permite
-        // operaciones GET. Se necesita configuración adicional para que esto acabe funcionando (deshabilitar CSRF)
+        // operaciones GET. Se necesita configuración adicional para que esto acabe funcionando.
+        // En concreto se crea una clase de configuración (la hemos llamado SpringSecConfig) donde se deshabilita CSRF,
+        // e importamos esa clase, con lo que acaba funcionando el test.
         MvcResult mvcResult = mockMvc.perform(post(BeerController.BEER_PATH)
                         .with(httpBasic(user, password))
                 .accept(MediaType.APPLICATION_JSON)
