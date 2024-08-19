@@ -30,6 +30,28 @@ Se configuran en `application.properties`.
 
 Ahora deberemos cambiar el Username y el Password de Postman a estos valores seleccionados por nosotros.
 
+4. Testing Spring Security con JUnit5
+
+Obviamente, el hecho de haber añadido seguridad, cambia la naturaleza de nuestros tests.
+
+Cuando en nuestros tests no traemos el contexto de aplicación web, usando `@WebMvcTest`, los tests fallan.
+
+Es decir, un contexto donde tenemos mock falla porque obtiene por defecto el filtro de Spring Security, mientras que un contexto con `@SpringBootTest` no obtiene el filtro de Spring Security y por eso el test sigue funcionando, aunque lo correcto es que ¡deberían fallar!
+
+Por tanto, tenemos dos problemas:
+
+- Se añade el filtro
+- Nuestros tests no tienen el user
+
+Para testing se añade una nueva dependencia:
+
+```
+<dependency>
+    <groupId>org.springframework.security</groupId>
+    <artifactId>spring-security-test</artifactId>
+</dependency>
+```
+
 ## Testing
 
 - Clonar el repositorio

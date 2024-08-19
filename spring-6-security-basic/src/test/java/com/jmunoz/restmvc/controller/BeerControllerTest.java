@@ -8,6 +8,7 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.mockito.ArgumentCaptor;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.data.domain.Page;
@@ -26,12 +27,20 @@ import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.ArgumentMatchers.eq;
 import static org.mockito.BDDMockito.given;
 import static org.mockito.Mockito.verify;
+import static org.springframework.security.test.web.servlet.request.SecurityMockMvcRequestPostProcessors.httpBasic;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
 
 // Esta anotación indica que es un test splice, y queremos limitarlo a la clase BeerController.
 @WebMvcTest(BeerController.class)
 class BeerControllerTest {
+
+    // Cogemos de las properties los valores de user y password usados con Http Basic Authentication
+    @Value("${spring.security.user.name}")
+    private String user;
+
+    @Value("${spring.security.user.password}")
+    private String password;
 
     // Esto configura Spring MockMvc
     @Autowired
@@ -162,7 +171,11 @@ class BeerControllerTest {
 
         // Recuperando información del error devuelto por el controller.
         // Notar el último andExpect(), indicando que obtenemos dos errores de validación, y el .andReturn()
+        //
+        // Añadimos la parte de seguridad. Con un POST no funciona porque por defecto, Spring Security solo permite
+        // operaciones GET. Se necesita configuración adicional para que esto acabe funcionando (deshabilitar CSRF)
         MvcResult mvcResult = mockMvc.perform(post(BeerController.BEER_PATH)
+                        .with(httpBasic(user, password))
                 .accept(MediaType.APPLICATION_JSON)
                 .contentType(MediaType.APPLICATION_JSON)
                 .content(objectMapper.writeValueAsString(beerDto)))
@@ -182,7 +195,10 @@ class BeerControllerTest {
         given(beerService.listBeers(any(), any())).willReturn(beers);
 
         // En este caso hacemos aserciones sobre la lista, en concreto su longitud.
+        //
+        // Añadimos la parte de seguridad. Con un GET funciona correctamente.
         mockMvc.perform(get(BeerController.BEER_PATH)
+                        .with(httpBasic(user, password))
                 .accept(MediaType.APPLICATION_JSON))
                 .andExpect(status().isOk())
                 .andExpect(content().contentType(MediaType.APPLICATION_JSON))
