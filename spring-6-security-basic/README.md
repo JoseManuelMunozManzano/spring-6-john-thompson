@@ -12,10 +12,17 @@ Lo que vamos a hacer en esta y las siguientes secciones, es configurar Spring Au
 
 ## Notas
 
+1. Una vez añadida la dependencia en el POM, Spring Boot autoconfigura HTTP Basic Security y securiza todos los endpoints.
+
+Por defecto, el username es `user`.
+
+Y, en esta imagen de la ejecución del proyecto, puede verse que se ha autogenerado un password (cambia con cada ejecución) para desarrollo.
+
+![alt Basic Authentication](../images/13-SpringSecurity-Basic-Authentication.png)
+
 ## Testing
 
 - Clonar el repositorio
 - Renombrar `application-localmysql.template.properties` a `application-localmysql.properties` e indicar sus valores
 - Ejecutar el proyecto con el siguiente profile activo `-Dspring.profiles.active=localmysql`
   - Importante si queremos usar MySql en vez de H2
-- Ejecutar todos los tests
