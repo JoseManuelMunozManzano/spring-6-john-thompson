@@ -68,6 +68,8 @@
 - Spring Security Basic Auth
   - spring-6-security-basic
     - Seguimos con el proyecto `spring-6-db-relationships` con un ejemplo de como securizar nuestras APIs
+  - spring-6-resttemplate-security-basic
+    - Añadimos seguridad básica al proyecto Rest Template
 
 ## URLs con documentación
 
