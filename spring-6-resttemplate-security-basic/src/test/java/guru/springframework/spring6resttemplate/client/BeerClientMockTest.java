@@ -10,6 +10,7 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.mockito.Mock;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.test.autoconfigure.web.client.RestClientTest;
 import org.springframework.boot.test.web.client.MockServerRestTemplateCustomizer;
 import org.springframework.boot.web.client.RestTemplateBuilder;
@@ -46,6 +47,9 @@ import static org.springframework.test.web.client.response.MockRestResponseCreat
 public class BeerClientMockTest {
 
     static final String URL = "http://localhost:8080";
+
+    @Value("${rest.template.password-base64}")
+    private String passwordBase64;
 
     // Para evitar el fallo del test, no necesitamos el client del contexto.
     // @Autowired
@@ -110,6 +114,8 @@ public class BeerClientMockTest {
 
         // Configuramos la interacción con el mock
         server.expect(method(HttpMethod.GET))
+                // Añadimos HTTP Basic Authorization en contexto de Mock para que pase cabecera con autorización.
+                .andExpect(header("Authorization", "Basic " + passwordBase64))
                 .andExpect(requestTo(URL + BeerClientImpl.GET_BEER_PATH))
                 .andRespond(withSuccess(payload, MediaType.APPLICATION_JSON));
 
@@ -138,6 +144,7 @@ public class BeerClientMockTest {
                         .build(beerDto.getId());
 
         server.expect(method(HttpMethod.POST))
+                .andExpect(header("Authorization", "Basic " + passwordBase64))
                 .andExpect(requestTo(URL + BeerClientImpl.GET_BEER_PATH))
                 .andRespond(withAccepted().location(uri));
 
@@ -153,6 +160,7 @@ public class BeerClientMockTest {
     void testUpdateBeer() {
 
         server.expect(method(HttpMethod.PUT))
+                .andExpect(header("Authorization", "Basic " + passwordBase64))
                 .andExpect(requestToUriTemplate(URL + BeerClientImpl.GET_BEER_BY_ID_PATH, beerDto.getId()))
                 .andRespond(withNoContent());
 
@@ -167,6 +175,7 @@ public class BeerClientMockTest {
 
         // Indicamos en el .andRespond: withResourceNotFound()
         server.expect(method(HttpMethod.DELETE))
+                .andExpect(header("Authorization", "Basic " + passwordBase64))
                 .andExpect(requestToUriTemplate(URL + BeerClientImpl.GET_BEER_BY_ID_PATH, beerDto.getId()))
                 .andRespond(withResourceNotFound());
 
@@ -183,6 +192,7 @@ public class BeerClientMockTest {
     void testDeleteBeer() {
 
         server.expect(method(HttpMethod.DELETE))
+                .andExpect(header("Authorization", "Basic " + passwordBase64))
                 .andExpect(requestToUriTemplate(URL + BeerClientImpl.GET_BEER_BY_ID_PATH, beerDto.getId()))
                 .andRespond(withNoContent());
 
@@ -206,6 +216,7 @@ public class BeerClientMockTest {
 
         server.expect(method(HttpMethod.GET))
                 .andExpect(requestTo(uri))
+                .andExpect(header("Authorization", "Basic " + passwordBase64))
                 // Esto ya no haría falta
                 //.andExpect(queryParam("beerName", "Magic%20Apple"))
                 .andRespond(withSuccess(response, MediaType.APPLICATION_JSON));
@@ -219,6 +230,7 @@ public class BeerClientMockTest {
     private void mockGetOperation() {
         server.expect(method(HttpMethod.GET))
                 .andExpect(requestToUriTemplate(URL + BeerClientImpl.GET_BEER_BY_ID_PATH, beerDto.getId()))
+                .andExpect(header("Authorization", "Basic " + passwordBase64))
                 .andRespond(withSuccess(dtoJson, MediaType.APPLICATION_JSON));
     }
 
