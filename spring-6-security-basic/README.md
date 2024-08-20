@@ -60,9 +60,23 @@ Esto se hace con una clase de configuración (ver `config/SpringSecConfig.java`)
 
 Luego se importa esta clase de configuración al test (ver `BeerControllerTest.java`)
 
+6. Testing. Clases de test IT
+
+Para que se aplique la seguridad, al construir mockMvc, hay que aplicar `springSecurity()`
+
+```
+@BeforeEach
+void setUp() {
+    mockMvc = MockMvcBuilders.webAppContextSetup(wac)
+            .apply(springSecurity())
+            .build();
+}
+```
+
 ## Testing
 
 - Clonar el repositorio
 - Renombrar `application-localmysql.template.properties` a `application-localmysql.properties` e indicar sus valores
 - Ejecutar el proyecto con el siguiente profile activo `-Dspring.profiles.active=localmysql`
   - Importante si queremos usar MySql en vez de H2
+- Ejecutar los tests

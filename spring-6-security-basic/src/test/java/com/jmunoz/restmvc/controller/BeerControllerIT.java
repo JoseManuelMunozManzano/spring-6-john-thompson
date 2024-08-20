@@ -10,11 +10,13 @@ import org.hamcrest.core.IsNull;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.data.domain.Page;
 import org.springframework.http.HttpStatusCode;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.AccessDeniedException;
 import org.springframework.test.annotation.Rollback;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.MvcResult;
@@ -27,6 +29,8 @@ import java.util.*;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.hamcrest.core.Is.is;
 import static org.junit.jupiter.api.Assertions.assertThrows;
+import static org.springframework.security.test.web.servlet.request.SecurityMockMvcRequestPostProcessors.httpBasic;
+import static org.springframework.security.test.web.servlet.setup.SecurityMockMvcConfigurers.springSecurity;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
 
@@ -39,6 +43,13 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 
 @SpringBootTest
 class BeerControllerIT {
+
+    // Cogemos de las properties los valores de user y password usados con Http Basic Authentication
+    @Value("${spring.security.user.name}")
+    private String user;
+
+    @Value("${spring.security.user.password}")
+    private String password;
 
     @Autowired
     BeerController beerController;
@@ -75,7 +86,12 @@ class BeerControllerIT {
     void setUp() {
         // Vemos que inyectamos Spring Web Application Context a MockMvc. Esto configura el entorno Mock MVC
         // con el repository de Spring Data inyectado.
-        mockMvc = MockMvcBuilders.webAppContextSetup(wac).build();
+        //
+        // Para que se aplique la seguridad es necesario incluir .apply(springSecurity()) exportándolo de
+        // org.springframework.security.test.web.servlet.setup.
+        mockMvc = MockMvcBuilders.webAppContextSetup(wac)
+                .apply(springSecurity())
+                .build();
     }
 
     @Test
@@ -230,6 +246,7 @@ class BeerControllerIT {
         beerMap.put("beerName", "New Name 12345678901234567890123456789012345678901234567890123456789012345678901234567890");
 
         MvcResult result = mockMvc.perform(patch(BeerController.BEER_PATH_ID, beer.getId())
+                        .with(httpBasic(user, password))
                         .contentType(MediaType.APPLICATION_JSON)
                         .accept(MediaType.APPLICATION_JSON)
                         .content(objectMapper.writeValueAsString(beerMap)))
@@ -251,6 +268,7 @@ class BeerControllerIT {
     void testListBeersByName() throws Exception {
 
         mockMvc.perform(get(BeerController.BEER_PATH)
+                        .with(httpBasic(user, password))
                 .queryParam("beerName", "IPA")
                 .queryParam("pageSize", "800"))
                 .andExpect(status().isOk())
@@ -261,6 +279,7 @@ class BeerControllerIT {
     void testListBeersByStyle() throws Exception {
 
         mockMvc.perform(get(BeerController.BEER_PATH)
+                        .with(httpBasic(user, password))
                 .queryParam("beerStyle", BeerStyle.IPA.name())
                 .queryParam("pageSize", "800"))
                 .andExpect(status().isOk())
@@ -271,6 +290,7 @@ class BeerControllerIT {
     void testListBeersByStyleAndName() throws Exception {
 
         mockMvc.perform(get(BeerController.BEER_PATH)
+                        .with(httpBasic(user, password))
                 .queryParam("beerName", "IPA")
                 .queryParam("beerStyle", BeerStyle.IPA.name())
                 .queryParam("pageSize", "800"))
@@ -282,6 +302,7 @@ class BeerControllerIT {
     void testListBeersByStyleAndNameShowInventoryFalse() throws Exception {
 
         mockMvc.perform(get(BeerController.BEER_PATH)
+                        .with(httpBasic(user, password))
                 .queryParam("beerName", "IPA")
                 .queryParam("beerStyle", BeerStyle.IPA.name())
                 .queryParam("showInventory", "FALSE")
@@ -295,6 +316,7 @@ class BeerControllerIT {
     void testListBeersByStyleAndNameShowInventoryTrue() throws Exception {
 
         mockMvc.perform(get(BeerController.BEER_PATH)
+                        .with(httpBasic(user, password))
                         .queryParam("beerName", "IPA")
                         .queryParam("beerStyle", BeerStyle.IPA.name())
                         .queryParam("showInventory", "TRUE")
@@ -311,6 +333,7 @@ class BeerControllerIT {
     void testListBeersByStyleAndNameShowInventoryTruePage2() throws Exception {
 
         mockMvc.perform(get(BeerController.BEER_PATH)
+                        .with(httpBasic(user, password))
                         .queryParam("beerName", "IPA")
                         .queryParam("beerStyle", BeerStyle.IPA.name())
                         .queryParam("showInventory", "TRUE")
@@ -319,5 +342,15 @@ class BeerControllerIT {
                 .andExpect(status().isOk())
                 .andExpect(jsonPath("$.content.size()", is(50)))
                 .andExpect(jsonPath("$.content[0].quantityOnHand").value(IsNull.notNullValue()));
+    }
+    
+    // Test para asegurarnos que funcione la autorización
+    @Test
+    void testNoAuth() throws Exception {
+
+        mockMvc.perform(get(BeerController.BEER_PATH)
+                .queryParam("beerStyle", BeerStyle.IPA.name())
+                .queryParam("pageSize", "800"))
+                .andExpect(status().isUnauthorized());
     }
 }
