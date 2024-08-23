@@ -70,6 +70,14 @@
     - Seguimos con el proyecto `spring-6-db-relationships` con un ejemplo de como securizar nuestras APIs
   - spring-6-resttemplate-security-basic
     - Añadimos seguridad básica al proyecto Rest Template
+- Spring Authorization Server
+  - spring-6-auth-server
+    - Es un nuevo proyecto
+    - Como pasos para conseguir autorización con el framework OAuth2 y token de autenticación JWT (en vez de la seguridad básica que ya hemos visto), vamos a:
+      - Configurar un server de autenticación usando el proyecto Spring Authentication Server
+      - Configurar un resource server
+      - Como puede un RestTemplate obtener el token y usarlo para autenticarse
+    - En este proyecto vemos la configuración del server de autenticación usando el proyecto Spring Authentication Server
 
 ## URLs con documentación
 
@@ -92,3 +100,4 @@
   - Repositorio del proyecto Spring Data Rest. Se puede ir a la documentación oficial, hay ejemplo, se indica como configurar Maven...
 - https://www.arquitecturajava.com/que-es-el-principio-de-hateoas/
 - https://docs.spring.io/spring-data/rest/reference/etags-and-other-conditionals.html
+- https://docs.spring.io/spring-authorization-server/reference/index.html
