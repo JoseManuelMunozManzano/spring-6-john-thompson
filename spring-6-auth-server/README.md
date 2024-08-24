@@ -12,12 +12,14 @@ Vamos a ver en concreto el primer paso
 
 ## Notas
 
-1. Para trabajar con el proyecto Spring Authentication Server hay que añadir la siguiente dependencia al POM 
+1. Para trabajar con el proyecto Spring Authentication Server hay que añadir la siguiente dependencia al POM y se puede seguir la documentación
+
+https://docs.spring.io/spring-authorization-server/reference/getting-started.html
 
 ```
 <dependency>
-    <groupId>org.springframework.security</groupId>
-    <artifactId>spring-security-oauth2-authorization-server</artifactId>
+    <groupId>org.springframework.boot</groupId>
+    <artifactId>spring-boot-starter-oauth2-authorization-server</artifactId>
 </dependency>
 ```
 
