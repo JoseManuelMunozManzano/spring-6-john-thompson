@@ -23,6 +23,12 @@ https://docs.spring.io/spring-authorization-server/reference/getting-started.htm
 </dependency>
 ```
 
+2. En este proyecto se ha tenido que importar muchos paquetes.
+
+IntelliJ lo puede hacer automáticamente con esta configuración.
+
+![alt AutoImport](../images/15-IntelliJ-AutoImport.png)
+
 ## Testing
 
 - Clonar el repositorio
