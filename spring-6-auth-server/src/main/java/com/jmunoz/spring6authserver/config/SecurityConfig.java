@@ -6,8 +6,12 @@ import org.springframework.core.annotation.Order;
 import org.springframework.http.MediaType;
 import org.springframework.security.config.Customizer;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
+import org.springframework.security.core.userdetails.User;
+import org.springframework.security.core.userdetails.UserDetails;
+import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.oauth2.server.authorization.config.annotation.web.configuration.OAuth2AuthorizationServerConfiguration;
 import org.springframework.security.oauth2.server.authorization.config.annotation.web.configurers.OAuth2AuthorizationServerConfigurer;
+import org.springframework.security.provisioning.InMemoryUserDetailsManager;
 import org.springframework.security.web.SecurityFilterChain;
 import org.springframework.security.web.authentication.LoginUrlAuthenticationEntryPoint;
 import org.springframework.security.web.util.matcher.MediaTypeRequestMatcher;
@@ -59,4 +63,24 @@ public class SecurityConfig {
         return http.build();
     }
 
+    // https://stackoverflow.com/questions/49847791/java-spring-security-user-withdefaultpasswordencoder-is-deprecated
+    // User.withDefaultPasswordEncoder() can still be used for demos, you don't have to worry if that's what
+    // you're doing - even if it's deprecated - but in production, you shouldn't have a plain text password
+    // in your source code.
+    //
+    // Lo que hace este méto-do es crear una nueva instancia de UserDetails, que va a usar un default password encoder.
+    // Spring Security, por defecto, hace encriptación de passwords.
+    // En el formulario de login, este es el usuario/password que espera que informemos.
+    // De nuevo, esta es la configuración mínima, nunca recomendada para producción.
+    // Pero si algo va mal y vamos al login, con este usuario/password podremos conectarnos.
+    @Bean
+    public UserDetailsService userDetailsService() {
+        UserDetails userDetails = User.withDefaultPasswordEncoder()
+                .username("user")
+                .password("password")
+                .roles("USER")
+                .build();
+
+        return new InMemoryUserDetailsManager(userDetails);
+    }
 }
