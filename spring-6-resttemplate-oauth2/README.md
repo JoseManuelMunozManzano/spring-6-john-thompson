@@ -45,9 +45,62 @@ La idea es que RestTemplate tenga un interceptor que valide si obtuvo autorizaci
 
 ![alt Clean Cache And Restart](../images/19-IntelliJ-Invalidate-Cache-And-Restart.png)
 
+6. Ejemplo para hacer un mocking de OAuth2 y token JWT
+
+Ver `BeerClientMockTest.java`.
+
+```
+    // @MockBean crea un mock de Mockito y lo añade al contexto de Spring.
+    @MockBean
+    OAuth2AuthorizedClientManager manager;
+
+    // Proveemos configuración en memoria.
+    @TestConfiguration
+    public static class TestConfig {
+
+        @Bean
+        ClientRegistrationRepository clientRegistrationRepository() {
+            return new InMemoryClientRegistrationRepository(ClientRegistration
+                    .withRegistrationId("springauth")
+                    .authorizationGrantType(AuthorizationGrantType.CLIENT_CREDENTIALS)
+                    .clientId("test")
+                    .tokenUri("test")
+                    .build());
+        }
+
+        @Bean
+        OAuth2AuthorizedClientService auth2AuthorizedClientService(ClientRegistrationRepository clientRegistrationRepository) {
+            return new InMemoryOAuth2AuthorizedClientService(clientRegistrationRepository);
+        }
+
+        @Bean
+        OAuthClientInterceptor oAuthClientInterceptor(OAuth2AuthorizedClientManager manager, ClientRegistrationRepository clientRegistrationRepository) {
+            return new OAuthClientInterceptor(manager, clientRegistrationRepository);
+        }
+    }
+
+    // Lo inyecta gracias a que se genera en la clase de arriba como un @Bean.
+    @Autowired
+    ClientRegistrationRepository clientRegistrationRepository;
+
+    @BeforeEach
+    void setUp() throws JsonProcessingException {
+        // Esta es la parte necesaria para configurar el mock de OAuth2 y el token JWT.
+        ClientRegistration clientRegistration = clientRegistrationRepository
+                .findByRegistrationId("springauth");
+
+        OAuth2AccessToken token = new OAuth2AccessToken(OAuth2AccessToken.TokenType.BEARER,
+                "test", Instant.MIN, Instant.MAX);
+
+        when(manager.authorize(any())).thenReturn(new OAuth2AuthorizedClient(clientRegistration, "test", token));
+    }
+```
+
 ## Testing
 
 - Clonar el repositorio
 - Renombrar `application.template.properties` a `application.properties` e indicar sus valores
 - Ejecutar los tests de la clase `BeerClientImplTest.java`
   - Tienen que estar en ejecución los siguientes proyectos: `spring-6-auth-server` y `spring-6-resource-server`
+- Ejecutar los tests de la clase `BeerClientMockTest.java`
+  - Para estos tests no es necesario que se ejecute ningún otro proyecto
