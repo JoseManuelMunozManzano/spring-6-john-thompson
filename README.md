@@ -78,6 +78,10 @@
       - Configurar un resource server
       - Como puede un RestTemplate obtener el token y usarlo para autenticarse
     - En este proyecto vemos la configuración del server de autenticación usando el proyecto Spring Authentication Server
+- Spring MVC OAuth2 Resource Server
+  - spring-6-resource-server
+    - Usando las credenciales de OAuth2 generadas en el proyecto anterior `spring-6-auth-server`, vamos a dar seguridad a nuestro RESTful API
+    - Partimos del proyecto `spring-6-security-basic` y vamos a usar Spring Security para configurarlo como un OAuth2 Resource Server, es decir, que va a aceptar un Token JWT que obtendremos del Authentication Server y usarlo para dar seguridad a nuestras APIs
 
 ## URLs con documentación
 
