@@ -35,6 +35,10 @@ spring.security.oauth2.client.provider.<nombre_1>.token-uri=http://localhost:900
 
 Maneja por nosotros las llamadas al Authorization Server, para obtener el token JWT.
 
+3. Vamos a configurar una instancia de un cliente HTTP Request Interceptor.
+
+La idea es que RestTemplate tenga un interceptor que valide si obtuvo autorización. Si no lo obtuvo lo va a añadir gracias también al Authentication Manager. 
+
 ## Testing
 
 - Clonar el repositorio
