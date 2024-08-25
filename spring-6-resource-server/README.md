@@ -26,3 +26,5 @@ Partimos del proyecto `spring-6-security-basic` y vamos a usar Spring Security p
   - Ejecutar el endpoint GET pulsando el botón `Send`
   - Debe aparecer todo el listado de cervezas
   - Si eliminamos algún carácter del token, veremos que da error 401, Unauthorized
+- Ejecutar los tests de nuestro proyecto `spring-6-resource-server`
+  - Para esto no hace falta ejecutar el proyecto `spring-6-auth-server`

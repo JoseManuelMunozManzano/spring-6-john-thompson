@@ -16,6 +16,7 @@ import org.springframework.context.annotation.Import;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageImpl;
 import org.springframework.http.MediaType;
+import org.springframework.security.test.web.servlet.request.SecurityMockMvcRequestPostProcessors;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.MvcResult;
 
@@ -29,7 +30,7 @@ import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.ArgumentMatchers.eq;
 import static org.mockito.BDDMockito.given;
 import static org.mockito.Mockito.verify;
-import static org.springframework.security.test.web.servlet.request.SecurityMockMvcRequestPostProcessors.httpBasic;
+import static org.springframework.security.test.web.servlet.request.SecurityMockMvcRequestPostProcessors.jwt;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
 
@@ -41,12 +42,9 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 @Import(SpringSecConfig.class)
 class BeerControllerTest {
 
-    // Cogemos de las properties los valores de user y password usados con Http Basic Authentication
-    @Value("${spring.security.user.name}")
-    private String user;
-
-    @Value("${spring.security.user.password}")
-    private String password;
+    // Cogemos de las properties los valores de client-id y client-secret
+    @Value("${spring.auth.server.client-id}")
+    private static String clientId;
 
     // Esto configura Spring MockMvc
     @Autowired
@@ -68,7 +66,7 @@ class BeerControllerTest {
     BeerService beerService;
 
     // Para que los mocks devuelvan data, usaremos las implementaciones de nuestros services.
-    // No utilizamos el método @Before porque no tenemos nada que inicializar. Si empezamos a modificar
+    // No utilizamos el méto-do @Before porque no tenemos nada que inicializar. Si empezamos a modificar
     // data entre tests, entonces querremos inicializar la data.
     //
     // BeerServiceImpl beerServiceImpl = new BeerServiceImpl();
@@ -121,6 +119,16 @@ class BeerControllerTest {
         beers = new PageImpl<>(listBeers);
     }
 
+    // Externalizamos el tema de autenticación usando JWT
+    public static final SecurityMockMvcRequestPostProcessors.JwtRequestPostProcessor jwtRequestPostProcessor =
+            jwt().jwt(jwt -> {
+                jwt.claims(claims -> {
+                            claims.put("scope", "message-read");
+                            claims.put("scope", "message-write");
+                        })
+                        .subject(clientId);
+            });
+
     // Lanzamiento de excepción usando Mockito.
     // En concreto vamos a probar la excepción 404 - Not Found
     @Test
@@ -138,7 +146,7 @@ class BeerControllerTest {
         given(beerService.getBeerById(any(UUID.class))).willReturn(Optional.empty());
 
         mockMvc.perform(get(BeerController.BEER_PATH_ID, UUID.randomUUID())
-                        .with(httpBasic(user, password)))
+                        .with(jwtRequestPostProcessor))
                 .andExpect(status().isNotFound());
     }
 
@@ -150,7 +158,7 @@ class BeerControllerTest {
         // O mejor, crearnos un objeto y no tener que usar nuestra implementación del servicio.
         BeerDto testBeer = beers.getContent().getFirst();
 
-        // Aquí decimos: dado el método beerService.getBeerById, si pasamos cualquier UUID nos va a devolver
+        // Aquí decimos: dado el méto-do beerService.getBeerById, si pasamos cualquier UUID nos va a devolver
         // el objeto testBeer.
         // given(beerService.getBeerById(any(UUID.class))).willReturn(testBeer);
         //
@@ -162,7 +170,7 @@ class BeerControllerTest {
         // Aquí decimos: queremos hacer un get a esa URL y deberíamos obtener un status Ok y contenido JSON.
         // Sobre ese JSON hacemos aserciones.
         mockMvc.perform(get(BeerController.BEER_PATH_ID, testBeer.getId())
-                        .with(httpBasic(user, password))
+                        .with(jwtRequestPostProcessor)
                 .accept(MediaType.APPLICATION_JSON))
                 .andExpect(status().isOk())
                 .andExpect(content().contentType(MediaType.APPLICATION_JSON))
@@ -179,13 +187,8 @@ class BeerControllerTest {
 
         // Recuperando información del error devuelto por el controller.
         // Notar el último andExpect(), indicando que obtenemos dos errores de validación, y el .andReturn()
-        //
-        // Añadimos la parte de seguridad. Con un POST no funciona porque por defecto, Spring Security solo permite
-        // operaciones GET. Se necesita configuración adicional para que esto acabe funcionando.
-        // En concreto se crea una clase de configuración (la hemos llamado SpringSecConfig) donde se deshabilita CSRF,
-        // e importamos esa clase, con lo que acaba funcionando el test.
         MvcResult mvcResult = mockMvc.perform(post(BeerController.BEER_PATH)
-                        .with(httpBasic(user, password))
+                        .with(jwtRequestPostProcessor)
                 .accept(MediaType.APPLICATION_JSON)
                 .contentType(MediaType.APPLICATION_JSON)
                 .content(objectMapper.writeValueAsString(beerDto)))
@@ -206,9 +209,9 @@ class BeerControllerTest {
 
         // En este caso hacemos aserciones sobre la lista, en concreto su longitud.
         //
-        // Añadimos la parte de seguridad. Con un GET funciona correctamente.
+        // Añadimos la parte de seguridad, usando JWT.
         mockMvc.perform(get(BeerController.BEER_PATH)
-                        .with(httpBasic(user, password))
+                        .with(jwtRequestPostProcessor)
                 .accept(MediaType.APPLICATION_JSON))
                 .andExpect(status().isOk())
                 .andExpect(content().contentType(MediaType.APPLICATION_JSON))
@@ -248,7 +251,7 @@ class BeerControllerTest {
         // Aquí decimos: queremos hacer un post a esa URL con un JSON (beer) y debemos obtener
         // status de CREATED y en el header una property Location.
         mockMvc.perform(post(BeerController.BEER_PATH)
-                        .with(httpBasic(user, password))
+                        .with(jwtRequestPostProcessor)
                 .accept(MediaType.APPLICATION_JSON)
                         .contentType(MediaType.APPLICATION_JSON)
                         .content(objectMapper.writeValueAsString(beer)))
@@ -265,7 +268,7 @@ class BeerControllerTest {
 
         // Usando Mockito, vamos a verificar la interacción, es decir, que el service fue llamado.
         mockMvc.perform(put(BeerController.BEER_PATH_ID, beer.getId())
-                        .with(httpBasic(user, password))
+                        .with(jwtRequestPostProcessor)
                 .accept(MediaType.APPLICATION_JSON)
                 .contentType(MediaType.APPLICATION_JSON)
                 .content(objectMapper.writeValueAsString(beer)))
@@ -282,7 +285,7 @@ class BeerControllerTest {
         beer.setBeerName("");
 
         MvcResult mvcResult = mockMvc.perform(put(BeerController.BEER_PATH_ID, beer.getId())
-                        .with(httpBasic(user, password))
+                        .with(jwtRequestPostProcessor)
                         .accept(MediaType.APPLICATION_JSON)
                         .contentType(MediaType.APPLICATION_JSON)
                         .content(objectMapper.writeValueAsString(beer)))
@@ -301,12 +304,12 @@ class BeerControllerTest {
         given(beerService.deleteBeerById(any())).willReturn(true);
 
         mockMvc.perform(delete(BeerController.BEER_PATH_ID, beer.getId())
-                        .with(httpBasic(user, password))
+                        .with(jwtRequestPostProcessor)
                 .accept(MediaType.APPLICATION_JSON))
                 .andExpect(status().isNoContent());
 
         // Usando ArgumentCaptor
-        // Se usa para capturar los argumentos pasados a un método mock, para poder luego inspeccionarlo y realizar aserciones.
+        // Se usa para capturar los argumentos pasados a un méto-do mock, para poder luego inspeccionarlo y realizar aserciones.
         ArgumentCaptor<UUID> uuidArgumentCaptor = ArgumentCaptor.forClass(UUID.class);
 
         verify(beerService).deleteBeerById(uuidArgumentCaptor.capture());
@@ -328,8 +331,15 @@ class BeerControllerTest {
         Map<String, Object> beerMap = new HashMap<>();
         beerMap.put("beerName", "New Name");
 
+        // En este caso no cogemos la parte de JWT de lo externalizado para que se vea como queda si no lo usamos.
         mockMvc.perform(patch(BeerController.BEER_PATH_ID, beer.getId())
-                        .with(httpBasic(user, password))
+                        .with(jwt().jwt(jwt -> {
+                            jwt.claims(claims -> {
+                                claims.put("scope", "message-read");
+                                claims.put("scope", "message-write");
+                            })
+                                    .subject(clientId);
+                        }))
                 .contentType(MediaType.APPLICATION_JSON)
                 .accept(MediaType.APPLICATION_JSON)
                         .content(objectMapper.writeValueAsString(beerMap)))
