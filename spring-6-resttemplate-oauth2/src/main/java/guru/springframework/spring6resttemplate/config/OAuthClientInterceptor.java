@@ -11,6 +11,8 @@ import org.springframework.security.oauth2.client.OAuth2AuthorizeRequest;
 import org.springframework.security.oauth2.client.OAuth2AuthorizedClient;
 import org.springframework.security.oauth2.client.OAuth2AuthorizedClientManager;
 import org.springframework.security.oauth2.client.registration.ClientRegistration;
+import org.springframework.security.oauth2.client.registration.ClientRegistrationRepository;
+import org.springframework.stereotype.Component;
 
 import java.io.IOException;
 import java.util.Collection;
@@ -21,6 +23,7 @@ import static java.util.Objects.isNull;
 // Esta es la configuración de la instancia de un ClientHTTPRequestInterceptor
 // La idea es que RestTemplate tenga un interceptor que valide si obtuvo autorización.
 // Si no lo obtuvo lo va a añadir gracias también al Authentication Manager.
+@Component
 public class OAuthClientInterceptor implements ClientHttpRequestInterceptor {
 
     // Este es el manager que ya configuramos y del que obtenemos el bean.
@@ -28,11 +31,12 @@ public class OAuthClientInterceptor implements ClientHttpRequestInterceptor {
     private final Authentication principal;
     private final ClientRegistration clientRegistration;
 
-    public OAuthClientInterceptor(OAuth2AuthorizedClientManager manager, Authentication principal,
-                                  ClientRegistration clientRegistration) {
+    public OAuthClientInterceptor(OAuth2AuthorizedClientManager manager, ClientRegistrationRepository clientRegistrationRepository) {
         this.manager = manager;
-        this.principal = principal;
-        this.clientRegistration = clientRegistration;
+        this.principal = createPrincipal();
+        // Este "springauth" es el indicado en application.properties en la property
+        // spring.security.oauth2.client.registration.springauth.provide
+        this.clientRegistration = clientRegistrationRepository.findByRegistrationId("springauth");
     }
 
     // Este es el interceptor. Intercepta la request y trabaja con el ClientManager.
@@ -40,7 +44,7 @@ public class OAuthClientInterceptor implements ClientHttpRequestInterceptor {
     public ClientHttpResponse intercept(HttpRequest request, byte[] body, ClientHttpRequestExecution execution) throws IOException {
         // De nuevo, los valores de application.properties se usan aquí.
         OAuth2AuthorizeRequest oAuth2AuthorizeRequest = OAuth2AuthorizeRequest
-                .withClientRegistrationId(clientRegistration.getClientId())
+                .withClientRegistrationId(clientRegistration.getRegistrationId())
                 .principal(createPrincipal())
                 .build();
 
@@ -54,7 +58,7 @@ public class OAuthClientInterceptor implements ClientHttpRequestInterceptor {
 
         // Añadimos al header: Authorization junto con "Bearer " y el token JWT.
         request.getHeaders().add(HttpHeaders.AUTHORIZATION,
-                "Bearer " + client.getAccessToken());
+                "Bearer " + client.getAccessToken().getTokenValue());
 
         return execution.execute(request, body);
     }

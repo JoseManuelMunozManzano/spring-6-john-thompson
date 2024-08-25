@@ -20,15 +20,6 @@ public class RestTemplateBuilderConfig {
     @Value("${rest.template.rootUrl}")
     String rootUrl;
 
-    private final ClientRegistrationRepository clientRegistrationRepository;
-    private final OAuth2AuthorizedClientService oAuth2AuthorizedClientService;
-
-    public RestTemplateBuilderConfig(ClientRegistrationRepository clientRegistrationRepository,
-                                     OAuth2AuthorizedClientService oAuth2AuthorizedClientService) {
-        this.clientRegistrationRepository = clientRegistrationRepository;
-        this.oAuth2AuthorizedClientService = oAuth2AuthorizedClientService;
-    }
-
     // Necesitamos implementar un Authorize Client Manager, que es un nuevo componente de Spring que obtenemos
     // de la dependencia añadida.
     // Maneja por nosotros las llamadas al Authorization Server, para obtener el token JWT.
@@ -36,7 +27,8 @@ public class RestTemplateBuilderConfig {
     // Este componente lo vamos a usar en conjunción con el RestTemplateBuilder.
     // Podríamos añadir este Bean a una clase de configuración separada.
     @Bean
-    OAuth2AuthorizedClientManager auth2AuthorizedClientManager() {
+    OAuth2AuthorizedClientManager auth2AuthorizedClientManager(ClientRegistrationRepository clientRegistrationRepository,
+                                                               OAuth2AuthorizedClientService oAuth2AuthorizedClientService) {
         // Vemos que hace falta un provider y las properties de configuración (application.properties)
         // se van a enlazar a este provider.
         var authorizedClientProvider = OAuth2AuthorizedClientProviderBuilder.builder()
@@ -54,8 +46,11 @@ public class RestTemplateBuilderConfig {
     // Sobreescribimos el comportamiento por defecto que SpringBoot autogenera, pero, como generalmente
     // la configuración por defecto es buena y hacerlo to-do es complicado, se usa el configurador
     // RestTemplateBuilderConfigurer.
+    //
+    // También usamos aquí nuestro interceptor
     @Bean
-    RestTemplateBuilder restTemplateBuilder(RestTemplateBuilderConfigurer configurer) {
+    RestTemplateBuilder restTemplateBuilder(RestTemplateBuilderConfigurer configurer,
+                                            OAuthClientInterceptor interceptor) {
 
         // Para asegurarnos de que la propiedad está cargada.
         // Si no lo está fallará al comenzar la ejecución.
@@ -66,6 +61,7 @@ public class RestTemplateBuilderConfig {
         DefaultUriBuilderFactory uriBuilderFactory = new DefaultUriBuilderFactory(rootUrl);
 
         return configurer.configure(builder)
+                .additionalInterceptors(interceptor)
                 .uriTemplateHandler(uriBuilderFactory);
     }
 }

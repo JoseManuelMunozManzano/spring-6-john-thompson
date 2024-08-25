@@ -39,7 +39,15 @@ Maneja por nosotros las llamadas al Authorization Server, para obtener el token 
 
 La idea es que RestTemplate tenga un interceptor que valide si obtuvo autorización. Si no lo obtuvo lo va a añadir gracias también al Authentication Manager. 
 
+4. Implementamos el interceptor en nuestro RestTemplateBuilder.
+
+5. Puede que necesitemos limpiar la caché del proyecto. Para ello, en IntelliJ
+
+![alt Clean Cache And Restart](../images/19-IntelliJ-Invalidate-Cache-And-Restart.png)
+
 ## Testing
 
 - Clonar el repositorio
 - Renombrar `application.template.properties` a `application.properties` e indicar sus valores
+- Ejecutar los tests de la clase `BeerClientImplTest.java`
+  - Tienen que estar en ejecución los siguientes proyectos: `spring-6-auth-server` y `spring-6-resource-server`
