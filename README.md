@@ -101,3 +101,5 @@
 - https://www.arquitecturajava.com/que-es-el-principio-de-hateoas/
 - https://docs.spring.io/spring-data/rest/reference/etags-and-other-conditionals.html
 - https://docs.spring.io/spring-authorization-server/reference/index.html
+- https://www.jstoolset.com/jwt
+  - Para decodificar JWT

@@ -33,18 +33,24 @@ IntelliJ lo puede hacer automáticamente con esta configuración.
 
 ![alt AutoImport](../images/16-Authorization-Server-Execution.png)
 
-4. Configuración de Postman para generar un token
+4. Configuración de Postman para generar un token usando Client Credentials.
 
-En el endpoint GET se ha indicado un endpoint "cualquiera"
+En el endpoint GET se ha indicado un endpoint cualquiera.
 
 En Auth Type se ha seleccionado OAuth 2.0 y se han informado los valores.
 
 ![alt AutoImport](../images/17-Postman-GetToken-Oauth2.png)
+
+Para obtener el token, pulsar `Get new access token` y copiarlo.
+
+Ir a `https://www.jstoolset.com/jwt` y pegarlo. Se debe ver algo tipo así.
+
+![alt AutoImport](../images/18-JWT-Decoder.png)
+
+NOTA: No usar esta página para JWT de la empresa, puesto que no sabemos que hace con él
 
 ## Testing
 
 - Clonar el repositorio
 - Ejecutar esta aplicación
 - Uso de Postman para obtener un token de nuestro authorization server
-  - Ver carpeta postman 
-  
