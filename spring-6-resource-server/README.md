@@ -21,4 +21,8 @@ Partimos del proyecto `spring-6-security-basic` y vamos a usar Spring Security p
 - Renombrar `application-localmysql.template.properties` a `application-localmysql.properties` e indicar sus valores
 - Ejecutar el proyecto con el siguiente profile activo `-Dspring.profiles.active=localmysql`
   - Importante si queremos usar MySql en vez de H2
-- Ejecutar los tests
+- Ejecutar también el proyecto `spring-6-auth-server`
+  - Obtener un token usando el endpoint que está en su carpeta `postman`, y, una vez obtenido el token, pulsar `Use Token`
+  - Ejecutar el endpoint GET pulsando el botón `Send`
+  - Debe aparecer todo el listado de cervezas
+  - Si eliminamos algún carácter del token, veremos que da error 401, Unauthorized
