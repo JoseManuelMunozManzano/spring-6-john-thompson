@@ -9,11 +9,8 @@ import org.springframework.security.web.SecurityFilterChain;
 @Configuration
 public class SpringSecConfig {
 
-    // Configuramos HTTP Basic Authentication
-    //
-    // Indicar que no deshabilitamos CSRF por completo, solo para los diferentes endpoints de la API, es decir,
-    // to-do lo que comience con API.
-    // En una hipotética aplicación web, sigue funcionando el control csrf (esto es un Rest Service)
+    // Configuramos para que soporte ser un resource server que usa JWT.
+    // Con esta configuración no hace falta deshabilitar CSRF.
     @Bean
     public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
 
@@ -22,9 +19,8 @@ public class SpringSecConfig {
                     .anyRequest()
                     .authenticated();
                 })
-                .httpBasic(Customizer.withDefaults())
-                .csrf(httpSecurityCsrfConfigurer ->
-                        httpSecurityCsrfConfigurer.ignoringRequestMatchers("/api/**"));
+                .oauth2ResourceServer(httpSecurityOAuth2ResourceServerConfigurer ->
+                        httpSecurityOAuth2ResourceServerConfigurer.jwt(Customizer.withDefaults()));
 
         return http.build();
     }
