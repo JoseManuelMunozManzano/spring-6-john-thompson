@@ -31,6 +31,10 @@ spring.security.oauth2.client.provider.<nombre_1>.authorization-uri=http://local
 spring.security.oauth2.client.provider.<nombre_1>.token-uri=http://localhost:9000/oauth2/token
 ```
 
+2. Necesitamos implementar un Authorize Client Manager, que es un nuevo componente de Spring que obtenemos de la dependencia añadida.
+
+Maneja por nosotros las llamadas al Authorization Server, para obtener el token JWT.
+
 ## Testing
 
 - Clonar el repositorio

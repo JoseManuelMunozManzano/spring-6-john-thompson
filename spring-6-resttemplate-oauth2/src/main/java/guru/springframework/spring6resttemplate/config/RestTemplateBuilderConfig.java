@@ -5,6 +5,11 @@ import org.springframework.boot.autoconfigure.web.client.RestTemplateBuilderConf
 import org.springframework.boot.web.client.RestTemplateBuilder;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.security.oauth2.client.AuthorizedClientServiceOAuth2AuthorizedClientManager;
+import org.springframework.security.oauth2.client.OAuth2AuthorizedClientManager;
+import org.springframework.security.oauth2.client.OAuth2AuthorizedClientProviderBuilder;
+import org.springframework.security.oauth2.client.OAuth2AuthorizedClientService;
+import org.springframework.security.oauth2.client.registration.ClientRegistrationRepository;
 import org.springframework.web.util.DefaultUriBuilderFactory;
 
 @Configuration
@@ -14,6 +19,37 @@ public class RestTemplateBuilderConfig {
     // al fichero application.properties.
     @Value("${rest.template.rootUrl}")
     String rootUrl;
+
+    private final ClientRegistrationRepository clientRegistrationRepository;
+    private final OAuth2AuthorizedClientService oAuth2AuthorizedClientService;
+
+    public RestTemplateBuilderConfig(ClientRegistrationRepository clientRegistrationRepository,
+                                     OAuth2AuthorizedClientService oAuth2AuthorizedClientService) {
+        this.clientRegistrationRepository = clientRegistrationRepository;
+        this.oAuth2AuthorizedClientService = oAuth2AuthorizedClientService;
+    }
+
+    // Necesitamos implementar un Authorize Client Manager, que es un nuevo componente de Spring que obtenemos
+    // de la dependencia añadida.
+    // Maneja por nosotros las llamadas al Authorization Server, para obtener el token JWT.
+    //
+    // Este componente lo vamos a usar en conjunción con el RestTemplateBuilder.
+    // Podríamos añadir este Bean a una clase de configuración separada.
+    @Bean
+    OAuth2AuthorizedClientManager auth2AuthorizedClientManager() {
+        // Vemos que hace falta un provider y las properties de configuración (application.properties)
+        // se van a enlazar a este provider.
+        var authorizedClientProvider = OAuth2AuthorizedClientProviderBuilder.builder()
+                .clientCredentials()
+                .build();
+
+        var authorizedClientManager = new AuthorizedClientServiceOAuth2AuthorizedClientManager(
+                clientRegistrationRepository, oAuth2AuthorizedClientService);
+
+        authorizedClientManager.setAuthorizedClientProvider(authorizedClientProvider);
+
+        return authorizedClientManager;
+    }
 
     // Sobreescribimos el comportamiento por defecto que SpringBoot autogenera, pero, como generalmente
     // la configuración por defecto es buena y hacerlo to-do es complicado, se usa el configurador
