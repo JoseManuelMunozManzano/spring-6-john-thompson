@@ -82,6 +82,9 @@
   - spring-6-resource-server
     - Usando las credenciales de OAuth2 generadas en el proyecto anterior `spring-6-auth-server`, vamos a dar seguridad a nuestro RESTful API
     - Partimos del proyecto `spring-6-security-basic` y vamos a usar Spring Security para configurarlo como un OAuth2 Resource Server, es decir, que va a aceptar un Token JWT que obtendremos del Authentication Server y usarlo para dar seguridad a nuestras APIs
+- Spring RestTemplate with OAuth2
+  - spring-6-resttemplate-oauth2
+    - Evolucionamos el proyecto `spring-6-resttemplate-security-basic` para poder acceder al Authentication Server, obtener un Token JWT, y luego usarlo en una petición del Resource Server.
 
 ## URLs con documentación
 
