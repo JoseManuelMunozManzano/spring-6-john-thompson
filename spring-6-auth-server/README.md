@@ -29,6 +29,22 @@ IntelliJ lo puede hacer automáticamente con esta configuración.
 
 ![alt AutoImport](../images/15-IntelliJ-AutoImport.png)
 
+3. En la ejecución puede verse claramente. Este proyecto se hace por motivos didácticos y nunca para usar en producción. 
+
+![alt AutoImport](../images/16-Authorization-Server-Execution.png)
+
+4. Configuración de Postman para generar un token
+
+En el endpoint GET se ha indicado un endpoint "cualquiera"
+
+En Auth Type se ha seleccionado OAuth 2.0 y se han informado los valores.
+
+![alt AutoImport](../images/17-Postman-GetToken-Oauth2.png)
+
 ## Testing
 
 - Clonar el repositorio
+- Ejecutar esta aplicación
+- Uso de Postman para obtener un token de nuestro authorization server
+  - Ver carpeta postman 
+  
