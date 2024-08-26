@@ -21,3 +21,6 @@ Proyecto nuevo para mostrar las capacidades de la programación reactiva, que se
 ![alt Reactive Manifesto](../images/21-Reactive-Types-In-Spring.png)
 
 ## Testing
+
+- Clonar el repositorio
+- Ejecutar el test `PersonRepositoryImplTest`
