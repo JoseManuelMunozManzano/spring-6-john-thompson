@@ -105,4 +105,23 @@ class PersonRepositoryImplTest {
            list.forEach(person -> System.out.println(person.getFirstName()));
         });
     }
+
+    // Filtros
+    @Test
+    void testFilterOnName() {
+        personRepository.findAll()
+                .filter(person -> person.getFirstName().equals("Fiona"))
+                .subscribe(person -> System.out.println(person.getFirstName()));
+    }
+
+    // Este ejemplo es similar al anterior.
+    // Notar que findAll() devuelve un Flux (cero o muchos), pero con .next() hacemos que devuelva un Mono (cero o uno)
+    // Esto se hace para tener la flexibilidad de poder hacer operaciones adicionales sobre el Mono.
+    @Test
+    void testGetById() {
+        Mono<Person> fionaMono = personRepository.findAll().filter(person -> person.getFirstName().equals("Fiona"))
+                .next();
+
+        fionaMono.subscribe(person -> System.out.println(person.getFirstName()));
+    }
 }
