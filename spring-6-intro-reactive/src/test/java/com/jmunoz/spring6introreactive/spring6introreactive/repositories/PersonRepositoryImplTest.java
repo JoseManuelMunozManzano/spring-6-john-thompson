@@ -4,6 +4,7 @@ import com.jmunoz.spring6introreactive.spring6introreactive.domain.Person;
 import org.junit.jupiter.api.Test;
 import reactor.core.publisher.Flux;
 import reactor.core.publisher.Mono;
+import reactor.test.StepVerifier;
 
 import java.util.List;
 
@@ -166,7 +167,7 @@ class PersonRepositoryImplTest {
     }
 
     // Tests sobre GetById
-    // Para estos tests, lo mejor es usar block()
+    // Para estos tests, se puede usar block()
     @Test
     void testGetByIdNotFound() {
         Mono<Person> personMono = personRepository.getById(10);
@@ -188,5 +189,30 @@ class PersonRepositoryImplTest {
 
         assertThat(person).isNotNull();
         assertThat(person.getFirstName()).isEqualTo("Michael");
+    }
+
+    // Otra cosa útil que podemos hacer cuando estamos testeando Monos y Fluxes es añadir un StepVerifier.
+    // Es una alternativa a como podemos verificar que los tests getByIdFound y getByIdNotFound funcionan.
+    // Con esto evitamos usar la función block()
+    @Test
+    void testGetByIdNotFoundStepVerifier() {
+        Mono<Person> personMono = personRepository.getById(10);
+
+        StepVerifier.create(personMono).expectNextCount(0).verifyComplete();
+
+        personMono.subscribe(person -> {
+            System.out.println(person.getFirstName());
+        });
+    }
+
+    @Test
+    void testGetByIdFoundStepVerifier() {
+        Mono<Person> personMono = personRepository.getById(1);
+
+        StepVerifier.create(personMono).expectNextCount(1).verifyComplete();
+
+        personMono.subscribe(person -> {
+            System.out.println(person.getFirstName());
+        });
     }
 }
