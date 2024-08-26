@@ -20,6 +20,10 @@ Proyecto nuevo para mostrar las capacidades de la programación reactiva, que se
 
 ![alt Reactive Manifesto](../images/21-Reactive-Types-In-Spring.png)
 
+4. IMPORTANTE: Al tratar con Monos, todas las variables que se usen dentro del stream deben ser final.
+
+Es decir, no se permite la mutación de variables en el stream.
+
 ## Testing
 
 - Clonar el repositorio

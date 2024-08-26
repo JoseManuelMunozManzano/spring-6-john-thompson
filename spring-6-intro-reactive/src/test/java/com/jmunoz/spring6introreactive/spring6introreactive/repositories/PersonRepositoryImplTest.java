@@ -124,4 +124,43 @@ class PersonRepositoryImplTest {
 
         fionaMono.subscribe(person -> System.out.println(person.getFirstName()));
     }
+
+    // Gestión de errores usando programación reactiva
+    @Test
+    void testFindPersonByIdNotFound() {
+        Flux<Person> personFlux = personRepository.findAll();
+
+        // IMPORTANTE: Al tratar con Monos, todas las variables que se usen dentro del stream deben ser final.
+        // Es decir, no se permite la mutación de variables en el stream.
+        final Integer id = 8;
+
+        // El id 8 no existe en la data que tenemos y no puede devolver nada.
+        // El méto-do next() no devuelve nada, porque si se llama a next() teniendo un Flux vacío, devuelve un Mono vacío.
+        // Pero es preferible ver un error.
+        //
+        // Mono<Person> personMono = personFlux.filter(person -> person.getId() == id).next()
+        //                .doOnError(throwable -> {
+        //   System.out.println("Error occurred in flux");
+        //    System.out.println(throwable.toString());
+        // });
+        //
+        // Si cambiamos next() por single() si que obtenemos la excepción NoSuchElementException si no devuelve nada,
+        // o IndexOutOfBoundsException si devuelve más de un elemento.
+        // Es decir, espera sí o sí un elemento.
+        Mono<Person> personMono = personFlux.filter(person -> person.getId() == id).single()
+                        .doOnError(throwable -> {
+                            System.out.println("Error occurred in flux");
+                            System.out.println(throwable.toString());
+                        });
+
+        // Pero recordar que, para que se lance la excepción, debe existir un subscriber que ejerza el back pressure
+        // para que se ejecute el código anterior.
+        // En caso contrario no se lanza ninguna excepción.
+        personMono.subscribe(person -> {
+            System.out.println(person);
+        }, throwable -> {
+            System.out.println("Error occurred in mono");
+            System.out.println(throwable.toString());
+        });
+    }
 }
