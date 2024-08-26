@@ -84,7 +84,10 @@
     - Partimos del proyecto `spring-6-security-basic` y vamos a usar Spring Security para configurarlo como un OAuth2 Resource Server, es decir, que va a aceptar un Token JWT que obtendremos del Authentication Server y usarlo para dar seguridad a nuestras APIs
 - Spring RestTemplate with OAuth2
   - spring-6-resttemplate-oauth2
-    - Evolucionamos el proyecto `spring-6-resttemplate-security-basic` para poder acceder al Authentication Server, obtener un Token JWT, y luego usarlo en una petición del Resource Server.
+    - Evolucionamos el proyecto `spring-6-resttemplate-security-basic` para poder acceder al Authentication Server, obtener un Token JWT, y luego usarlo en una petición del Resource Server
+- Introduction to Reactive Programming
+  - spring-6-intro-reactive
+    - Proyecto nuevo para mostrar las capacidades de la programación reactiva, que se basa en un modelo no bloqueante de programación, e introduciéndonos en la forma es la que se usa en SpringBoot
 
 ## URLs con documentación
 
