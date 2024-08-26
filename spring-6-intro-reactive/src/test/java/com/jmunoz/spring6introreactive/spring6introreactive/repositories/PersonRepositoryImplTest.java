@@ -7,6 +7,7 @@ import reactor.core.publisher.Mono;
 
 import java.util.List;
 
+import static org.assertj.core.api.Assertions.assertThat;
 import static org.junit.jupiter.api.Assertions.*;
 
 // En estos tests no se inyecta nada de Spring.
@@ -162,5 +163,30 @@ class PersonRepositoryImplTest {
             System.out.println("Error occurred in mono");
             System.out.println(throwable.toString());
         });
+    }
+
+    // Tests sobre GetById
+    // Para estos tests, lo mejor es usar block()
+    @Test
+    void testGetByIdNotFound() {
+        Mono<Person> personMono = personRepository.getById(10);
+
+        assertFalse(personMono.hasElement().block());
+
+        Person person = personMono.block();
+
+        assertThat(person).isNull();
+    }
+
+    @Test
+    void testGetByIdFound() {
+        Mono<Person> personMono = personRepository.getById(1);
+
+        assertTrue(personMono.hasElement().block());
+
+        Person person = personMono.block();
+
+        assertThat(person).isNotNull();
+        assertThat(person.getFirstName()).isEqualTo("Michael");
     }
 }
