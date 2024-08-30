@@ -6,6 +6,8 @@ Usa drivers reactivos para BD relacionales.
 
 Esta tecnología reactiva contra la BD es todavía muy reciente.
 
+En este proyecto reactivo creamos las mismas tablas que creamos en el proyecto MVC.
+
 ## Notas
 
 1. Documentación
