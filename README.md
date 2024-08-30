@@ -88,6 +88,11 @@
 - Introduction to Reactive Programming
   - spring-6-intro-reactive
     - Proyecto nuevo para mostrar las capacidades de la programación reactiva, que se basa en un modelo no bloqueante de programación, e introduciéndonos en la forma es la que se usa en SpringBoot
+- Spring Data R2DBC
+  - spring-6-data-r2dbc
+    - Vamos a ver un proyecto de ejemplo de operaciones de persistencia de datos contra una BD usando el framework Spring Data R2DBC
+    - Usa drivers reactivos para BD relacionales
+    - Esta tecnología reactiva contra la BD es todavía muy reciente
 
 ## URLs con documentación
 
@@ -113,3 +118,4 @@
 - https://docs.spring.io/spring-authorization-server/reference/index.html
 - https://www.jstoolset.com/jwt
   - Para decodificar JWT
+- https://docs.spring.io/spring-data/relational/reference/r2dbc.html
