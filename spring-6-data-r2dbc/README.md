@@ -15,3 +15,5 @@ https://docs.spring.io/spring-data/relational/reference/r2dbc.html
 ## Testing
 
 - Clonar el repositorio
+- En la carpeta `resources` existe el archivo `schema.sql` que se ejecuta automáticamente al arrancar el proyecto, gracias a la clase de configuración `DatabaseConfig.java`
+- Ejecutar el proyecto
