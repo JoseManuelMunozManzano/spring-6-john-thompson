@@ -6,6 +6,7 @@ import com.jmunoz.spring6datar2dbc.repositories.BeerRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import reactor.core.publisher.Flux;
+import reactor.core.publisher.Mono;
 
 @Service
 @RequiredArgsConstructor
@@ -17,6 +18,12 @@ public class BeerServiceImpl implements BeerService {
     @Override
     public Flux<BeerDTO> listBeers() {
         return beerRepository.findAll()
-                .map(beerMapper::BeerToBeerDTO);
+                .map(beerMapper::beerToBeerDto);
+    }
+
+    @Override
+    public Mono<BeerDTO> getBeerById(Integer beerId) {
+        return beerRepository.findById(beerId)
+                .map(beerMapper::beerToBeerDto);
     }
 }

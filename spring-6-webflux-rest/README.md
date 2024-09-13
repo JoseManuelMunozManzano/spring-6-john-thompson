@@ -6,6 +6,8 @@ Spring WebFlux MVC tiene casi las mismas anotaciones que encontramos en Spring M
 
 Vamos a crear controladores reactivos y vamos a hacer tests a esos controladores.
 
+También vamos a crear mapeos con MapStruct, Services, usar Path Variables...
+
 El truco es: excepciones y programación reactiva son eventos que necesitamos escuchar y gestionar.
 
 ## Notas
