@@ -25,3 +25,4 @@ Una vez creados los mappers, se puede ir al ciclo de vida de `Maven` y ejecutar 
 - Clonar el repositorio
 - En la carpeta `resources` existe el archivo `schema.sql` que se ejecuta automáticamente al arrancar el proyecto, gracias a la clase de configuración `DatabaseConfig.java`
 - Ejecutar el proyecto
+- En la carpeta `postman` se encuentra un archivo que hay que importar a Postman e ir ejecutando
