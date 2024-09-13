@@ -14,6 +14,12 @@ El truco es: excepciones y programación reactiva son eventos que necesitamos es
 
 Con Spring WebFlux, se ejecuta el web server Netty. Recordar que con Spring MVC se ejecutaba el web server Tomcat.
 
+2. MapStruct
+
+Se ve como se configura MapStruct en el fichero `pom.xml`. No olvidar refrescar Maven.
+
+Una vez creados los mappers, se puede ir al ciclo de vida de `Maven` y ejecutar los pasos `clean` y `compile`. En la carpeta `target` se pueden ver las implementaciones de los mappers.
+
 ## Testing
 
 - Clonar el repositorio
