@@ -10,12 +10,12 @@ import org.springframework.r2dbc.connection.init.ConnectionFactoryInitializer;
 import org.springframework.r2dbc.connection.init.ResourceDatabasePopulator;
 
 // Hay que habilitar de forma explícita los campos de auditoría de las entidades para que se devuelva correctamente
-//// la data de los campos createdDate y lastModifiedDate.
+// la data de los campos createdDate y lastModifiedDate.
 @Configuration
 @EnableR2dbcAuditing
 public class DatabaseConfig {
 
-    // Hay que configurar el recurso schema.sql (donde se crea la tabla en BD H2, en memoria) que luego utilizamos.
+    // Hay que configurar el recurso schema.sql (donde se crean las tablas en BD H2, en memoria) que luego utilizamos.
     @Value("classpath:/schema.sql")
     Resource resource;
 
