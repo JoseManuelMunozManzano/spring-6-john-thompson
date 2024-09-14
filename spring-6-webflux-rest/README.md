@@ -52,6 +52,17 @@ Beer getTestBeer() {
 }
 ```
 
+5. Cuando usar o no .subscribe()
+
+Whenever you have a Mono or Flux object, you must explicitly request for the data it returns, and this can be done using the subscribe().
+When you do this, you are applying back pressure and telling the publisher "I am ready, please send me the data".
+But when you are talking about a method from an endpoint which returns a Mono or a Flux, this "request for data" is implicit in the HTTP request itself since it is, by concept, a request.
+
+Difference between return a Mono<ResponseEntity<Void>>, or just return the ResponseEntity<Void>.
+- If you do the first one, you don't need to subscribe, because the request for data is implicit on the HTTP request sent by the client (in this case, postman).
+- If you do the second one, you need to request for the data on the controller, hence the subscribe().
+
+
 ## Testing
 
 - Clonar el repositorio
