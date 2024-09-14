@@ -80,4 +80,4 @@ También se podría reconstruir la BD.
 - En la carpeta `resources` existe el archivo `schema.sql` que se ejecuta automáticamente al arrancar el proyecto, gracias a la clase de configuración `DatabaseConfig.java`
 - Ejecutar el proyecto
 - En la carpeta `postman` se encuentra un archivo que hay que importar a Postman e ir ejecutando
-- Ejecutar el testing a los controladores, que son `BeerControllerTest.java`
+- Ejecutar el testing a los controladores, que son `BeerControllerTest.java` y `CustomerControllerTest.java`

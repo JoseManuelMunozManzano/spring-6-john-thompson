@@ -17,7 +17,7 @@ import static org.junit.jupiter.api.Assertions.*;
 // Para coger la habilitación de los campos de auditoría, hay que importar explícitamente la configuración de BD.
 @DataR2dbcTest
 @Import(DatabaseConfig.class)
-class CustomerRepositoryTest {
+public class CustomerRepositoryTest {
 
     @Autowired
     CustomerRepository customerRepository;
@@ -41,7 +41,7 @@ class CustomerRepositoryTest {
         System.out.println(objectMapper.writeValueAsString(getTestCustomer()));
     }
 
-    private Customer getTestCustomer() {
+    public static Customer getTestCustomer() {
         return Customer.builder()
                 .customerName("Adriana")
                 .build();
