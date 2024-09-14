@@ -64,6 +64,15 @@ Difference between return a Mono<ResponseEntity<Void>>, or just return the Respo
 - If you do the first one, you don't need to subscribe, because the request for data is implicit on the HTTP request sent by the client (in this case, postman).
 - If you do the second one, you need to request for the data on the controller, hence the subscribe().
 
+6. Testing con WebTestClient
+
+Es importante indicar que, cuando se hacen actualizaciones en BD, con WebTestClient no se hace un rollback automático, por lo que es importante indicar el orden de ejecución de los tests.
+
+Se podría hacer un reseteo del contexto, pero es bastante difícil y tarda bastante. Lo más fácil es indicar un orden de ejecución.
+
+Para ello, indicamos la anotación `@TestMethodOrder(MethodOrderer.OrderAnnotation.class)` y luego, en los métodos que deseemos (no tienen por qué ser todos), ya podemos usar la anotación `@Order()`.
+
+También se podría reconstruir la BD.
 
 ## Testing
 

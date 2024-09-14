@@ -2,7 +2,10 @@ package com.jmunoz.spring6datar2dbc.controllers;
 
 import com.jmunoz.spring6datar2dbc.model.BeerDTO;
 import com.jmunoz.spring6datar2dbc.repositories.BeerRepositoryTest;
+import org.junit.jupiter.api.MethodOrderer;
+import org.junit.jupiter.api.Order;
 import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.TestMethodOrder;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.reactive.AutoConfigureWebTestClient;
 import org.springframework.boot.test.context.SpringBootTest;
@@ -14,6 +17,13 @@ import reactor.core.publisher.Mono;
 // Para ello usamos la anotación @AutoConfigureWebTestClient
 //
 // Usamos el contexto completo de SpringBoot para así obtener la BD H2 en memoria y nuestra data cargada (bootstrap)
+//
+// Añadimos ordenación a la ejecución de los tests, porque si se ejecuta primero el que elimina una beer, resulta
+// que no funciona el test que actualiza. Por lo tanto, el orden de la ejecución de los tests sí que nos importa.
+// To-do esto ocurre porque, a diferencia de los tests de integración de Spring Boot, no se hace un rollback automático.
+// Para ello, indicamos la anotación @TestMethodOrder(MethodOrderer.OrderAnnotation.class) y luego, en los métdoos que
+// deseemos, indicamos su @Order()
+@TestMethodOrder(MethodOrderer.OrderAnnotation.class)
 @SpringBootTest
 @AutoConfigureWebTestClient
 class BeerControllerTest {
@@ -22,6 +32,7 @@ class BeerControllerTest {
     WebTestClient webTestClient;
 
     @Test
+    @Order(2)
     void testListBeers() {
         // Decimos: Haz una operación GET contra la URI indicada y vamos a hacer un exchange, a partir del cual
         // vamos a esperar un status OK, un header con contenido JSON, y en su jsonPath indicamos que el array
@@ -34,6 +45,7 @@ class BeerControllerTest {
     }
 
     @Test
+    @Order(1)
     void testGetById() {
         webTestClient.get().uri(BeerController.BEER_PATH_ID, 1)
                 .exchange()
@@ -57,6 +69,7 @@ class BeerControllerTest {
     }
 
     @Test
+    @Order(3)
     void testUpdateBeer() {
         // Para el test no nos importa qué se está actualizando, pero sí que la actualización ocurre.
         webTestClient.put().uri(BeerController.BEER_PATH_ID, 1)
@@ -66,6 +79,7 @@ class BeerControllerTest {
     }
 
     @Test
+    @Order(999)
     void testDeleteBeer() {
         webTestClient.delete().uri(BeerController.BEER_PATH_ID, 1)
                 .exchange()
