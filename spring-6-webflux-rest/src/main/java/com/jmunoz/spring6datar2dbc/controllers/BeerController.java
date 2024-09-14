@@ -3,9 +3,10 @@ package com.jmunoz.spring6datar2dbc.controllers;
 import com.jmunoz.spring6datar2dbc.model.BeerDTO;
 import com.jmunoz.spring6datar2dbc.services.BeerService;
 import lombok.RequiredArgsConstructor;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.beans.factory.annotation.Value;
+import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.*;
+import org.springframework.web.util.UriComponentsBuilder;
 import reactor.core.publisher.Flux;
 import reactor.core.publisher.Mono;
 
@@ -16,6 +17,9 @@ public class BeerController {
 
     public static final String BEER_PATH = "/api/v2/beer";
     public static final String BEER_PATH_ID = BEER_PATH + "/{beerId}";
+
+    @Value("${com.jmunoz.spring6.fromhttpurl}")
+    private String httpUrl;
 
     private final BeerService beerService;
 
@@ -33,5 +37,18 @@ public class BeerController {
     Mono<BeerDTO> getBeerById(@PathVariable("beerId") Integer beerId) {
 
         return beerService.getBeerById(beerId);
+    }
+
+    // En este caso devolvemos un Mono del tipo ResponseEntity de tipo Void, es decir, realmente
+    // devuelve una respuesta vacía.
+    @PostMapping(BEER_PATH)
+    Mono<ResponseEntity<Void>> createNewBeer(@RequestBody BeerDTO beerDTO) {
+
+        return beerService.saveNewBeer(beerDTO)
+                .map(savedDto -> ResponseEntity.created(UriComponentsBuilder
+                        // Usar savedDto, si no obtendremos null
+                        .fromHttpUrl(httpUrl + BEER_PATH + "/" + savedDto.getId())
+                        .build().toUri())
+                        .build());
     }
 }

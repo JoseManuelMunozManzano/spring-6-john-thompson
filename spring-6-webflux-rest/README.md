@@ -4,9 +4,7 @@ Continuamos el ejemplo `spring-6-data-r2dbc`. Una vez tenemos persistencia hecha
     
 Spring WebFlux MVC tiene casi las mismas anotaciones que encontramos en Spring MVC. Esto se ha hecho intencionalmente para que los desarrolladores tengan una transición más suave a la pila reactiva.
 
-Vamos a crear controladores reactivos y vamos a hacer tests a esos controladores.
-
-También vamos a crear mapeos con MapStruct, Services, usar Path Variables...
+Vamos a crear controladores reactivos, mapeos con MapStruct, Services, usar Path Variables...
 
 El truco es: excepciones y programación reactiva son eventos que necesitamos escuchar y gestionar.
 
@@ -21,6 +19,38 @@ Con Spring WebFlux, se ejecuta el web server Netty. Recordar que con Spring MVC 
 Se ve como se configura MapStruct en el fichero `pom.xml`. No olvidar refrescar Maven.
 
 Una vez creados los mappers, se puede ir al ciclo de vida de `Maven` y ejecutar los pasos `clean` y `compile`. En la carpeta `target` se pueden ver las implementaciones de los mappers.
+
+3. ResponseEntity<Void>
+
+Es la forma de declarar una respuesta vacía.
+
+4. Truco para generar JSON que luego puede usarse en Postman
+
+```
+// El objetivo de este método es servir de utilidad para generar JSON
+// y poder hacer testing de endpoints WebFlux.
+// TIP: Ejecutamos este test, cogemos el resultado y ya tenemos un JSON para hacer pruebas en Postman.
+@Test
+void testCreateJson() throws JsonProcessingException {
+    // Normalmente el contexto de Spring Boot hace el autowired de una instancia
+    // preconfigurada de Jackson, porque usamos el test slice.
+    // Pero no va a estar en el contexto y por eso añadimos un ObjectMapper.
+    ObjectMapper objectMapper = new ObjectMapper();
+
+    System.out.println(objectMapper.writeValueAsString(getTestBeer()));
+}
+
+// Helper method para crear una objeto Beer
+Beer getTestBeer() {
+    return Beer.builder()
+            .beerName("Space Dust")
+            .beerStyle("IPA")
+            .price(BigDecimal.TEN)
+            .quantityOnHand(12)
+            .upc("123213")
+            .build();
+}
+```
 
 ## Testing
 

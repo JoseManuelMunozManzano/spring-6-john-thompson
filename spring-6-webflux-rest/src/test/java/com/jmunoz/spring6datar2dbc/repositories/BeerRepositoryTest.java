@@ -1,5 +1,7 @@
 package com.jmunoz.spring6datar2dbc.repositories;
 
+import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.databind.ObjectMapper;
 import com.jmunoz.spring6datar2dbc.config.DatabaseConfig;
 import com.jmunoz.spring6datar2dbc.domain.Beer;
 import org.junit.jupiter.api.Test;
@@ -27,6 +29,19 @@ class BeerRepositoryTest {
                 .subscribe(beer -> {
                     System.out.println(beer);
                 });
+    }
+
+    // El objetivo de este méto-do es servir de utilidad para generar JSON
+    // y poder hacer testing de endpoints WebFlux.
+    // TIP: Ejecutamos este test, cogemos el resultado y ya tenemos un JSON para hacer pruebas en Postman.
+    @Test
+    void testCreateJson() throws JsonProcessingException {
+        // Normalmente el contexto de Spring Boot hace el autowired de una instancia
+        // preconfigurada de Jackson, porque usamos el test slice.
+        // Pero no va a estar en el contexto y por eso añadimos un ObjectMapper.
+        ObjectMapper objectMapper = new ObjectMapper();
+
+        System.out.println(objectMapper.writeValueAsString(getTestBeer()));
     }
 
     // Helper method para crear una objeto Beer
