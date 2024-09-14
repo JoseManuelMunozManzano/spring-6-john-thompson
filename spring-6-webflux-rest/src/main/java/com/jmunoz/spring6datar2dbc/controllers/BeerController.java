@@ -64,7 +64,7 @@ public class BeerController {
         // Como se sabe el id, no necesitamos establecer el header location, como hicimos con Spring MVC.
         beerService.updateBeer(beerId, beerDTO).subscribe();
 
-        return ResponseEntity.ok().build();
+        return ResponseEntity.noContent().build();
     }
 
     @PatchMapping(BEER_PATH_ID)
@@ -72,7 +72,7 @@ public class BeerController {
                                                  @Validated @RequestBody BeerDTO beerDTO) {
 
         return beerService.patchBeer(beerId, beerDTO)
-                .map(patchedDto -> ResponseEntity.ok().build());
+                .map(patchedDto -> ResponseEntity.noContent().build());
     }
 
     @DeleteMapping(BEER_PATH_ID)
