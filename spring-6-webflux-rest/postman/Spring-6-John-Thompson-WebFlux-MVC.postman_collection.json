@@ -109,6 +109,37 @@
 				}
 			},
 			"response": []
+		},
+		{
+			"name": "Patch Beer",
+			"request": {
+				"method": "PATCH",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n    \"beerName\": \"Very Cool Galaxy Cat\",\n    \"price\": 14\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://localhost:8080/api/v2/beer/1",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"api",
+						"v2",
+						"beer",
+						"1"
+					]
+				}
+			},
+			"response": []
 		}
 	]
 }

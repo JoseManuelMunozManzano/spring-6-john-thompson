@@ -54,7 +54,7 @@ public class BeerController {
 
     // Notar que esta vez no se devuelve un Mono<ResponseEntity<Void>>, sino directamente el ResponseEntity<Void>
     // En este caso hay que indicar subscribe() para que se haga el update correctamente.
-    // Esto se ha hecho así para ver otra forma de hacer las cosas. Se podría haber hecho parecido a createNewBeer(),
+    // Esto se ha hecho así para ver otra forma de hacer las cosas. Se podría haber hecho parecido a pathExistingBeer(),
     // usando Mono<ResponseEntity<Void>> sin usar el subscribe().
     @PutMapping(BEER_PATH_ID)
     ResponseEntity<Void> updateExistingBeer(@PathVariable("beerId") Integer beerId,
@@ -64,5 +64,13 @@ public class BeerController {
         beerService.updateBeer(beerId, beerDTO).subscribe();
 
         return ResponseEntity.ok().build();
+    }
+
+    @PatchMapping(BEER_PATH_ID)
+    Mono<ResponseEntity<Void>> patchExistingBeer(@PathVariable("beerId") Integer beerId,
+                                                 @RequestBody BeerDTO beerDTO) {
+
+        return beerService.patchBeer(beerId, beerDTO)
+                .map(patchedDto -> ResponseEntity.ok().build());
     }
 }
