@@ -5,6 +5,7 @@ import com.jmunoz.spring6datar2dbc.services.BeerService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.ResponseEntity;
+import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.util.UriComponentsBuilder;
 import reactor.core.publisher.Flux;
@@ -42,7 +43,7 @@ public class BeerController {
     // En este caso devolvemos un Mono del tipo ResponseEntity de tipo Void, es decir, realmente
     // devuelve una respuesta vacía.
     @PostMapping(BEER_PATH)
-    Mono<ResponseEntity<Void>> createNewBeer(@RequestBody BeerDTO beerDTO) {
+    Mono<ResponseEntity<Void>> createNewBeer(@Validated @RequestBody BeerDTO beerDTO) {
 
         return beerService.saveNewBeer(beerDTO)
                 .map(savedDto -> ResponseEntity.created(UriComponentsBuilder
@@ -58,7 +59,7 @@ public class BeerController {
     // usando Mono<ResponseEntity<Void>> sin usar el subscribe().
     @PutMapping(BEER_PATH_ID)
     ResponseEntity<Void> updateExistingBeer(@PathVariable("beerId") Integer beerId,
-                                                  @RequestBody BeerDTO beerDTO) {
+                                            @Validated @RequestBody BeerDTO beerDTO) {
 
         // Como se sabe el id, no necesitamos establecer el header location, como hicimos con Spring MVC.
         beerService.updateBeer(beerId, beerDTO).subscribe();
@@ -68,7 +69,7 @@ public class BeerController {
 
     @PatchMapping(BEER_PATH_ID)
     Mono<ResponseEntity<Void>> patchExistingBeer(@PathVariable("beerId") Integer beerId,
-                                                 @RequestBody BeerDTO beerDTO) {
+                                                 @Validated @RequestBody BeerDTO beerDTO) {
 
         return beerService.patchBeer(beerId, beerDTO)
                 .map(patchedDto -> ResponseEntity.ok().build());

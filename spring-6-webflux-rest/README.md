@@ -4,7 +4,7 @@ Continuamos el ejemplo `spring-6-data-r2dbc`. Una vez tenemos persistencia hecha
     
 Spring WebFlux MVC tiene casi las mismas anotaciones que encontramos en Spring MVC. Esto se ha hecho intencionalmente para que los desarrolladores tengan una transición más suave a la pila reactiva.
 
-Vamos a crear controladores reactivos, mapeos con MapStruct, Services, usar Path Variables...
+Vamos a crear controladores reactivos, mapeos con MapStruct, Services, usar Path Variables, validaciones...
 
 El truco es: excepciones y programación reactiva son eventos que necesitamos escuchar y gestionar.
 

@@ -122,3 +122,5 @@
 - https://www.jstoolset.com/jwt
   - Para decodificar JWT
 - https://docs.spring.io/spring-data/relational/reference/r2dbc.html
+- Validaciones muy personalizadas
+  - https://blog.tericcabrel.com/write-custom-validator-for-body-request-in-spring-boot/

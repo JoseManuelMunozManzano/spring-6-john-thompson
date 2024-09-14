@@ -162,6 +162,36 @@
 				}
 			},
 			"response": []
+		},
+		{
+			"name": "Validate Create Beer",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n    \"beerName\": \"Sp\",\n    \"beerStyle\": \"IP\",\n    \"upc\": \"123213\",\n    \"quantityOnHand\": 12,\n    \"price\": 10,\n    \"createdDate\": null,\n    \"lastModifiedDate\": null\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://localhost:8080/api/v2/beer",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"api",
+						"v2",
+						"beer"
+					]
+				}
+			},
+			"response": []
 		}
 	]
 }
