@@ -58,7 +58,15 @@ public class CustomerController {
 
     @DeleteMapping(CUSTOMER_PATH_ID)
     Mono<ResponseEntity<Void>> deleteById(@PathVariable("customerId") Integer customerId) {
+        // Como deleteBeerById devuelve un Mono<Void>, esto realmente no es nada.
+        // No llega a la función map() porque no hay nada, y el framework WebFlux lo trata como un status 200 (ok),
+        // lo que causa que el testing falle al indicar que se espera un isNoContent()
+        //
+        //return customerService.deleteCustomerById(customerId)
+        //        .map(response -> ResponseEntity.noContent().build());
+
+        // Para que funcione correctamente, tanto el controller como nuestro test, hay que hacerlo así:
         return customerService.deleteCustomerById(customerId)
-                .map(response -> ResponseEntity.noContent().build());
+                .thenReturn(ResponseEntity.noContent().build());
     }
 }
