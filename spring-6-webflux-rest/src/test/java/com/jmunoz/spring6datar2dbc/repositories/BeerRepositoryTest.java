@@ -15,9 +15,11 @@ import java.math.BigDecimal;
 // La anotación @DataR2dbcTest trae una configuración Spring mínima.
 //
 // Para coger la habilitación de los campos de auditoría, hay que importar explícitamente la configuración de BD.
+//
+// Hacemos la clase pública para poder reutilizar el méto-do estático getTestBeer()
 @DataR2dbcTest
 @Import(DatabaseConfig.class)
-class BeerRepositoryTest {
+public class BeerRepositoryTest {
 
     @Autowired
     BeerRepository beerRepository;
@@ -45,7 +47,8 @@ class BeerRepositoryTest {
     }
 
     // Helper method para crear una objeto Beer
-    Beer getTestBeer() {
+    // Lo hacemos public y static para poder reutilizarlo en otros tests.
+    public static Beer getTestBeer() {
         return Beer.builder()
                 .beerName("Space Dust")
                 .beerStyle("IPA")

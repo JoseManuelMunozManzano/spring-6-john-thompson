@@ -1,13 +1,13 @@
 package com.jmunoz.spring6datar2dbc.controllers;
 
 import com.jmunoz.spring6datar2dbc.model.BeerDTO;
+import com.jmunoz.spring6datar2dbc.repositories.BeerRepositoryTest;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.reactive.AutoConfigureWebTestClient;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.web.reactive.server.WebTestClient;
-
-import static org.junit.jupiter.api.Assertions.*;
+import reactor.core.publisher.Mono;
 
 // Recordar que es un controlador reactivo no podemos usar MockMVC porque no existe un contexto de servlet.
 // Tenemos que usar WebTestClient, que es reactivo.
@@ -23,7 +23,6 @@ class BeerControllerTest {
 
     @Test
     void testListBeers() {
-
         // Decimos: Haz una operación GET contra la URI indicada y vamos a hacer un exchange, a partir del cual
         // vamos a esperar un status OK, un header con contenido JSON, y en su jsonPath indicamos que el array
         // debe contener 3 objetos en el.
@@ -42,5 +41,18 @@ class BeerControllerTest {
                 .expectHeader().valueEquals("Content-type", "application/json")
                 .expectBody(BeerDTO.class);
 
+    }
+
+    @Test
+    void testCreateBeer() {
+        // El location lo hemos obtenido haciendo que falle el test. Es decir, he puesto
+        // .expectHeader().location("asdf"), ha fallado el test y me ha dado el location correcto, que
+        // he puesto en sustitución de "asdf"
+        webTestClient.post().uri(BeerController.BEER_PATH)
+                .body(Mono.just(BeerRepositoryTest.getTestBeer()), BeerDTO.class)
+                .header("Content-type", "application/json")
+                .exchange()
+                .expectStatus().isCreated()
+                .expectHeader().location("http://localhost:8080/api/v2/beer/4");
     }
 }
