@@ -6,6 +6,8 @@ Spring WebFlux MVC tiene casi las mismas anotaciones que encontramos en Spring M
 
 Vamos a crear controladores reactivos, mapeos con MapStruct, Services, usar Path Variables, validaciones...
 
+Añadimos el punto de testing a los controladores usando WebTestClient. Usando controladores reactivos no podemos usar Spring Mock MVC, porque este está muy ligado a Servlet API, que es bloqueante. WebFlux Test Client no es bloqueante.
+
 El truco es: excepciones y programación reactiva son eventos que necesitamos escuchar y gestionar.
 
 ## Notas
@@ -69,3 +71,4 @@ Difference between return a Mono<ResponseEntity<Void>>, or just return the Respo
 - En la carpeta `resources` existe el archivo `schema.sql` que se ejecuta automáticamente al arrancar el proyecto, gracias a la clase de configuración `DatabaseConfig.java`
 - Ejecutar el proyecto
 - En la carpeta `postman` se encuentra un archivo que hay que importar a Postman e ir ejecutando
+- Ejecutar el testing a los controladores, que son `BeerControllerTest.java`
