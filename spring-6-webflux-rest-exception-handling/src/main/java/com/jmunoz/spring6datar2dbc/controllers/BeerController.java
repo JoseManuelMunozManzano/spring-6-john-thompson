@@ -60,18 +60,13 @@ public class BeerController {
                         .build());
     }
 
-    // Notar que esta vez no se devuelve un Mono<ResponseEntity<Void>>, sino directamente el ResponseEntity<Void>
-    // En este caso hay que indicar subscribe() para que se haga el update correctamente.
-    // Esto se ha hecho así para ver otra forma de hacer las cosas. Se podría haber hecho parecido a pathExistingBeer(),
-    // usando Mono<ResponseEntity<Void>> sin usar el subscribe().
     @PutMapping(BEER_PATH_ID)
-    ResponseEntity<Void> updateExistingBeer(@PathVariable("beerId") Integer beerId,
+    Mono<ResponseEntity<Void>> updateExistingBeer(@PathVariable("beerId") Integer beerId,
                                             @Validated @RequestBody BeerDTO beerDTO) {
 
-        // Como se sabe el id, no necesitamos establecer el header location, como hicimos con Spring MVC.
-        beerService.updateBeer(beerId, beerDTO).subscribe();
-
-        return ResponseEntity.noContent().build();
+        return beerService.updateBeer(beerId, beerDTO)
+                .switchIfEmpty(Mono.error(new ResponseStatusException(HttpStatus.NOT_FOUND)))
+                .map(savedDto -> ResponseEntity.noContent().build());
     }
 
     @PatchMapping(BEER_PATH_ID)
