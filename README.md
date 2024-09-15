@@ -93,10 +93,13 @@
     - Vamos a ver un proyecto de ejemplo de operaciones de persistencia de datos contra una BD usando el framework Spring Data R2DBC
     - Usa drivers reactivos para BD relacionales
     - Esta tecnología reactiva contra la BD es todavía muy reciente
-- Spring WebFlux Rest Services
+- Spring WebFlux Rest Services y WebTestClient
   - spring-6-webflux-rest
     - Continuamos el ejemplo `spring-6-data-r2dbc`. Una vez tenemos persistencia hecha de manera reactiva, vamos a hacer la funcionalidad web
     - Añadimos WebTestClient (no bloqueante) al proyecto para hacer el testing de los controllers
+- Exception Handling with Spring WebFlux
+  - spring-6-webflux-rest-exception-handling
+    - Continuamos con el ejemplo `spring-6-webflux-rest` añadiendo manejo de excepciones, tanto al proyecto como a sus tests
 
 ## URLs con documentación
 
