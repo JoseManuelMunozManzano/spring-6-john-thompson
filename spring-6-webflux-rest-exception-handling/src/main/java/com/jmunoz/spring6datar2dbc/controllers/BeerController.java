@@ -90,7 +90,10 @@ public class BeerController {
         //});
 
         // Para que funcione correctamente, tanto el controller como nuestro test, hay que hacerlo así:
-        return beerService.deleteBeerById(beerId)
+        return beerService
+                .getBeerById(beerId)
+                .switchIfEmpty(Mono.error(new ResponseStatusException(HttpStatus.NOT_FOUND)))
+                .map(beerDto -> beerService.deleteBeerById(beerDto.getId()))
                 .thenReturn(ResponseEntity.noContent().build());
     }
 }
