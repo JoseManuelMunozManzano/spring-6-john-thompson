@@ -57,6 +57,14 @@ class BeerControllerTest {
     }
 
     @Test
+    void testGetByIdNotFound() {
+        webTestClient.get().uri(BeerController.BEER_PATH_ID, 999)
+                .exchange()
+                .expectStatus().isNotFound();
+
+    }
+
+    @Test
     void testCreateBeer() {
         // El location lo hemos obtenido haciendo que falle el test. Es decir, he puesto
         // .expectHeader().location("asdf"), ha fallado el test y me ha dado el location correcto, que

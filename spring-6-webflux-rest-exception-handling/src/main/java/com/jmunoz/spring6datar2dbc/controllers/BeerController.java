@@ -4,9 +4,11 @@ import com.jmunoz.spring6datar2dbc.model.BeerDTO;
 import com.jmunoz.spring6datar2dbc.services.BeerService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.server.ResponseStatusException;
 import org.springframework.web.util.UriComponentsBuilder;
 import reactor.core.publisher.Flux;
 import reactor.core.publisher.Mono;
@@ -37,7 +39,12 @@ public class BeerController {
     @GetMapping(BEER_PATH_ID)
     Mono<BeerDTO> getBeerById(@PathVariable("beerId") Integer beerId) {
 
-        return beerService.getBeerById(beerId);
+        // Devolvemos el status para luego, en el test testGetByIdNotFound() manejarlo.
+        // ResponseStatusException es una excepción que podemos lanzar (en un contexto reactivo,
+        // las excepciones van a ser manejadas en un canal de mensajería) y nos permite especificar
+        // el status HTTP que queremos, en este caso 404.
+        return beerService.getBeerById(beerId)
+                .switchIfEmpty(Mono.error(new ResponseStatusException(HttpStatus.NOT_FOUND)));
     }
 
     // En este caso devolvemos un Mono del tipo ResponseEntity de tipo Void, es decir, realmente
