@@ -15,7 +15,8 @@ import java.time.LocalDateTime;
 @Builder
 public class CustomerDTO {
 
-    private Integer id;
+    // Mongo requiere que el id sea String
+    private String id;
 
     @NotBlank
     @Size(min = 3, max = 255)

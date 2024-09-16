@@ -8,3 +8,4 @@ Nuevo proyecto en el que se prueba la conectividad de Spring 6 con la BBDD no re
 
 - Clonar el repositorio
 - Renombrar `application.template.properties` a `application.properties` e indicar sus valores
+- Ejecutar el test `BeerServiceImplTest.java`

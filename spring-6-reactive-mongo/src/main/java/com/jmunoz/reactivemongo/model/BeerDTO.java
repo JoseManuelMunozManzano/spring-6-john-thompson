@@ -16,7 +16,8 @@ import java.time.LocalDateTime;
 @Builder
 public class BeerDTO {
 
-    private Integer id;
+    // Mongo requiere que el id sea String
+    private String id;
 
     @NotBlank
     @Size(min = 3, max = 255)
