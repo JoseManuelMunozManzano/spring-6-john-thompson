@@ -100,6 +100,9 @@
 - Exception Handling with Spring WebFlux
   - spring-6-webflux-rest-exception-handling
     - Continuamos con el ejemplo `spring-6-webflux-rest` añadiendo manejo de excepciones, tanto al proyecto como a sus tests
+- Spring Data MongoDB
+  - spring-6-reactive-mongo
+    - Nuevo proyecto en el que se prueba la conectividad de Spring 6 con la BBDD no relacional MongoDB usando programación reactiva
 
 ## URLs con documentación
 
