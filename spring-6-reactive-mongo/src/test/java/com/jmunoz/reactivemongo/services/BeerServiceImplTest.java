@@ -10,8 +10,9 @@ import org.springframework.boot.test.context.SpringBootTest;
 import reactor.core.publisher.Mono;
 
 import java.math.BigDecimal;
+import java.util.concurrent.atomic.AtomicBoolean;
 
-import static org.junit.jupiter.api.Assertions.*;
+import static org.awaitility.Awaitility.await;
 
 @SpringBootTest
 class BeerServiceImplTest {
@@ -30,16 +31,26 @@ class BeerServiceImplTest {
     }
 
     @Test
-    void saveBeer() throws InterruptedException {
+    void saveBeer() {
+
+        AtomicBoolean atomicBoolean = new AtomicBoolean(false);
+
         Mono<BeerDTO> savedMono = beerService.saveBeer(beerDTO);
 
         savedMono.subscribe(savedDto -> {
             System.out.println(savedDto.getId());
+            atomicBoolean.set(true);
         });
 
         // Como el test termina antes de que se complete el subscribe (por tanto, JVM también), hay que añadir esto.
-        // Es muy feo y vamos a ver otra forma de hacerlo, mucho más elegante.
-        Thread.sleep(1000l);
+        // Es muy feo, un antipatrón, y vamos a ver otra forma de hacerlo, mucho más elegante.
+        // NOTA: Con esta opción hay que añadir a la función `throws InterruptedException`
+        //
+        // Thread.sleep(1000l);
+        //
+        // Usamos una utilidad Java llamada Awaitility y una bandera para saber cuando se ha completado el subscribe.
+        await().untilTrue(atomicBoolean);
+
     }
 
     public static Beer getTestBeer() {
