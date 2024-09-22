@@ -26,6 +26,14 @@ One key difference between these two frameworks is that Awaitility is more focus
 
 Another difference is that Awaitility relies on polling to check for completion of asynchronous operations, whereas StepVerifier is more deterministic, as it simulates events in the stream and waits for the expected results.
 
+2. Query Methods usando MongoDB
+
+`https://docs.spring.io/spring-data/mongodb/reference/repositories/query-methods-details.html#repositories.query-methods.query-creation`
+
+3. Diferencia entre findBy... y findFirst...
+
+Si se encuentra más de un registro, findBy lanza una excepción, mientras que findFirst devuelve el primero que pilla.
+
 ## Testing
 
 - Clonar el repositorio

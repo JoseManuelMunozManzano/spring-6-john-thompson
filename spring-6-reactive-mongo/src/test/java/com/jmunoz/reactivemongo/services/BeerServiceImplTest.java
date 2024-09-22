@@ -40,7 +40,7 @@ class BeerServiceImplTest {
     }
 
     @Test
-    void findFirstByBeerName() {
+    void testFindFirstByBeerName() {
         // Para tener al menos algún dato ejecutamos con block la grabación de un dato.
         BeerDTO beerDTO = getTestBeerDto();
         beerService.saveBeer(Mono.just(beerDTO)).block();
@@ -52,6 +52,24 @@ class BeerServiceImplTest {
             System.out.println(dto.toString());
             atomicBoolean.set(true);
         });
+
+        await().untilTrue(atomicBoolean);
+    }
+
+    @Test
+    void testFindByBeerStyle() {
+        // Para tener al menos algún dato ejecutamos con block la grabación de un dato.
+        BeerDTO beerDTO = getTestBeerDto();
+        beerService.saveBeer(Mono.just(beerDTO)).block();
+
+        AtomicBoolean atomicBoolean = new AtomicBoolean(false);
+
+        // Obtenemos todos los datos
+        beerService.findByBeerStyle(beerDTO.getBeerStyle())
+                .subscribe(dto -> {
+                    System.out.println(dto.toString());
+                    atomicBoolean.set(true);
+                });
 
         await().untilTrue(atomicBoolean);
     }

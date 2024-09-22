@@ -2,6 +2,7 @@ package com.jmunoz.reactivemongo.repositories;
 
 import com.jmunoz.reactivemongo.domain.Beer;
 import org.springframework.data.mongodb.repository.ReactiveMongoRepository;
+import reactor.core.publisher.Flux;
 import reactor.core.publisher.Mono;
 
 public interface BeerRepository extends ReactiveMongoRepository<Beer, String> {
@@ -10,4 +11,7 @@ public interface BeerRepository extends ReactiveMongoRepository<Beer, String> {
     // Como la DB no es Unique, tampoco el beerName, va a devolver la primera Beer entity,
     // cosa que nos viene bien.
     Mono<Beer> findFirstByBeerName(String beerName);
+
+    // Como es un Flux, devuelve todo
+    Flux<Beer> findByBeerStyle(String beerStyle);
 }
