@@ -34,6 +34,8 @@ Another difference is that Awaitility relies on polling to check for completion 
 
 Si se encuentra más de un registro, findBy lanza una excepción, mientras que findFirst devuelve el primero que pilla.
 
+4. En este proyecto también tenemos una clase `BootstrapData.java` para inicializar la BD.
+
 ## Testing
 
 - Clonar el repositorio
