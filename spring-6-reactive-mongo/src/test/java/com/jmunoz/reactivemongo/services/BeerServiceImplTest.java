@@ -5,9 +5,7 @@ import com.jmunoz.reactivemongo.mappers.BeerMapper;
 import com.jmunoz.reactivemongo.mappers.BeerMapperImpl;
 import com.jmunoz.reactivemongo.model.BeerDTO;
 import com.jmunoz.reactivemongo.repositories.BeerRepository;
-import org.junit.jupiter.api.BeforeEach;
-import org.junit.jupiter.api.DisplayName;
-import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import reactor.core.publisher.Mono;
@@ -39,6 +37,23 @@ class BeerServiceImplTest {
     @BeforeEach
     void setUp() {
         beerDTO = beerMapper.beerToBeerDto(getTestBeer());
+    }
+
+    @Test
+    void findFirstByBeerName() {
+        // Para tener al menos algún dato ejecutamos con block la grabación de un dato.
+        BeerDTO beerDTO = getTestBeerDto();
+        beerService.saveBeer(Mono.just(beerDTO)).block();
+
+        AtomicBoolean atomicBoolean = new AtomicBoolean(false);
+        Mono<BeerDTO> foundDto = beerService.findFirstByBeerName(beerDTO.getBeerName());
+
+        foundDto.subscribe(dto -> {
+            System.out.println(dto.toString());
+            atomicBoolean.set(true);
+        });
+
+        await().untilTrue(atomicBoolean);
     }
 
     @Test
