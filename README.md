@@ -103,6 +103,10 @@
 - Spring Data MongoDB
   - spring-6-reactive-mongo
     - Nuevo proyecto en el que se prueba la conectividad de Spring 6 con la BBDD no relacional MongoDB usando programación reactiva
+- Spring WebFlux.fn Rest
+  - spring-6-webflux-fn
+    - Es continuación del proyecto `spring-6-reactive-mongo`, pero no tiene mucho que ver con lo que ya hay.
+    - Tras haber estado trabajando con Spring WebFlux, que sigue el patrón Web MVC, más o menos el mismo tipo de codificación que Spring Web MVC, pero de manera reactiva, vamos a ver WebFlux fn, que es completamente diferente. Es un modelo de programación funcional
 
 ## URLs con documentación
 
@@ -131,3 +135,5 @@
 - https://docs.spring.io/spring-data/relational/reference/r2dbc.html
 - Validaciones muy personalizadas
   - https://blog.tericcabrel.com/write-custom-validator-for-body-request-in-spring-boot/
+- Spring WebFlux fn
+  - https://docs.spring.io/spring-framework/reference/web/webflux-functional.html
