@@ -105,6 +105,7 @@ public class BeerEndpointTest {
     void testUpdateBeer() {
 
         BeerDTO beerDTO = getSavedTestBeer();
+        beerDTO.setBeerName("New");
 
         webTestClient.put()
                 .uri(BeerRouterConfig.BEER_PATH_ID, beerDTO.getId())

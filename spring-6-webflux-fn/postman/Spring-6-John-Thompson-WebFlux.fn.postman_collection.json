@@ -78,6 +78,37 @@
 				}
 			},
 			"response": []
+		},
+		{
+			"name": "Update Beer",
+			"request": {
+				"method": "PUT",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n    \"beerName\": \"Very Cool Galaxy Cat\",\n    \"beerStyle\": \"Pale Ale\",\n    \"upc\": \"12356\",\n    \"quantityOnHand\": 122,\n    \"price\": 13\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://localhost:8080/api/v3/beer/66f7e4cc2995304523e66f6a",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"api",
+						"v3",
+						"beer",
+						"66f7e4cc2995304523e66f6a"
+					]
+				}
+			},
+			"response": []
 		}
 	]
 }
