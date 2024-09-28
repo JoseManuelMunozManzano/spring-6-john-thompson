@@ -25,9 +25,10 @@ public class BeerRouterConfig {
 
         // Así es como se configura una route. Esta sintaxis es bastante diferente a Spring MVC
         // y Spring WebFlux.
-        return route().
+        return route()
                 // Así se mapea el méto-do handler a la request
-                GET(BEER_PATH, accept(APPLICATION_JSON), handler::listBeers)
+                .GET(BEER_PATH, accept(APPLICATION_JSON), handler::listBeers)
+                .GET(BEER_PATH_ID, accept(APPLICATION_JSON), handler::getBeerById)
                 .build();
     }
 }

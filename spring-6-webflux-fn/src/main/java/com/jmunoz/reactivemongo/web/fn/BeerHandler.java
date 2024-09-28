@@ -27,4 +27,13 @@ public class BeerHandler {
         return ServerResponse.ok()
                 .body(beerService.listBeers(), BeerDTO.class);
     }
+
+    public Mono<ServerResponse> getBeerById(ServerRequest request) {
+
+        // El beerId lo obtenemos del pathVariable.
+        // Hay que especificar el tipo de retorno, que es BeerDTO.class.
+        return ServerResponse
+                .ok()
+                .body(beerService.getById(request.pathVariable("beerId")), BeerDTO.class);
+    }
 }
