@@ -54,11 +54,22 @@ public class BeerHandler {
     public Mono<ServerResponse> updateBeerById(ServerRequest request) {
 
         // Del body obtenemos el tipo BeerDTO.class.
-        // Obtenemos un publisher (beerDTO) que actualizamos.
-        // Obtenemos un nuevo publisher y devolvemos el ServerResponse de noContent()
+        // Obtenemos un publisher beerDTO y lo actualizamos.
+        // Obtenemos otro publisher savedDto y devolvemos el ServerResponse de noContent()
         return request.bodyToMono(BeerDTO.class)
                 .flatMap(beerDTO -> beerService
                         .updateBeer(request.pathVariable("beerId"), beerDTO))
+                .flatMap(savedDto -> ServerResponse.noContent().build());
+    }
+
+    public Mono<ServerResponse> patchBeerById(ServerRequest request) {
+
+        // Del body obtenemos el tipo BeerDTO.class.
+        // Obtenemos un publisher beerDTO y lo actualizamos.
+        // Obtenemos otro publisher savedDto y devolvemos el ServerResponse de noContent()
+        return request.bodyToMono(BeerDTO.class)
+                .flatMap(beerDTO -> beerService
+                        .patchBeer(request.pathVariable("beerId"), beerDTO))
                 .flatMap(savedDto -> ServerResponse.noContent().build());
     }
 }
