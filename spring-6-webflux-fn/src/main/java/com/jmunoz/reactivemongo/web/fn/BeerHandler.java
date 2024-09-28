@@ -5,9 +5,13 @@ import com.jmunoz.reactivemongo.services.BeerService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Component;
+import org.springframework.validation.BeanPropertyBindingResult;
+import org.springframework.validation.Errors;
+import org.springframework.validation.Validator;
 import org.springframework.web.reactive.function.server.ServerRequest;
 import org.springframework.web.reactive.function.server.ServerResponse;
 import org.springframework.web.server.ResponseStatusException;
+import org.springframework.web.server.ServerWebInputException;
 import org.springframework.web.util.UriComponentsBuilder;
 import reactor.core.publisher.Mono;
 
@@ -18,6 +22,29 @@ import reactor.core.publisher.Mono;
 public class BeerHandler {
 
     private final BeerService beerService;
+
+    // Añadimos la validación.
+    // Por defecto, SpringBoot va a autoconfigurarlo por nosotros.
+    // No olvidar que en el pom debemos tener: spring-boot-starter-validation
+    private final Validator validator;
+
+    // Este méto-do lanzará una excepción si hay errores de validación.
+    // En el contexto de Spring MVC, cuando se pasa un objeto (se puede indicar cualquier nombre),
+    // se le llama binding.
+    // Se indica que estamos haciendo un binding de propiedades bean.
+    private void validate(BeerDTO beerDTO) {
+        Errors errors = new BeanPropertyBindingResult(beerDTO, "beerDto");
+        validator.validate(beerDTO, errors);
+
+        // Esto indica a Spring que ha ocurrido un error de validación.
+        if (errors.hasErrors()) {
+            throw new ServerWebInputException(errors.toString());
+        }
+
+        // Para utilizarlo necesitamos añadirlo a la cadena de eventos.
+        // Ver que lo añadimos en los métodos create, update y patch
+        // Se usa el méto-do doOnNext()
+    }
 
     // Tratamos con ServerRequest y respondemos con ServerResponse.
     // En Spring Web MVC y Spring WebFlux dejamos al framework tratar con ellos, pero en
@@ -48,7 +75,11 @@ public class BeerHandler {
         // Del request obtenemos el body y lo pasamos a Mono, usando BeerDTO como tipo destino.
         // Obtenemos un publisher (beerDTO) y lo usamos para construir un ServerResponse, devolviendo
         // una URL, el location, en el header.
-        return beerService.saveBeer(request.bodyToMono(BeerDTO.class))
+        //
+        // Usando el méto-do doOnNext(), añadimos a la cadena de eventos las validaciones.
+        // Ver que lo añadimos antes de llamar al méto-do save.
+        return beerService.saveBeer(request.bodyToMono(BeerDTO.class)
+                        .doOnNext(this::validate))
                 .flatMap(beerDTO -> ServerResponse
                         .created(UriComponentsBuilder
                                 .fromPath(BeerRouterConfig.BEER_PATH_ID)
@@ -63,7 +94,10 @@ public class BeerHandler {
         // Obtenemos otro publisher savedDto y devolvemos el ServerResponse de noContent()
         //
         // Si hay algún error entra por la parte de switchIfEmpty() y devuelve un 404.
+        //
+        // Usando el méto-do doOnNext(), añadimos a la cadena de eventos las validaciones.
         return request.bodyToMono(BeerDTO.class)
+                .doOnNext(this::validate)
                 .flatMap(beerDTO -> beerService
                         .updateBeer(request.pathVariable("beerId"), beerDTO))
                 .switchIfEmpty(Mono.error(new ResponseStatusException(HttpStatus.NOT_FOUND)))
@@ -77,7 +111,10 @@ public class BeerHandler {
         // Obtenemos otro publisher savedDto y devolvemos el ServerResponse de noContent()
         //
         // Si hay algún error entra por la parte de switchIfEmpty() y devuelve un 404.
+        //
+        // Usando el méto-do doOnNext(), añadimos a la cadena de eventos las validaciones.
         return request.bodyToMono(BeerDTO.class)
+                .doOnNext(this::validate)
                 .flatMap(beerDTO -> beerService
                         .patchBeer(request.pathVariable("beerId"), beerDTO))
                 .switchIfEmpty(Mono.error(new ResponseStatusException(HttpStatus.NOT_FOUND)))
