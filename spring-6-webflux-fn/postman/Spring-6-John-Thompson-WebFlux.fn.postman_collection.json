@@ -1,0 +1,31 @@
+{
+	"info": {
+		"_postman_id": "b3c2e8e0-d4ae-4103-b9d2-19e273d896b7",
+		"name": "Spring-6-John-Thompson-WebFlux.fn",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+		"_exporter_id": "7508044"
+	},
+	"item": [
+		{
+			"name": "All Beers",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "http://localhost:8080/api/v3/beer",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"api",
+						"v3",
+						"beer"
+					]
+				}
+			},
+			"response": []
+		}
+	]
+}

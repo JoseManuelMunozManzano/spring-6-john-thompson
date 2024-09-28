@@ -21,7 +21,7 @@ import static org.junit.jupiter.api.Assertions.assertTrue;
 // No hay mocking, así que son tests de integración reales que van a almacenar la data realmente en BD.
 // En producción vamos a querer usar streams, es decir, subscribe(), no .block()
 @SpringBootTest
-class BeerServiceImplTest {
+public class BeerServiceImplTest {
 
     @Autowired
     BeerService beerService;
