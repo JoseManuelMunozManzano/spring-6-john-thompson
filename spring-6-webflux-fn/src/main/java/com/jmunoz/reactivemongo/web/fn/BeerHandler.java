@@ -3,9 +3,11 @@ package com.jmunoz.reactivemongo.web.fn;
 import com.jmunoz.reactivemongo.model.BeerDTO;
 import com.jmunoz.reactivemongo.services.BeerService;
 import lombok.RequiredArgsConstructor;
+import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Component;
 import org.springframework.web.reactive.function.server.ServerRequest;
 import org.springframework.web.reactive.function.server.ServerResponse;
+import org.springframework.web.server.ResponseStatusException;
 import org.springframework.web.util.UriComponentsBuilder;
 import reactor.core.publisher.Mono;
 
@@ -32,10 +34,13 @@ public class BeerHandler {
     public Mono<ServerResponse> getBeerById(ServerRequest request) {
 
         // El beerId lo obtenemos del pathVariable.
+        // Si hay algún error entra por la parte de switchIfEmpty() y devuelve un 404.
         // Hay que especificar el tipo de retorno, que es BeerDTO.class.
         return ServerResponse
                 .ok()
-                .body(beerService.getById(request.pathVariable("beerId")), BeerDTO.class);
+                .body(beerService.getById(request.pathVariable("beerId"))
+                                .switchIfEmpty(Mono.error(new ResponseStatusException(HttpStatus.NOT_FOUND))),
+                        BeerDTO.class);
     }
 
     public Mono<ServerResponse> createNewBeer(ServerRequest request) {
@@ -56,9 +61,12 @@ public class BeerHandler {
         // Del body obtenemos el tipo BeerDTO.class.
         // Obtenemos un publisher beerDTO y lo actualizamos.
         // Obtenemos otro publisher savedDto y devolvemos el ServerResponse de noContent()
+        //
+        // Si hay algún error entra por la parte de switchIfEmpty() y devuelve un 404.
         return request.bodyToMono(BeerDTO.class)
                 .flatMap(beerDTO -> beerService
                         .updateBeer(request.pathVariable("beerId"), beerDTO))
+                .switchIfEmpty(Mono.error(new ResponseStatusException(HttpStatus.NOT_FOUND)))
                 .flatMap(savedDto -> ServerResponse.noContent().build());
     }
 
@@ -67,18 +75,26 @@ public class BeerHandler {
         // Del body obtenemos el tipo BeerDTO.class.
         // Obtenemos un publisher beerDTO y lo actualizamos.
         // Obtenemos otro publisher savedDto y devolvemos el ServerResponse de noContent()
+        //
+        // Si hay algún error entra por la parte de switchIfEmpty() y devuelve un 404.
         return request.bodyToMono(BeerDTO.class)
                 .flatMap(beerDTO -> beerService
                         .patchBeer(request.pathVariable("beerId"), beerDTO))
+                .switchIfEmpty(Mono.error(new ResponseStatusException(HttpStatus.NOT_FOUND)))
                 .flatMap(savedDto -> ServerResponse.noContent().build());
     }
 
     public Mono<ServerResponse> deleteBeerById(ServerRequest request) {
 
+        // Buscamos el id del beer a borrar. Si no lo encontramos devuelve un 404.
+        //
+        // Si lo encontramos obtenemos un publisher beerDTO.
         // Cuando el resultado es Mono<Void>, usamos el méto-do then() que va a devolver
         // la señal desde el model. Lo importante es que usando then(), si hay una señal
         // de error en el delete, se transmite el error.
-        return beerService.deleteBeerById(request.pathVariable("beerId"))
+        return beerService.getById(request.pathVariable("beerId"))
+                .switchIfEmpty(Mono.error(new ResponseStatusException(HttpStatus.NOT_FOUND)))
+                .flatMap(beerDTO -> beerService.deleteBeerById(beerDTO.getId()))
                 .then(ServerResponse.noContent().build());
     }
 }

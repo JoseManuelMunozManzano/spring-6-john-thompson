@@ -94,7 +94,7 @@
 					}
 				},
 				"url": {
-					"raw": "http://localhost:8080/api/v3/beer/66f7e4cc2995304523e66f6a",
+					"raw": "http://localhost:8080/api/v3/beer/66f7e85b2c216838bb850a23",
 					"protocol": "http",
 					"host": [
 						"localhost"
@@ -104,7 +104,60 @@
 						"api",
 						"v3",
 						"beer",
-						"66f7e4cc2995304523e66f6a"
+						"66f7e85b2c216838bb850a23"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Patch Beer",
+			"request": {
+				"method": "PATCH",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n    \"beerName\": \"Very Cool Galaxy Cat 2\",\n    \"price\": 14\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://localhost:8080/api/v3/beer/66f7e85b2c216838bb850a23",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"api",
+						"v3",
+						"beer",
+						"66f7e85b2c216838bb850a23"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Delete Beer By Id",
+			"request": {
+				"method": "DELETE",
+				"header": [],
+				"url": {
+					"raw": "http://localhost:8080/api/v3/beer/66f80a9540640f4d702d4533",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"api",
+						"v3",
+						"beer",
+						"66f80a9540640f4d702d4533"
 					]
 				}
 			},
