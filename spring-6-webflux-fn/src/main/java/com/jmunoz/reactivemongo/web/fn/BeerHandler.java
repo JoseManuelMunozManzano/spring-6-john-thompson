@@ -13,6 +13,7 @@ import org.springframework.web.reactive.function.server.ServerResponse;
 import org.springframework.web.server.ResponseStatusException;
 import org.springframework.web.server.ServerWebInputException;
 import org.springframework.web.util.UriComponentsBuilder;
+import reactor.core.publisher.Flux;
 import reactor.core.publisher.Mono;
 
 // El propósito de esta clase es manejar las peticiones que entran al framework.
@@ -51,11 +52,21 @@ public class BeerHandler {
     // Spring WebFlux fn tratamos directamente con ellos.
     public Mono<ServerResponse> listBeers(ServerRequest request) {
 
+        Flux<BeerDTO> flux;
+
+        // Usando query parameters.
+        // Puede ser listBeers() o findByBeerStyle(), en función de si tenemos ese queryParameter o no.
+        if (request.queryParam("beerStyle").isPresent()) {
+            flux = beerService.findByBeerStyle(request.queryParam("beerStyle").get());
+        } else {
+            flux = beerService.listBeers();
+        }
+
         // El body espera un publisher, en este caso el Flux sobre BeerDTO que devuelve listBeers.
         // Para el tipo de conversión, Jackson se usa para renderizar a una respuesta JSON,
         // e indicamos BeerDTO.class para que el framework sepa como hacer el parse a esa respuesta JSON.
         return ServerResponse.ok()
-                .body(beerService.listBeers(), BeerDTO.class);
+                .body(flux, BeerDTO.class);
     }
 
     public Mono<ServerResponse> getBeerById(ServerRequest request) {

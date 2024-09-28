@@ -12,12 +12,13 @@ import org.springframework.boot.test.autoconfigure.web.reactive.AutoConfigureWeb
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.web.reactive.server.FluxExchangeResult;
 import org.springframework.test.web.reactive.server.WebTestClient;
+import org.springframework.web.util.UriComponentsBuilder;
 import reactor.core.publisher.Mono;
 
 import java.util.List;
 
-import static org.hamcrest.Matchers.greaterThan;
-import static org.hamcrest.Matchers.hasSize;
+import static net.bytebuddy.implementation.FixedValue.value;
+import static org.hamcrest.Matchers.*;
 
 // Recordar que es un controlador reactivo no podemos usar MockMVC porque no existe un contexto de servlet.
 // Tenemos que usar WebTestClient, que es reactivo.
@@ -159,6 +160,29 @@ public class BeerEndpointTest {
                 .expectBody(BeerDTO.class);
     }
 
+    // En este ejemplo se usan Query Parameters
+    @Test
+    @Order(2)
+    void testListBeersByStyle() {
+        final String BEER_STYLE = "TEST";
+        BeerDTO testDto = getSavedTestBeer();
+        testDto.setBeerStyle(BEER_STYLE);
+
+        // create test data
+        webTestClient.post().uri(BeerRouterConfig.BEER_PATH)
+                .body(Mono.just(testDto), BeerDTO.class)
+                .header("Content-Type", "application/json")
+                .exchange();
+
+        webTestClient.get().uri(UriComponentsBuilder
+                .fromPath(BeerRouterConfig.BEER_PATH)
+                .queryParam("beerStyle", BEER_STYLE).build().toUri())
+                .exchange()
+                .expectStatus().isOk()
+                .expectHeader().valueEquals("Content-type", "application/json")
+                .expectBody().jsonPath("$.size()").value(equalTo(1));
+    }
+
     @Test
     @Order(2)
     void testListBeers() {
@@ -166,7 +190,7 @@ public class BeerEndpointTest {
                 .exchange()
                 .expectStatus().isOk()
                 .expectHeader().valueEquals("Content-type", "application/json")
-                .expectBody().jsonPath("$.size()", hasSize(greaterThan(1)));
+                .expectBody().jsonPath("$.size()", value(greaterThan(1)));
     }
 
     public BeerDTO getSavedTestBeer(){
