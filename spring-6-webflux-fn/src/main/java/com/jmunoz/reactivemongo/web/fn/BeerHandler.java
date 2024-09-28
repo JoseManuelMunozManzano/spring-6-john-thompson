@@ -6,6 +6,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Component;
 import org.springframework.web.reactive.function.server.ServerRequest;
 import org.springframework.web.reactive.function.server.ServerResponse;
+import org.springframework.web.util.UriComponentsBuilder;
 import reactor.core.publisher.Mono;
 
 // El propósito de esta clase es manejar las peticiones que entran al framework.
@@ -35,5 +36,18 @@ public class BeerHandler {
         return ServerResponse
                 .ok()
                 .body(beerService.getById(request.pathVariable("beerId")), BeerDTO.class);
+    }
+
+    public Mono<ServerResponse> createNewBeer(ServerRequest request) {
+
+        // Del request obtenemos el body y lo pasamos a Mono, usando BeerDTO como tipo destino.
+        // Obtenemos un publisher (beerDTO) y lo usamos para construir un ServerResponse, devolviendo
+        // una URL, el location, en el header.
+        return beerService.saveBeer(request.bodyToMono(BeerDTO.class))
+                .flatMap(beerDTO -> ServerResponse
+                        .created(UriComponentsBuilder
+                                .fromPath(BeerRouterConfig.BEER_PATH_ID)
+                                .build(beerDTO.getId()))
+                        .build());
     }
 }
