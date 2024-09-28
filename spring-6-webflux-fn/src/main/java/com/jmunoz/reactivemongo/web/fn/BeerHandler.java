@@ -72,4 +72,13 @@ public class BeerHandler {
                         .patchBeer(request.pathVariable("beerId"), beerDTO))
                 .flatMap(savedDto -> ServerResponse.noContent().build());
     }
+
+    public Mono<ServerResponse> deleteBeerById(ServerRequest request) {
+
+        // Cuando el resultado es Mono<Void>, usamos el méto-do then() que va a devolver
+        // la señal desde el model. Lo importante es que usando then(), si hay una señal
+        // de error en el delete, se transmite el error.
+        return beerService.deleteBeerById(request.pathVariable("beerId"))
+                .then(ServerResponse.noContent().build());
+    }
 }
