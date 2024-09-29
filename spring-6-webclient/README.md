@@ -6,6 +6,16 @@ Al igual que RestTemplate, con WebClient podemos hacer llamadas a un back, es de
 
 ## Notas
 
+1. Para usar `awaitility` hay que añadir al POM la siguiente dependencia
+
+```
+<dependency>
+    <groupId>org.awaitility</groupId>
+    <artifactId>awaitility</artifactId>
+    <version>4.2.2</version>
+</dependency>
+```
+
 ## Testing
 
 - Clonar el repositorio
