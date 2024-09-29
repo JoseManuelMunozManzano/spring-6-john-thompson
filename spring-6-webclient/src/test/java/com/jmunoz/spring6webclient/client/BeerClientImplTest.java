@@ -61,10 +61,29 @@ class BeerClientImplTest {
         AtomicBoolean atomicBoolean = new AtomicBoolean(false);
 
         client.listBeerDtos().subscribe(dto -> {
-            // Un jsonNode nos ofrece una gran cantidad de métodos para trabajar.
             System.out.println(dto.getBeerName());
             atomicBoolean.set(true);
         });
+
+        await().untilTrue(atomicBoolean);
+    }
+
+    @Test
+    void testGetBeerById() {
+
+        AtomicBoolean atomicBoolean = new AtomicBoolean(false);
+
+        // No conocemos el id con el que tenemos que trabajar, porque lo asigna la BBDD cada vez que
+        // se arranca la app backend.
+        // Por eso, lo primero que hacemos es obtener toda la lista de Beer y de ahí obtenemos sus id.
+        // Usamos un flatMap porque getBeerById() nos devuelve un publisher (Mono<BeerDTO>) al que luego
+        // nos subscribimos.
+        client.listBeerDtos()
+                .flatMap(dto -> client.getBeerById(dto.getId()))
+                        .subscribe(byIdDto -> {
+                            System.out.println(byIdDto.getBeerName());
+                            atomicBoolean.set(true);
+                        });
 
         await().untilTrue(atomicBoolean);
     }
