@@ -7,7 +7,6 @@ import org.springframework.boot.test.context.SpringBootTest;
 import java.util.concurrent.atomic.AtomicBoolean;
 
 import static org.awaitility.Awaitility.await;
-import static org.junit.jupiter.api.Assertions.*;
 
 @SpringBootTest
 class BeerClientImplTest {
@@ -35,6 +34,20 @@ class BeerClientImplTest {
 
         client.listBeerMap().subscribe(response -> {
             System.out.println(response);
+            atomicBoolean.set(true);
+        });
+
+        await().untilTrue(atomicBoolean);
+    }
+
+    @Test
+    void listBeerJsonNode() {
+
+        AtomicBoolean atomicBoolean = new AtomicBoolean(false);
+
+        client.listBeerJsonNode().subscribe(jsonNode -> {
+            // Un jsonNode nos ofrece una gran cantidad de métodos para trabajar.
+            System.out.println(jsonNode.toPrettyString());
             atomicBoolean.set(true);
         });
 

@@ -1,5 +1,6 @@
 package com.jmunoz.spring6webclient.client;
 
+import com.fasterxml.jackson.databind.JsonNode;
 import org.springframework.stereotype.Service;
 import org.springframework.web.reactive.function.client.WebClient;
 import reactor.core.publisher.Flux;
@@ -28,11 +29,20 @@ public class BeerClientImpl implements BeerClient {
                 .retrieve().bodyToFlux(String.class);
     }
 
-    // Si no conocemos la estructura de la data, o es muy cambiante, podemos devolver un map.
+    // Si no conocemos la estructura de la data, o es muy cambiante, podemos devolver un map Java.
     // Esta posibilidad es muy útil.
     @Override
     public Flux<Map> listBeerMap() {
         return webClient.get().uri(BEER_PATH, Map.class)
                 .retrieve().bodyToFlux(Map.class);
+    }
+
+    // Si no conocemos la estructura de la data, otra técnica que podemos usar es devolver un nodo JSON Jackson.
+    // Esta posibilidad es preferible sobre el map Java, porque nos permite usar una gran cantidad de métodos
+    // muy útiles para navegar por el objeto JSON devuelto.
+    @Override
+    public Flux<JsonNode> listBeerJsonNode() {
+        return webClient.get().uri(BEER_PATH, JsonNode.class)
+                .retrieve().bodyToFlux(JsonNode.class);
     }
 }
