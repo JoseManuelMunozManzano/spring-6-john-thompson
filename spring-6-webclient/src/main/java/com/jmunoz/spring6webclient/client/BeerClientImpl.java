@@ -104,4 +104,14 @@ public class BeerClientImpl implements BeerClient {
                 .flatMap(this::getBeerById);
     }
 
+    @Override
+    public Mono<BeerDTO> updateBeer(BeerDTO beerDto) {
+        return webClient.put()
+                .uri(uriBuilder -> uriBuilder.path(BEER_PATH_ID).build(beerDto.getId()))
+                .body(Mono.just(beerDto), BeerDTO.class)
+                .retrieve()
+                .toBodilessEntity()
+                .flatMap(voidResponseEntity -> getBeerById(beerDto.getId()));
+    }
+
 }
