@@ -1,6 +1,7 @@
 package com.jmunoz.spring6webclient.client;
 
 import com.fasterxml.jackson.databind.JsonNode;
+import com.jmunoz.spring6webclient.model.BeerDTO;
 import org.springframework.stereotype.Service;
 import org.springframework.web.reactive.function.client.WebClient;
 import reactor.core.publisher.Flux;
@@ -25,7 +26,7 @@ public class BeerClientImpl implements BeerClient {
     // Solo queremos obtener la respuesta del endpoint.
     @Override
     public Flux<String> listBeer() {
-        return webClient.get().uri(BEER_PATH, String.class)
+        return webClient.get().uri(BEER_PATH)
                 .retrieve().bodyToFlux(String.class);
     }
 
@@ -33,7 +34,7 @@ public class BeerClientImpl implements BeerClient {
     // Esta posibilidad es muy útil.
     @Override
     public Flux<Map> listBeerMap() {
-        return webClient.get().uri(BEER_PATH, Map.class)
+        return webClient.get().uri(BEER_PATH)
                 .retrieve().bodyToFlux(Map.class);
     }
 
@@ -42,7 +43,18 @@ public class BeerClientImpl implements BeerClient {
     // muy útiles para navegar por el objeto JSON devuelto.
     @Override
     public Flux<JsonNode> listBeerJsonNode() {
-        return webClient.get().uri(BEER_PATH, JsonNode.class)
+        return webClient.get().uri(BEER_PATH)
                 .retrieve().bodyToFlux(JsonNode.class);
     }
+
+    // Si conocemos la data, podemos usar WebClient para enlazarla a un DTO (un POJO).
+    // Se ha creado BeerDTO y se va a enlazar, usando Jackson, el JSON devuelto (deserialización) a dicho DTO.
+    // En este ejemplo no es necesario ningún mapeo porque el payload devuelto cuadra perfectamente
+    // con nuestro DTO.
+    @Override
+    public Flux<BeerDTO> listBeerDtos() {
+        return webClient.get().uri(BEER_PATH)
+                .retrieve().bodyToFlux(BeerDTO.class);
+    }
+
 }
