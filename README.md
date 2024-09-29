@@ -107,6 +107,10 @@
   - spring-6-webflux-fn
     - Es continuación del proyecto `spring-6-reactive-mongo`, pero no tiene mucho que ver con lo que ya hay.
     - Tras haber estado trabajando con Spring WebFlux, que sigue el patrón Web MVC, más o menos el mismo tipo de codificación que Spring Web MVC, pero de manera reactiva, vamos a ver WebFlux fn, que es completamente diferente. Es un modelo de programación funcional
+- Spring WebClient
+  - spring-6-webclient
+    - Proyecto nuevo con un ejemplo de uso de WebClient para hacer de cliente y realizar llamadas a endpoints del proyecto `spring-6-webflux-fn`
+    - WebClient es la sustitución de RestTemplate
 
 ## URLs con documentación
 
