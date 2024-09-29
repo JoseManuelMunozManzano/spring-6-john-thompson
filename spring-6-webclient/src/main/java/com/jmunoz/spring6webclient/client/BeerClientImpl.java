@@ -86,4 +86,22 @@ public class BeerClientImpl implements BeerClient {
                 .retrieve().bodyToFlux(BeerDTO.class);
     }
 
+    // La forma en la que se ejecuta la API, solo devuelve en el header la propiedad Location.
+    // Pero nosotros queremos hacer el post para crear el objeto y luego devolverlo.
+    // Por lo tanto, devolvemos el id y volvemos a llamar a la API para obtener el objeto salvado.
+    @Override
+    public Mono<BeerDTO> createBeer(BeerDTO beerDTO) {
+        return webClient.post()
+                .uri(BEER_PATH)
+                // Pasamos el body
+                .body(Mono.just(beerDTO), BeerDTO.class)
+                // Post devuelve una respuesta vacía.
+                .retrieve().toBodilessEntity()
+                // La respuesta vacía la transformamos en obtener el id de la propiedad Location del header.
+                .flatMap(voidResponseEntity -> Mono.just(voidResponseEntity
+                        .getHeaders().get("Location").get(0)))
+                .map(path -> path.split("/")[path.split("/").length - 1])
+                .flatMap(this::getBeerById);
+    }
+
 }
