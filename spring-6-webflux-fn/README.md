@@ -51,6 +51,6 @@ Vamos a realizar los mismos endpoints que hicimos en Spring Web MVC y Spring Web
 
 - Clonar el repositorio
 - Renombrar `application.template.properties` a `application.properties` e indicar sus valores
-- Centrarnos en el package `web.fn` y en los tests dentro del package `web.fn`
+- Centrarnos en el package `web.fn` y en los tests
 - Ejecutar (no hace falta ejecutarlo para los tests) el programa para probar en Postman
   - Se pueden encontrar los endpoints de Postman en la carpeta `postman`

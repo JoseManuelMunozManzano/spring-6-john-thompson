@@ -9,11 +9,15 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.data.mongodb.config.AbstractReactiveMongoConfiguration;
+import org.springframework.data.mongodb.config.EnableReactiveMongoAuditing;
 
 import static java.util.Collections.singletonList;
 
 // Esta es la configuración base para conectarnos a una BD de MongoDB.
+// Hay que habilitar de forma explícita los campos de auditoría de las entidades para que se devuelva correctamente
+// la data de los campos createdDate y lastModifiedDate.
 @Configuration
+@EnableReactiveMongoAuditing
 public class MongoConfig extends AbstractReactiveMongoConfiguration {
 
     @Value("${mongo.username}")
