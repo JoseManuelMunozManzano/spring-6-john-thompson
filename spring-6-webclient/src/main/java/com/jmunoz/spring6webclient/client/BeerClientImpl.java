@@ -67,11 +67,23 @@ public class BeerClientImpl implements BeerClient {
 
     @Override
     public Mono<BeerDTO> getBeerById(String id) {
+        // Se usa el uriBuilder
         // En el build() pasamos las variables que queremos enlazar.
         return webClient.get()
                 .uri(uriBuilder -> uriBuilder.path(BEER_PATH_ID)
                         .build(id))
                 .retrieve().bodyToMono(BeerDTO.class);
+    }
+
+    // Usando query Parameters.
+    @Override
+    public Flux<BeerDTO> getBeerByBeerStyle(String beerStyle) {
+        // Se usa el uriBuilder
+        // Indicamos el nombre y su valor
+        return webClient.get().uri(uriBuilder -> uriBuilder
+                        .path(BEER_PATH)
+                        .queryParam("beerStyle", beerStyle).build())
+                .retrieve().bodyToFlux(BeerDTO.class);
     }
 
 }
