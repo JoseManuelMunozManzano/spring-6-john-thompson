@@ -143,4 +143,38 @@ class BeerClientImplTest {
 
         await().untilTrue(atomicBoolean);
     }
+
+    @Test
+    void testPatchBeer() {
+
+        final String NAME = "New Name";
+
+        AtomicBoolean atomicBoolean = new AtomicBoolean(false);
+
+        client.listBeerDtos()
+                .next()
+                .map(beerDTO -> BeerDTO.builder().beerName(NAME).id(beerDTO.getId()).build())
+                .flatMap(dto -> client.patchBeer(dto))
+                .subscribe(byIdDto -> {
+                    System.out.println(byIdDto.toString());
+                    atomicBoolean.set(true);
+                });
+
+        await().untilTrue(atomicBoolean);
+    }
+
+    @Test
+    void testDeleteBeer() {
+
+        AtomicBoolean atomicBoolean = new AtomicBoolean(false);
+
+        client.listBeerDtos()
+                .next()
+                .flatMap(dto -> client.deleteBeer(dto.getId()))
+                // Se usa doOnSuccess para poder cambiar el atomicBoolean cuando se devuelve un Mono<Void>
+                .doOnSuccess(mt -> atomicBoolean.set(true))
+                        .subscribe();
+
+        await().untilTrue(atomicBoolean);
+    }
 }

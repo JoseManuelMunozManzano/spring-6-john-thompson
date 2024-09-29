@@ -65,5 +65,6 @@ Both methods allow you to set the response body in a reactive manner using Sprin
 ## Testing
 
 - Clonar el repositorio
-- Ejecutar el proyecto `spring-6-webflux-fn` que será nuestro back
+- Ejecutar el proyecto `spring-6-webflux-fn` que será nuestro backend
 - Ejecutar el test `BeerClientImplTest`
+- No ejecutar este proyecto, porque se ejecuta por el mismo puerto que el backend y no va a funcionar. Solo los tests
