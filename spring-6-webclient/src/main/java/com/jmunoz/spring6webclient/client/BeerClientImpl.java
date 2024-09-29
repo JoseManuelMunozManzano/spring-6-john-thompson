@@ -16,10 +16,15 @@ public class BeerClientImpl implements BeerClient {
 
     // SpringBoot autoconfigura el servicio de WebClient.
     // La mejor práctica es usar el builder, es decir, no queremos directamente el WebClient, sino su builder.
+    //
     // Inicializamos el web client a la url base localhost con puerto 8080.
     // Es decir, el back tiene que estar en el puerto 8080.
+    //
+    // Esto lo hemos cambiado para obtenerlo de la clase WebClientConfig.java que hemos creado.
+    // Externalizándolo conseguimos un código más limpio.
     public BeerClientImpl(WebClient.Builder webClientBuilder) {
-        this.webClient = webClientBuilder.baseUrl("http://localhost:8080").build();
+        //this.webClient = webClientBuilder.baseUrl("http://localhost:8080").build();
+        this.webClient = webClientBuilder.build();
     }
 
     // Al principio no usamos ningún mapeo con Jackson.
