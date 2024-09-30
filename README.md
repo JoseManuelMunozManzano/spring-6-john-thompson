@@ -111,6 +111,9 @@
   - spring-6-webclient
     - Proyecto nuevo con un ejemplo de uso de WebClient para hacer de cliente y realizar llamadas a endpoints del proyecto `spring-6-webflux-fn`
     - WebClient es la sustitución de RestTemplate
+- Spring WebFlux Resource Server
+  - spring-6-webflux-resource-server
+    - Vamos a coger el servidor de Spring reactivo `spring-6-webflux-rest-exception-handling` y se va a añadir OAuth, haciéndolo un OAuth Resource Server para realizar tareas de autorización
 
 ## URLs con documentación
 
