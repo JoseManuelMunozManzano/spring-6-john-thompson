@@ -17,5 +17,9 @@ Vamos a coger el servidor de Spring reactivo `spring-6-webflux-rest-exception-ha
 
 - Clonar el repositorio
 - En la carpeta `resources` existe el archivo `schema.sql` que se ejecuta automáticamente al arrancar el proyecto, gracias a la clase de configuración `DatabaseConfig.java`
-- Ejecutar el proyecto
+- Ejecutar el proyecto `spring-6-auth-server`
+    - Obtener el token usando el endpoint que está en su carpeta `postman`, y, una vez obtenido el token, pulsar `Use Token`
+- Ejecutar este proyecto
 - En la carpeta `postman` se encuentra un archivo que hay que importar a Postman e ir ejecutando
+  - Como todos los endpoints están securizados, en todos hay que ir a la pestaña `Authorization`, indicar en Auth Type el valor OAuth 2.0 y en la parte derecha indicar el token obtenido
+  - Una vez hecho indicado el token en los endpoints, ya se pueden ejecutar
