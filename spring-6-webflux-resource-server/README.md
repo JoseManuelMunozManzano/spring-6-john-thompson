@@ -13,6 +13,34 @@ Vamos a coger el servidor de Spring reactivo `spring-6-webflux-rest-exception-ha
 </dependency>
 ```
 
+2. Para que no se rompa el testing al añadir OAuth2 hay que añadir al POM
+
+```
+<dependency>
+    <groupId>org.springframework.security</groupId>
+    <artifactId>spring-security-test</artifactId>
+	<scope>test</scope>
+</dependency>
+
+<dependency>
+    <groupId>org.springframework.security</groupId>
+    <artifactId>spring-security-oauth2-client</artifactId>
+    <scope>test</scope>
+</dependency>
+```
+
+También tenemos que modificar `BeerControllerTest.java` y `CustomerControllerTest.java` para añadir:
+
+```
+.mutateWith(mockOAuth2Login())
+```
+
+Y `SecurityConfig.java` para añadir:
+
+```
+.csrf(ServerHttpSecurity.CsrfSpec::disable)
+```
+
 ## Testing
 
 - Clonar el repositorio

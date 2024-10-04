@@ -17,7 +17,11 @@ public class SecurityConfig {
     SecurityWebFilterChain securityWebFilterChain(ServerHttpSecurity http) {
 
         // Securizamos todos los endpoints
-        http.authorizeExchange(authorize -> authorize.anyExchange().authenticated())
+        //
+        // Se añade la parte de deshabilitar CSRF para que funcionen los tests.
+        http
+                .csrf(ServerHttpSecurity.CsrfSpec::disable)
+                .authorizeExchange(authorize -> authorize.anyExchange().authenticated())
                 .oauth2ResourceServer(resourceServer -> resourceServer.jwt(Customizer.withDefaults()));
 
         return http.build();

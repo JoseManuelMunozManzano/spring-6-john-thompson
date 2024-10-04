@@ -13,6 +13,8 @@ import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.web.reactive.server.WebTestClient;
 import reactor.core.publisher.Mono;
 
+import static org.springframework.security.test.web.reactive.server.SecurityMockServerConfigurers.mockOAuth2Login;
+
 // Recordar que es un controlador reactivo no podemos usar MockMVC porque no existe un contexto de servlet.
 // Tenemos que usar WebTestClient, que es reactivo.
 // Para ello usamos la anotación @AutoConfigureWebTestClient
@@ -38,7 +40,9 @@ class BeerControllerTest {
         // Decimos: Haz una operación GET contra la URI indicada y vamos a hacer un exchange, a partir del cual
         // vamos a esperar un status OK, un header con contenido JSON, y en su jsonPath indicamos que el array
         // debe contener 3 objetos en el.
-        webTestClient.get().uri(BeerController.BEER_PATH)
+        webTestClient
+                .mutateWith(mockOAuth2Login())
+                .get().uri(BeerController.BEER_PATH)
                 .exchange()
                 .expectStatus().isOk()
                 .expectHeader().valueEquals("Content-type", "application/json")
@@ -48,7 +52,9 @@ class BeerControllerTest {
     @Test
     @Order(1)
     void testGetById() {
-        webTestClient.get().uri(BeerController.BEER_PATH_ID, 1)
+        webTestClient
+                .mutateWith(mockOAuth2Login())
+                .get().uri(BeerController.BEER_PATH_ID, 1)
                 .exchange()
                 .expectStatus().isOk()
                 .expectHeader().valueEquals("Content-type", "application/json")
@@ -58,7 +64,9 @@ class BeerControllerTest {
 
     @Test
     void testGetByIdNotFound() {
-        webTestClient.get().uri(BeerController.BEER_PATH_ID, 999)
+        webTestClient
+                .mutateWith(mockOAuth2Login())
+                .get().uri(BeerController.BEER_PATH_ID, 999)
                 .exchange()
                 .expectStatus().isNotFound();
 
@@ -69,7 +77,9 @@ class BeerControllerTest {
         // El location lo hemos obtenido haciendo que falle el test. Es decir, he puesto
         // .expectHeader().location("asdf"), ha fallado el test y me ha dado el location correcto, que
         // he puesto en sustitución de "asdf"
-        webTestClient.post().uri(BeerController.BEER_PATH)
+        webTestClient
+                .mutateWith(mockOAuth2Login())
+                .post().uri(BeerController.BEER_PATH)
                 .body(Mono.just(BeerRepositoryTest.getTestBeer()), BeerDTO.class)
                 .header("Content-type", "application/json")
                 .exchange()
@@ -82,7 +92,9 @@ class BeerControllerTest {
         Beer testBeer = BeerRepositoryTest.getTestBeer();
         testBeer.setBeerName("");
 
-        webTestClient.post().uri(BeerController.BEER_PATH)
+        webTestClient
+                .mutateWith(mockOAuth2Login())
+                .post().uri(BeerController.BEER_PATH)
                 .body(Mono.just(testBeer), BeerDTO.class)
                 .header("Content-type", "application/json")
                 .exchange()
@@ -93,7 +105,9 @@ class BeerControllerTest {
     @Order(3)
     void testUpdateBeer() {
         // Para el test no nos importa qué se está actualizando, pero sí que la actualización ocurre.
-        webTestClient.put().uri(BeerController.BEER_PATH_ID, 1)
+        webTestClient
+                .mutateWith(mockOAuth2Login())
+                .put().uri(BeerController.BEER_PATH_ID, 1)
                 .body(Mono.just(BeerRepositoryTest.getTestBeer()), BeerDTO.class)
                 .exchange()
                 .expectStatus().isNoContent();
@@ -105,7 +119,9 @@ class BeerControllerTest {
         Beer testBeer = BeerRepositoryTest.getTestBeer();
         testBeer.setBeerStyle("");
 
-        webTestClient.put().uri(BeerController.BEER_PATH_ID, 1)
+        webTestClient
+                .mutateWith(mockOAuth2Login())
+                .put().uri(BeerController.BEER_PATH_ID, 1)
                 .body(Mono.just(testBeer), BeerDTO.class)
                 .exchange()
                 .expectStatus().isBadRequest();
@@ -113,7 +129,9 @@ class BeerControllerTest {
 
     @Test
     void testUpdateBeerNotFound() {
-        webTestClient.put().uri(BeerController.BEER_PATH_ID, 999)
+        webTestClient
+                .mutateWith(mockOAuth2Login())
+                .put().uri(BeerController.BEER_PATH_ID, 999)
                 .body(Mono.just(BeerRepositoryTest.getTestBeer()), BeerDTO.class)
                 .exchange()
                 .expectStatus().isNotFound();
@@ -121,7 +139,14 @@ class BeerControllerTest {
 
     @Test
     void testPatchIdNotFound() {
-        webTestClient.patch().uri(BeerController.BEER_PATH_ID, 999)
+        webTestClient
+                // Para que funcione la securización con OAuth2 se añade esta función mutateWith que crea
+                // un mock de OAuth2 para usar con un Basic Authority.
+                //
+                // Pero el test seguirá fallando por un tema de CSRF que hay que configurar.
+                // Ver el package config, fuente SecurityConfig.java
+                .mutateWith(mockOAuth2Login())
+                .patch().uri(BeerController.BEER_PATH_ID, 999)
                 .body(Mono.just(BeerRepositoryTest.getTestBeer()), BeerDTO.class)
                 .exchange()
                 .expectStatus().isNotFound();
@@ -130,14 +155,18 @@ class BeerControllerTest {
     @Test
     @Order(999)
     void testDeleteBeer() {
-        webTestClient.delete().uri(BeerController.BEER_PATH_ID, 1)
+        webTestClient
+                .mutateWith(mockOAuth2Login())
+                .delete().uri(BeerController.BEER_PATH_ID, 1)
                 .exchange()
                 .expectStatus().isNoContent();
     }
 
     @Test
     void testDeleteNotFound() {
-        webTestClient.delete().uri(BeerController.BEER_PATH_ID, 999)
+        webTestClient
+                .mutateWith(mockOAuth2Login())
+                .delete().uri(BeerController.BEER_PATH_ID, 999)
                 .exchange()
                 .expectStatus().isNotFound();
     }
