@@ -23,3 +23,4 @@ Es continuación del proyecto `spring-6-webflux-fn` al que se le añade OAuth2, 
 - En la carpeta `postman` se encuentra un archivo que hay que importar a Postman e ir ejecutando
     - Como todos los endpoints están securizados, en todos hay que ir a la pestaña `Authorization`, indicar en Auth Type el valor OAuth 2.0 y en la parte derecha indicar el token obtenido
     - Una vez hecho indicado el token en los endpoints, ya se pueden ejecutar
+- Ejecutar los tests
