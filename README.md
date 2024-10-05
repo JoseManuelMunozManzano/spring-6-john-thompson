@@ -117,6 +117,9 @@
 - Spring WebFlux.fn Resource Sever
   - spring-6-webflux-fn-resource-server
     - Vamos a añadir OAuth2 al proyecto `spring-6-webflux-fn`, para convertirlo en un OAuth Resource Server y realizar tareas de autorización
+- Using OAuth 2.0 with Spring WebClient
+  - spring-6-webclient-oauth2
+    - Vamos a añadir OAuth2 al proyecto `spring-6-webclient` para convertirlo en un cliente con OAuth2
 
 ## URLs con documentación
 
