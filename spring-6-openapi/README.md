@@ -35,6 +35,55 @@ Ver documentación: `https://springdoc.org/#getting-started`
 .permitAll()
 ```
 
+3. Usar Spring Boot Maven Plugin con Springdoc Maven Plugin
+
+`https://springdoc.org/#maven-plugin`
+
+De esta ruta se copia el código siguiente al POM:
+
+```
+<executions>
+    <execution>
+        <id>springdoc</id>
+        <goals>
+            <goal>start</goal>
+            <goal>stop</goal>
+        </goals>
+    </execution>
+</executions>
+
+<configuration>
+    <jvmArguments>-Dspring.application.admin.enabled=true</jvmArguments>
+    ...
+</configuration>
+  
+  
+<plugin>
+    <groupId>org.springdoc</groupId>
+    <artifactId>springdoc-openapi-maven-plugin</artifactId>
+    <version>1.4</version>
+    <configuration>
+        <apiDocsUrl>http://localhost:8080/v3/api-docs</apiDocsUrl>
+        <!-- Para obtener el archivo YAML indicar esta propiedad. Es preferible indicarlo para OpenAPI -->	
+		<outputFileName>oa3.yml</outputFileName>
+    </configuration>    
+    <executions>
+        <execution>
+            <id>integration-test</id>
+            <goals>
+                <goal>generate</goal>
+            </goals>
+        </execution>
+    </executions>
+</plugin>                          
+```
+
+Al ejecutar el lifecycle de Maven `verify` se ejecutarán los tests de integración y se generará la documentación Springdoc.
+
+IMPORTANTE: Como este proyecto es un resource server, debe estar ejecutándose el proyecto `spring-6-auth-server`.
+
+Ir al directorio `target` y 
+
 ## Testing
 
 - Clonar el repositorio
@@ -45,6 +94,10 @@ Ver documentación: `https://springdoc.org/#getting-started`
   - `http://localhost:8080/v3/api-docs`
     - Este es el JSON body de la especificación OpenAPI
   - `http://localhost:8080/v3/api-docs.yaml`
-    - Esta es la descarga del JSON body de la especificación OpenAPI
+    - Esta es la descarga del archivo YAML de la especificación OpenAPI
   - `http://localhost:8080/swagger-ui/index.html`
     - Esta es la página Swagger
+- Para generar en la carpeta `target` el archivo `openapi.json` y/o `oa3.yml`
+  - Ejecutar el proyecto `spring-6-auth-server`
+  - En este proyecto de OpenAPI, ejecutar, del lifecycle de Maven, `verify`
+  - Esto debe generar el archivo `openapi.json` en la carpeta `target` y/o `oa3.yml`
