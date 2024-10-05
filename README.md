@@ -121,6 +121,9 @@
   - spring-6-webclient-oauth2
     - Vamos a añadir OAuth2 al proyecto `spring-6-webclient` para convertirlo en un cliente con OAuth2
     - Básicamente, con este cliente se hace lo mismo que con Postman, es decir, llamar a los endpoints, en este caso, del proyecto `spring-6-webflux-fn-resource-server`
+- Spring Cloud Gateway
+  - spring-6-gateway
+    - Nuevo proyecto para crear un Gateway que, usando `spring-6-auth-server` va a llamar (hacer los requests) a los distintos proyectos `spring-6-resource-server`, que es el MVC, `spring-6-webflux-resource-server` y `spring-6-webflux-fn-resource-server`
 
 ## URLs con documentación
 
