@@ -77,3 +77,5 @@ Al indicar `reactor.netty: trace` aparece una excepción `ChannelOperation termi
   - spring-6-webflux-fn-resource-server
   - spring-6-gateway
 - Obtener el token usando el endpoint que está en esta carpeta `postman`, y, una vez obtenido el token, pulsar `Use Token` y probar el endpoint
+  - En el endpoint alternar entre `v1`, `v2` y `v3` para probar los endpoints de los tres proyectos
+  - El port de este endpoint si que debe ser el `8080`, para salir por el gateway
