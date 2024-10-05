@@ -157,3 +157,6 @@
 - Spring Boot Maven Plugin
   - https://docs.spring.io/spring-boot/docs/3.1.3/maven-plugin/reference/htmlsingle/
   - https://maven.apache.org/guides/introduction/introduction-to-the-lifecycle.html
+- Spring Boot Gradle Plugin
+  - https://docs.spring.io/spring-boot/docs/3.0.1/gradle-plugin/reference/htmlsingle/
+  - https://docs.gradle.org/current/userguide/build_lifecycle.html
