@@ -1,6 +1,8 @@
 # spring-6-gateway
 
-Nuevo proyecto para crear un Gateway que, usando `spring-6-auth-server` va a llamar (hacer los requests) a los distintos proyectos `spring-6-resource-server`, que es el MVC, `spring-6-webflux-resource-server` y `spring-6-webflux-fn-resource-server`
+Nuevo proyecto para crear un Gateway que, usando `spring-6-auth-server` va a llamar (hacer los requests) a los distintos proyectos `spring-6-resource-server`, que es el MVC, `spring-6-webflux-resource-server` y `spring-6-webflux-fn-resource-server`.
+
+Nuestro Gateway también va a ser un OAuth2 Resource Server, para que solo nos lleguen peticiones a las rutas que queremos.
 
 ## Notas
 
@@ -66,6 +68,19 @@ logging:
 ```
 
 Al indicar `reactor.netty: trace` aparece una excepción `ChannelOperation terminal stack` que no es realmente un error.
+
+6. Para convertir nuestro Gateway en un OAuth2 Resource Server hay que añadir al POM la siguiente configuración
+
+```
+<dependency>
+    <groupId>org.springframework.boot</groupId>
+    <artifactId>spring-boot-starter-oauth2-resource-server</artifactId>
+</dependency>
+```
+
+En nuestro archivo `application.yml` tenemos que añadir ciertas properties de configuración.
+
+Y hay que crear un fuente java de configuración.
 
 ## Testing
 
