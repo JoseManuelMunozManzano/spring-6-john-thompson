@@ -13,6 +13,34 @@ Es continuación del proyecto `spring-6-webflux-fn` al que se le añade OAuth2, 
 </dependency>
 ```
 
+2. Para que no se rompa el testing al añadir OAuth2 hay que añadir al POM
+
+```
+<dependency>
+    <groupId>org.springframework.security</groupId>
+    <artifactId>spring-security-test</artifactId>
+	<scope>test</scope>
+</dependency>
+
+<dependency>
+    <groupId>org.springframework.security</groupId>
+    <artifactId>spring-security-oauth2-client</artifactId>
+    <scope>test</scope>
+</dependency>
+```
+
+También tenemos que modificar `BeerControllerTest.java` y `CustomerControllerTest.java` para añadir:
+
+```
+.mutateWith(mockOAuth2Login())
+```
+
+Y `SecurityConfig.java` para añadir:
+
+```
+.csrf(ServerHttpSecurity.CsrfSpec::disable)
+```
+
 ## Testing
 
 - Clonar el repositorio
@@ -23,4 +51,4 @@ Es continuación del proyecto `spring-6-webflux-fn` al que se le añade OAuth2, 
 - En la carpeta `postman` se encuentra un archivo que hay que importar a Postman e ir ejecutando
     - Como todos los endpoints están securizados, en todos hay que ir a la pestaña `Authorization`, indicar en Auth Type el valor OAuth 2.0 y en la parte derecha indicar el token obtenido
     - Una vez hecho indicado el token en los endpoints, ya se pueden ejecutar
-- Ejecutar los tests
+- Ejecutar los tests (para estos tests no hace falta ejecutar ninguno de los dos proyectos)
