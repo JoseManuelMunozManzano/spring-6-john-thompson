@@ -25,14 +25,55 @@ Nuevo proyecto para crear un Gateway que, usando `spring-6-auth-server` va a lla
 
 Esto es porque YAML proporciona más flexibilidad a la hora de crear propiedades, y en este proyecto, el de Gateway, se utilizan muchas propiedades.
 
+4. En el POM hay que añadir la dependencia siguiente
+
+```
+<dependency>
+    <groupId>org.springframework.cloud</groupId>
+    <artifactId>spring-cloud-starter-gateway</artifactId>
+</dependency>
+```
+
+5. Debugging
+
+Saber que ha fallado no es fácil, por eso añadimos estas propiedades en `application.yaml`.
+
+Con ellas vemos el tráfico entre los distintos proyectos y logs.
+
+El nivel de indentación es importantísimo
+
+```
+spring:
+  cloud:
+    gateway:
+      routes:
+        - id: spring-6-rest-mvc
+          uri: http://localhost:8081
+          predicates:
+            - Path=/api/v1/*
+      # Desde aquí hasta el final es la parte de debug.
+      # No la queremos en Producción, solo para resolver problemas en tiempo de desarrollo.      
+      httpserver:
+        wiretap: true
+      httpclient:
+        wiretap: true
+logging:
+  level:
+    root: error
+    reactor.netty: trace
+    org.springframework.cloud.gateway: trace
+    org.springframework.http.server.reactive: trace
+```
+
+Al indicar `reactor.netty: trace` aparece una excepción `ChannelOperation terminal stack` que no es realmente un error.
+
 ## Testing
 
 - Clonar el repositorio
 - Ejecutar los siguientes 5 proyectos, teniendo en cuenta sus requerimientos (ver nota 2)
   - spring-6-auth-server
-    - Obtener el token usando el endpoint que está en su carpeta `postman`, y, una vez obtenido el token, pulsar `Use Token`
-    - Ese token habrá que indicarlo en Postman, para cada endpoint que se quiera probar
   - spring-6-resource-server
   - spring-6-webflux-resource-server
   - spring-6-webflux-fn-resource-server
   - spring-6-gateway
+- Obtener el token usando el endpoint que está en esta carpeta `postman`, y, una vez obtenido el token, pulsar `Use Token` y probar el endpoint
