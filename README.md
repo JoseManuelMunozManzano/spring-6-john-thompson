@@ -154,3 +154,6 @@
   - https://blog.tericcabrel.com/write-custom-validator-for-body-request-in-spring-boot/
 - Spring WebFlux fn
   - https://docs.spring.io/spring-framework/reference/web/webflux-functional.html
+- Spring Boot Maven Plugin
+  - https://docs.spring.io/spring-boot/docs/3.1.3/maven-plugin/reference/htmlsingle/
+  - https://maven.apache.org/guides/introduction/introduction-to-the-lifecycle.html
