@@ -120,6 +120,7 @@
 - Using OAuth 2.0 with Spring WebClient
   - spring-6-webclient-oauth2
     - Vamos a añadir OAuth2 al proyecto `spring-6-webclient` para convertirlo en un cliente con OAuth2
+    - Básicamente, con este cliente se hace lo mismo que con Postman, es decir, llamar a los endpoints, en este caso, del proyecto `spring-6-webflux-fn-resource-server`
 
 ## URLs con documentación
 

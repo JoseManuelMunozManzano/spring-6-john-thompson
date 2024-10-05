@@ -1,6 +1,10 @@
 # spring-6-webclient-oauth2
 
-Vamos a añadir OAuth2 al proyecto `spring-6-webclient` para convertirlo en un cliente con OAuth2
+Vamos a añadir OAuth2 al proyecto `spring-6-webclient` para convertirlo en un cliente con OAuth2.
+
+Básicamente, esto sustituye a Postman a la hora de ejecutar los endpoints del proyecto `spring-6-webflux-fn-resource-server`.
+
+En concreto, del proyecto `spring-6-auth-server` obtenemos un JWT Token y lo utilizamos para trabajar con el resource server `spring-6-webflux-fn-resource-server` para exponer los recursos que usa el WebClient.
 
 ## Notas
 
@@ -34,7 +38,11 @@ spring.security.oauth2.client.provider.<nombre_1>.token-uri=http://localhost:900
 
 Maneja por nosotros las llamadas al Authorization Server, para obtener el token JWT.
 
+3. También se actualiza `WebClientConfig.java` para trabajar con ese Authorize Client Manager.
+
 ## Testing
 
 - Clonar el repositorio
 - Renombrar `application.template.properties` a `application.properties` e indicar sus valores
+- Ejecutar los tests de la clase `BeerClientImplTest.java`
+  - Tienen que estar en ejecución los siguientes proyectos: `spring-6-auth-server` y `spring-6-webflux-fn-resource-server`
