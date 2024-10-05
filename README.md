@@ -114,6 +114,9 @@
 - Spring WebFlux Resource Server
   - spring-6-webflux-resource-server
     - Vamos a coger el servidor de Spring reactivo `spring-6-webflux-rest-exception-handling` y se va a añadir OAuth, haciéndolo un OAuth Resource Server para realizar tareas de autorización
+- Spring WebFlux.fn Resource Sever
+  - spring-6-webflux-fn-resource-server
+    - Vamos a añadir OAuth2 al proyecto `spring-6-webflux-fn`, para convertirlo en un OAuth Resource Server y realizar tareas de autorización
 
 ## URLs con documentación
 
