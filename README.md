@@ -124,6 +124,13 @@
 - Spring Cloud Gateway
   - spring-6-gateway
     - Nuevo proyecto para crear un Gateway que, usando `spring-6-auth-server` va a llamar (hacer los requests) a los distintos proyectos `spring-6-resource-server`, que es el MVC, `spring-6-webflux-resource-server` y `spring-6-webflux-fn-resource-server`
+- OpenAPI with Spring Boot
+  - spring-6-openapi
+    - Vamos a añadir al proyecto `spring-6-resource-server` la generación de OpenApi
+    - Como ya tenemos el código, usaremos Code First (Specificacion First es preferible)
+    - Vamos a obtener una página Swagger del tipo: `http://server:port/context-path/swagger-ui.html`
+    - Vamos a obtener la descripción OpenAPI en una ruta tipo: `http://server:port/context-path/v3/api-docs`
+    - Ver documentación (incluida en la siguiente sección)
 
 ## URLs con documentación
 
@@ -160,3 +167,5 @@
 - Spring Boot Gradle Plugin
   - https://docs.spring.io/spring-boot/docs/3.0.1/gradle-plugin/reference/htmlsingle/
   - https://docs.gradle.org/current/userguide/build_lifecycle.html
+- OpenAPI with Spring Boot
+  - https://springdoc.org/#getting-started
