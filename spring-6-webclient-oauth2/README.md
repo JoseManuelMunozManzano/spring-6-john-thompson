@@ -13,9 +13,28 @@ Vamos a añadir OAuth2 al proyecto `spring-6-webclient` para convertirlo en un c
 </dependency>
 ```
 
+```
+# Configuración estándar de Spring Security para el cliente OAuth2
+# En provider podemos indicar el nombre que queramos
+
+spring.security.oauth2.resourceserver.jwt.issuer-uri=http://localhost:9000
+spring.security.oauth2.client.registration.springauth.client-id=<client_id>
+spring.security.oauth2.client.registration.springauth.client-secret=<client_secret>
+spring.security.oauth2.client.registration.springauth.scope[0]=message.read
+spring.security.oauth2.client.registration.springauth.scope[1]=message.write
+spring.security.oauth2.client.registration.springauth.authorization-grant-type=client_credentials
+spring.security.oauth2.client.registration.springauth.provider=<nombre_1>
+
+# Vemos provider.<nombre_1> porque tiene que ser el mismo nombre que se indicó arriba en provider
+spring.security.oauth2.client.provider.<nombre_1>.authorization-uri=http://localhost:9000/auth2/authorize
+spring.security.oauth2.client.provider.<nombre_1>.token-uri=http://localhost:9000/oauth2/token
+```
+
+2. Necesitamos implementar un Authorize Client Manager, que es un nuevo componente de Spring que obtenemos de la dependencia añadida.
+
+Maneja por nosotros las llamadas al Authorization Server, para obtener el token JWT.
+
 ## Testing
 
 - Clonar el repositorio
-- Ejecutar el proyecto `spring-6-webflux-fn` que será nuestro backend
-- Ejecutar el test `BeerClientImplTest`
-- No ejecutar este proyecto, porque se ejecuta por el mismo puerto que el backend y no va a funcionar. Solo los tests
+- Renombrar `application.template.properties` a `application.properties` e indicar sus valores
