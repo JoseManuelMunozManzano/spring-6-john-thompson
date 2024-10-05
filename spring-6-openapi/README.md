@@ -12,6 +12,22 @@ Ver documentación: `https://springdoc.org/#getting-started`
 
 ## Notas
 
+1. Necesitamos añadir al POM las dependencias de OpenApi
+
+```
+<dependency>
+    <groupId>org.springdoc</groupId>
+    <artifactId>springdoc-openapi-starter-webmvc-ui</artifactId>
+    <version>2.3.0</version>
+</dependency>
+
+<dependency>
+    <groupId>org.springdoc</groupId>
+    <artifactId>springdoc-openapi-starter-common</artifactId>
+    <version>2.3.0</version>
+</dependency>
+```
+
 ## Testing
 
 - Clonar el repositorio
