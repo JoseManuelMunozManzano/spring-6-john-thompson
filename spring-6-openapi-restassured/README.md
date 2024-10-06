@@ -34,4 +34,8 @@ Ver documentación: `https://bitbucket.org/atlassian/swagger-request-validator/s
   - Importante si queremos usar MySql en vez de H2
 - Lo importante aquí son los tests. En concreto:
   - En `controller/BeerControllerRestAssuredTest.java`
+- Para trabajar con Swagger Request Validator necesitamos tener el archivo `oa3.yml` (OpenAPI Specificacion) en la carpeta `target`
+  - Para obtenerlo, ejecutar el lifecycle de Maven `verify`
+- Como nuestros tests necesitan utilizar ese fichero, lo copiamos a la carpeta `test/resources`
+  - Hay que crear la carpeta `resources` dentro de la carpeta `test`
 - No hace falta ejecutar ningún otro proyecto para ejecutar estos tests

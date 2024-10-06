@@ -1,5 +1,7 @@
 package com.jmunoz.restmvc.controller;
 
+import com.atlassian.oai.validator.OpenApiInteractionValidator;
+import com.atlassian.oai.validator.restassured.OpenApiValidationFilter;
 import io.restassured.RestAssured;
 import io.restassured.http.ContentType;
 import org.junit.jupiter.api.BeforeEach;
@@ -34,6 +36,14 @@ import static io.restassured.RestAssured.given;
 @ComponentScan(basePackages = "com.jmunoz.restmvc")
 public class BeerControllerRestAssuredTest {
 
+    // Para testear nuestra API contra la especificación OpenAPI
+    // Hemos llevado el archivo `oa3.yml` desde la carpeta target a test/resources
+    // Recordar que generamos el fichero oa3.yml usando el lifecycle de Maven verify
+    OpenApiValidationFilter filter = new OpenApiValidationFilter(OpenApiInteractionValidator
+            // Aquí podríamos indicar una URL de Github por ejemplo, pero en nuestro caso es el classpath.
+            .createForSpecificationUrl("oa3.yml")
+            .build());
+
     // Y ahora necesitamos nuestra propia configuración de la seguridad para los tests,
     // ya que no cogemos `SpringSecConfig.java`.
     @Configuration
@@ -65,6 +75,12 @@ public class BeerControllerRestAssuredTest {
     void testListBeers() {
         given().contentType(ContentType.JSON)
                 .when()
+                // Usamos aquí el swagger request validator filter.
+                // Este filter va a inspeccionar la request y la response que va al test.
+                // Este test falla porque la fecha la mandamos como String, mientras que la
+                // especificación de OpenAPI indica que deberíamos mandar un formato date.
+                // Vamos a hacer una whitelist para indicar que no pasa nada, y que se salte esta validación.
+                .filter(filter)
                 .get("/api/v1/beer")
                 .then()
                 .assertThat().statusCode(200);
