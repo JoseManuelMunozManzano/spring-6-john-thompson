@@ -2,10 +2,16 @@ package com.jmunoz.restmvc.config;
 
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.context.annotation.Profile;
 import org.springframework.security.config.Customizer;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.web.SecurityFilterChain;
 
+// Para los tests RestAssured, queremos deshabilitar Spring Security, ya que los tests no funcionan.
+// Para ello, creamos un profile e indicamos !test.
+// Atentos al !
+// Este test profile indica que esta configuración no la cogemos si el profile de test está activo.
+@Profile("!test")
 @Configuration
 public class SpringSecConfig {
 

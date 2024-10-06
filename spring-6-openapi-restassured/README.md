@@ -34,3 +34,4 @@ Ver documentación: `https://bitbucket.org/atlassian/swagger-request-validator/s
   - Importante si queremos usar MySql en vez de H2
 - Lo importante aquí son los tests. En concreto:
   - En `controller/BeerControllerRestAssuredTest.java`
+- No hace falta ejecutar ningún otro proyecto para ejecutar estos tests
