@@ -32,3 +32,5 @@ Ver documentación: `https://bitbucket.org/atlassian/swagger-request-validator/s
 - Renombrar `application-localmysql.template.properties` a `application-localmysql.properties` e indicar sus valores
 - Ejecutar el proyecto con el siguiente profile activo `-Dspring.profiles.active=localmysql`
   - Importante si queremos usar MySql en vez de H2
+- Lo importante aquí son los tests. En concreto:
+  - En `controller/BeerControllerRestAssuredTest.java`
