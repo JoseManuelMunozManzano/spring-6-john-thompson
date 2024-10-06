@@ -2,6 +2,7 @@ package com.jmunoz.restmvc.controller;
 
 import com.atlassian.oai.validator.OpenApiInteractionValidator;
 import com.atlassian.oai.validator.restassured.OpenApiValidationFilter;
+import com.atlassian.oai.validator.whitelist.ValidationErrorsWhitelist;
 import io.restassured.RestAssured;
 import io.restassured.http.ContentType;
 import org.junit.jupiter.api.BeforeEach;
@@ -16,6 +17,7 @@ import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.web.SecurityFilterChain;
 import org.springframework.test.context.ActiveProfiles;
 
+import static com.atlassian.oai.validator.whitelist.rule.WhitelistRules.messageHasKey;
 import static io.restassured.RestAssured.given;
 
 // Este test es un @SpringBootTest, en concreto una web application, porque RestAssured
@@ -42,6 +44,16 @@ public class BeerControllerRestAssuredTest {
     OpenApiValidationFilter filter = new OpenApiValidationFilter(OpenApiInteractionValidator
             // Aquí podríamos indicar una URL de Github por ejemplo, pero en nuestro caso es el classpath.
             .createForSpecificationUrl("oa3.yml")
+            // El test falla porque la fecha la mandamos como String, mientras que la
+            // especificación de OpenAPI indica que deberíamos mandar un formato date.
+            // Vamos a hacer una whitelist para indicar que no pasa nada, y que se salte esta validación.
+            // El nombre indicado en withRule puede ser cualquiera.
+            // El messageHasKey lo he cogido del error (key) cuando me falló el test
+            //
+            // Otra opción, quizás mejor, pero menos educativa, es arreglar la especificación.
+            .withWhitelist(ValidationErrorsWhitelist.create()
+                    .withRule("Ignore date format",
+                    messageHasKey("validation.response.body.schema.format.date-time")))
             .build());
 
     // Y ahora necesitamos nuestra propia configuración de la seguridad para los tests,
@@ -77,9 +89,6 @@ public class BeerControllerRestAssuredTest {
                 .when()
                 // Usamos aquí el swagger request validator filter.
                 // Este filter va a inspeccionar la request y la response que va al test.
-                // Este test falla porque la fecha la mandamos como String, mientras que la
-                // especificación de OpenAPI indica que deberíamos mandar un formato date.
-                // Vamos a hacer una whitelist para indicar que no pasa nada, y que se salte esta validación.
                 .filter(filter)
                 .get("/api/v1/beer")
                 .then()
