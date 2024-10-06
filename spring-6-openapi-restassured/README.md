@@ -33,7 +33,7 @@ Ver documentación: `https://bitbucket.org/atlassian/swagger-request-validator/s
 - Ejecutar el proyecto con el siguiente profile activo `-Dspring.profiles.active=localmysql`
   - Importante si queremos usar MySql en vez de H2
 - Lo importante aquí son los tests. En concreto:
-  - En `controller/BeerControllerRestAssuredTest.java`
+  - `controller/BeerControllerRestAssuredTest.java`
 - Para trabajar con Swagger Request Validator necesitamos tener el archivo `oa3.yml` (OpenAPI Specificacion) en la carpeta `target`
   - Para obtenerlo, ejecutar el lifecycle de Maven `verify`
 - Como nuestros tests necesitan utilizar ese fichero, lo copiamos a la carpeta `test/resources`
