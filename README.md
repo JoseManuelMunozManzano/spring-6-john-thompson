@@ -131,6 +131,11 @@
     - Vamos a obtener una página Swagger del tipo: `http://server:port/context-path/swagger-ui/index.html`
     - Vamos a obtener la descripción OpenAPI en una ruta tipo: `http://server:port/context-path/v3/api-docs`
     - Ver documentación (incluida en la siguiente sección)
+- OpenAPI Validation with RestAssured
+  - spring-6-openapi-restassured
+    - Continuamos desde el proyecto `spring-6-openapi`
+    - RestAssured es una biblioteca de testing muy popular para RESTful APIs. Vamos a hacer tests
+    - Usando swagger-request-validator (ver documentación), creado por Atlassian (los de Jira), vamos a validar que nuestras peticiones casan con nuestra especificación OpenAPI
 
 ## URLs con documentación
 
@@ -169,3 +174,5 @@
   - https://docs.gradle.org/current/userguide/build_lifecycle.html
 - OpenAPI with Spring Boot
   - https://springdoc.org/#getting-started
+- Swagger Request Validator
+  - https://bitbucket.org/atlassian/swagger-request-validator/src/master/
