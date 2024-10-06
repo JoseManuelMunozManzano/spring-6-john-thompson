@@ -136,6 +136,9 @@
     - Continuamos desde el proyecto `spring-6-openapi`
     - RestAssured es una biblioteca de testing muy popular para RESTful APIs. Vamos a hacer tests
     - Usando swagger-request-validator (ver documentación), creado por Atlassian (los de Jira), vamos a validar que nuestras peticiones casan con nuestra especificación OpenAPI
+- Introduction to Spring AI
+  - spring-6-ai
+    - Nuevo proyecto con un ejemplo para usar la API Key de OpenAI
 
 ## URLs con documentación
 
