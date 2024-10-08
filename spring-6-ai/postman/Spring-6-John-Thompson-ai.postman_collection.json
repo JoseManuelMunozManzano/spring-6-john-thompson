@@ -1,0 +1,38 @@
+{
+	"info": {
+		"_postman_id": "7a62052a-9897-460c-bd6f-1f27343a748d",
+		"name": "Spring-6-John-Thompson-ai",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+		"_exporter_id": "7508044"
+	},
+	"item": [
+		{
+			"name": "Ask Question",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n    \"question\": \"What is the capital of Michigan\"\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://localhost:8080/ask",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"ask"
+					]
+				}
+			},
+			"response": []
+		}
+	]
+}

@@ -37,4 +37,4 @@ Lo seleccionamos y en la ventana que nos aparece, seleccionamos `JUnit` e indica
 - Indicar en IntelliJ el valor de la variable de entorno `OPENAI_API_KEY`
   - Ver las notas 1 y 2 un poco mås arriba en esta documentación
 - Ejecutar el test `OpenAIServiceImplTest.java`
-- Por otra parte, se puede ejecutar el programa, ya tiene un controller
+- Por otra parte, se puede ejecutar el programa, y probar usando Postman (ver la carpeta postman)

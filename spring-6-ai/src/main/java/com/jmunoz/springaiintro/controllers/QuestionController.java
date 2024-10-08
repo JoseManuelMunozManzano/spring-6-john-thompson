@@ -4,6 +4,7 @@ import com.jmunoz.springaiintro.model.Answer;
 import com.jmunoz.springaiintro.model.Question;
 import com.jmunoz.springaiintro.services.OpenAIService;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
 
 @RestController
@@ -15,8 +16,8 @@ public class QuestionController {
         this.openAIService = openAIService;
     }
 
-    @PostMapping
-    public Answer askQuestion(Question question) {
+    @PostMapping("/ask")
+    public Answer askQuestion(@RequestBody Question question) {
         return openAIService.getAnswer(question);
     }
 }
