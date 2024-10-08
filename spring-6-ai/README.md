@@ -11,7 +11,7 @@ Esta API Key la vamos a pasar al programa usando variables de entorno usando Int
 Esa variable de entorno alimenta una propiedad de `application.properties`. En concreto hay que crear la variable de entorno `OPENAI_API_KEY`, cuyo valor pasa a la propiedad `spring.ai.openapi.api-key`: 
 
 ```
-spring.ai.openapi.api-key=${OPENAI_API_KEY}
+spring.ai.openai.api-key=${OPENAI_API_KEY}
 ```
 
 En IntelliJ, las variables de entorno se indican en la configuración de la ejecución de la aplicación:
