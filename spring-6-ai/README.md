@@ -36,4 +36,4 @@ Lo seleccionamos y en la ventana que nos aparece, seleccionamos `JUnit` e indica
 - Renombrar `application.template.properties` a `application.properties`
 - Indicar en IntelliJ el valor de la variable de entorno `OPENAI_API_KEY`
   - Ver las notas 1 y 2 un poco mås arriba en esta documentación
-- Ejecutar esta aplicación
+- Ejecutar el test `OpenAIServiceImplTest.java`
