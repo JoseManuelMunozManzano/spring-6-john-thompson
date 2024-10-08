@@ -13,7 +13,7 @@
 				"header": [],
 				"body": {
 					"mode": "raw",
-					"raw": "{\n    \"question\": \"What is the capital of Michigan\"\n}",
+					"raw": "{\n    \"question\": \"What is the capital of France\"\n}",
 					"options": {
 						"raw": {
 							"language": "json"
@@ -29,6 +29,34 @@
 					"port": "8080",
 					"path": [
 						"ask"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Ask Capital",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n    \"question\": \"Spain\"\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://localhost:8080/capital",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"capital"
 					]
 				}
 			},

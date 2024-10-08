@@ -30,6 +30,24 @@ Lo seleccionamos y en la ventana que nos aparece, seleccionamos `JUnit` e indica
 
 3. Todas estas configuraciones se pueden hacer también usando configuración de Maven.
 
+4. Vemos en la carpeta `resources`, que existe la carpeta `templates` donde creamos plantillas de texto.
+
+Se ha creado la plantilla `get-capital-prompt.st` y se sustituye el texto de promptTemplate por el texto indicado en esta plantilla.
+
+```
+    @Value("classpath:templates/get-capital-prompt.st")
+    private Resource getCapitalPrompt;
+    
+    @Override
+    public Answer getCapital(GetCapitalRequest getCapitalRequest) {
+        PromptTemplate promptTemplate = new PromptTemplate(getCapitalPrompt);
+        
+        // Este valor de key "stateOrCountry" debe ser el mismo que el indicado entre llaves en get-capital-prompt
+        Prompt prompt = promptTemplate.create(Map.of("stateOrCountry", getCapitalRequest.stateOrCountry()));        
+        ...
+    }
+```
+
 ## Testing
 
 - Clonar el repositorio
