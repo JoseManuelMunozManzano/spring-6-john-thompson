@@ -48,6 +48,8 @@ Se ha creado la plantilla `get-capital-prompt.st` y se sustituye el texto de pro
     }
 ```
 
+Vemos en la plantilla `get-capital-with-info.st` que se permiten las marcas de triple tilde ```
+
 ## Testing
 
 - Clonar el repositorio

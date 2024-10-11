@@ -41,7 +41,7 @@
 				"header": [],
 				"body": {
 					"mode": "raw",
-					"raw": "{\n    \"question\": \"Spain\"\n}",
+					"raw": "{\n    \"stateOrCountry\": \"Spain\"\n}",
 					"options": {
 						"raw": {
 							"language": "json"
@@ -57,6 +57,34 @@
 					"port": "8080",
 					"path": [
 						"capital"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Ask Capital With Info",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n    \"stateOrCountry\": \"United States of America\"\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://localhost:8080/capitalWithInfo",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"capitalWithInfo"
 					]
 				}
 			},
