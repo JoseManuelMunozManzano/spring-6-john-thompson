@@ -63,6 +63,34 @@
 			"response": []
 		},
 		{
+			"name": "Ask Capital JSON Schema",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n    \"stateOrCountry\": \"Spain\"\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://localhost:8080/capital2",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"capital2"
+					]
+				}
+			},
+			"response": []
+		},
+		{
 			"name": "Ask Capital With Info",
 			"request": {
 				"method": "POST",

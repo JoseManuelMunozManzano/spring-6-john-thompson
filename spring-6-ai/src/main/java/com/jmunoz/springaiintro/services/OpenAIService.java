@@ -2,6 +2,7 @@ package com.jmunoz.springaiintro.services;
 
 import com.jmunoz.springaiintro.model.Answer;
 import com.jmunoz.springaiintro.model.GetCapitalRequest;
+import com.jmunoz.springaiintro.model.GetCapitalResponse;
 import com.jmunoz.springaiintro.model.Question;
 
 public interface OpenAIService {
@@ -11,6 +12,8 @@ public interface OpenAIService {
     Answer getAnswer(Question question);
 
     Answer getCapital(GetCapitalRequest getCapitalRequest);
+
+    GetCapitalResponse getCapital2(GetCapitalRequest getCapitalRequest);
 
     Answer getCapitalWithInfo(GetCapitalRequest getCapitalRequest);
 }

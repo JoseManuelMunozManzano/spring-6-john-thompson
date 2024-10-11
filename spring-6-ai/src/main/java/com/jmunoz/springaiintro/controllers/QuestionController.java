@@ -2,6 +2,7 @@ package com.jmunoz.springaiintro.controllers;
 
 import com.jmunoz.springaiintro.model.Answer;
 import com.jmunoz.springaiintro.model.GetCapitalRequest;
+import com.jmunoz.springaiintro.model.GetCapitalResponse;
 import com.jmunoz.springaiintro.model.Question;
 import com.jmunoz.springaiintro.services.OpenAIService;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -25,6 +26,11 @@ public class QuestionController {
     @PostMapping("/capital")
     public Answer getCapital(@RequestBody GetCapitalRequest getCapitalRequest) {
         return this.openAIService.getCapital(getCapitalRequest);
+    }
+
+    @PostMapping("/capital2")
+    public GetCapitalResponse getCapital2(@RequestBody GetCapitalRequest getCapitalRequest) {
+        return this.openAIService.getCapital2(getCapitalRequest);
     }
 
     @PostMapping("/capitalWithInfo")
