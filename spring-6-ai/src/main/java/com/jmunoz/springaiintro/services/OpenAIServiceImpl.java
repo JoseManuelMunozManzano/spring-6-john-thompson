@@ -1,5 +1,8 @@
 package com.jmunoz.springaiintro.services;
 
+import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.databind.JsonNode;
+import com.fasterxml.jackson.databind.ObjectMapper;
 import com.jmunoz.springaiintro.model.Answer;
 import com.jmunoz.springaiintro.model.GetCapitalRequest;
 import com.jmunoz.springaiintro.model.Question;
@@ -7,6 +10,7 @@ import org.springframework.ai.chat.model.ChatModel;
 import org.springframework.ai.chat.model.ChatResponse;
 import org.springframework.ai.chat.prompt.Prompt;
 import org.springframework.ai.chat.prompt.PromptTemplate;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.core.io.Resource;
 import org.springframework.stereotype.Service;
@@ -23,6 +27,11 @@ public class OpenAIServiceImpl implements OpenAIService {
 
     @Value("classpath:templates/get-capital-with-info.st")
     private Resource getCapitalPromptWithInfo;
+
+    // En el template get-capital-with-prompt.st indicamos que la respuesta la de como JSON
+    // Necesitamos este ObjectMapper para el JSON
+    @Autowired
+    ObjectMapper objectMapper;
 
     public OpenAIServiceImpl(ChatModel chatModel) {
         this.chatModel = chatModel;
@@ -60,7 +69,17 @@ public class OpenAIServiceImpl implements OpenAIService {
 
         ChatResponse response = chatModel.call(prompt);
 
-        return new Answer(response.getResult().getOutput().getContent());
+        // Parte de gestión de devolución de la respuesta. Dado el JSON, se pasa a responseString
+        System.out.println(response.getResult().getOutput().getContent());
+        String responseString;
+        try {
+            JsonNode jsonNode = objectMapper.readTree(response.getResult().getOutput().getContent());
+            responseString = jsonNode.get("answer").asText();
+        } catch (JsonProcessingException e) {
+            throw new RuntimeException();
+        }
+
+        return new Answer(responseString);
     }
 
     // Ver el template get-capital-with-info.st
