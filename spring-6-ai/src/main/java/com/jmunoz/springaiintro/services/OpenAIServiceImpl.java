@@ -3,10 +3,7 @@ package com.jmunoz.springaiintro.services;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.jmunoz.springaiintro.model.Answer;
-import com.jmunoz.springaiintro.model.GetCapitalRequest;
-import com.jmunoz.springaiintro.model.GetCapitalResponse;
-import com.jmunoz.springaiintro.model.Question;
+import com.jmunoz.springaiintro.model.*;
 import org.springframework.ai.chat.model.ChatModel;
 import org.springframework.ai.chat.model.ChatResponse;
 import org.springframework.ai.chat.prompt.Prompt;
@@ -116,5 +113,20 @@ public class OpenAIServiceImpl implements OpenAIService {
         ChatResponse response = chatModel.call(prompt);
 
         return new Answer(response.getResult().getOutput().getContent());
+    }
+
+    @Override
+    public GetCapitalWithInfoResponse getCapitalWithInfo2(GetCapitalRequest getCapitalRequest) {
+        BeanOutputConverter<GetCapitalWithInfoResponse> converter = new BeanOutputConverter<>(GetCapitalWithInfoResponse.class);
+        String format = converter.getFormat();
+
+        // Notar que usamos getCapital2Prompt
+        // Ahí esta {format} que ahora enlazamos al nuevo JSON schema GetCapitalWithInfoResponse
+        PromptTemplate promptTemplate = new PromptTemplate(getCapital2Prompt);
+        Prompt prompt = promptTemplate.create(Map.of("stateOrCountry", getCapitalRequest.stateOrCountry(), "format", format));
+        ChatResponse response = chatModel.call(prompt);
+
+        return converter.convert(response.getResult().getOutput().getContent());
+
     }
 }
