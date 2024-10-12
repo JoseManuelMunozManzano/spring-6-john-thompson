@@ -11,7 +11,6 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.mockito.Mock;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.test.autoconfigure.web.client.RestClientTest;
 import org.springframework.boot.test.context.TestConfiguration;
 import org.springframework.boot.test.mock.mockito.MockBean;
@@ -33,6 +32,7 @@ import org.springframework.security.oauth2.core.AuthorizationGrantType;
 import org.springframework.security.oauth2.core.OAuth2AccessToken;
 import org.springframework.test.web.client.MockRestServiceServer;
 import org.springframework.web.client.HttpClientErrorException;
+import org.springframework.web.client.RestClient;
 import org.springframework.web.client.RestTemplate;
 import org.springframework.web.util.UriComponentsBuilder;
 
@@ -79,6 +79,10 @@ public class BeerClientMockTest {
     // Y necesitamos nuestra configuración de RestTemplateBuilder
     @Autowired
     RestTemplateBuilder restTemplateBuilderConfigured;
+
+    // Y aquí indicamos nuestra configuración de RestClient
+    @Autowired
+    RestClient.Builder restClientBuilder;
 
     // SpringBoot por defecto crea una instancia de Jackson ObjectMapper.
     @Autowired
@@ -141,8 +145,8 @@ public class BeerClientMockTest {
         server = MockRestServiceServer.bindTo(restTemplate).build();
         when(mockRestTemplateBuilder.build()).thenReturn(restTemplate);
 
-        // Inyectamos a la implementación de BeerClient nuestro template builder.
-        beerClient = new BeerClientImpl(mockRestTemplateBuilder);
+        // Inyectamos a la implementación de BeerClient el template builder.
+        beerClient = new BeerClientImpl(RestClient.builder(mockRestTemplateBuilder.build()));
 
         // Obtenemos un BeerDTO con un id concreto.
         beerDto = getBeerDto();
