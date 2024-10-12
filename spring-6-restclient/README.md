@@ -22,6 +22,6 @@ Los cambios hechos para que trabaje como RestClient son:
 - Clonar el repositorio
 - Renombrar `application.template.properties` a `application.properties` e indicar sus valores
 - Ejecutar los tests de la clase `BeerClientImplTest.java`
-    - Tienen que estar en ejecución los siguientes proyectos: `spring-6-auth-server` y `spring-6-resource-server`
+    - Tienen que estar en ejecución los siguientes proyectos: `spring-6-auth-server`, `spring-6-gateway` y `spring-6-resource-server`, que es el MVC
 - Ejecutar los tests de la clase `BeerClientMockTest.java`
     - Para estos tests no es necesario que se ejecute ningún otro proyecto
