@@ -52,7 +52,7 @@ spring:
         - id: spring-6-rest-mvc
           uri: http://localhost:8081
           predicates:
-            - Path=/api/v1/*
+            - Path=/api/v1/**
       # Desde aquí hasta el final es la parte de debug.
       # No la queremos en Producción, solo para resolver problemas en tiempo de desarrollo.      
       httpserver:
@@ -69,7 +69,13 @@ logging:
 
 Al indicar `reactor.netty: trace` aparece una excepción `ChannelOperation terminal stack` que no es realmente un error.
 
-6. Para convertir nuestro Gateway en un OAuth2 Resource Server hay que añadir al POM la siguiente configuración
+6. https://docs.spring.io/spring-framework/docs/current/javadoc-api/org/springframework/web/util/pattern/PathPattern.html
+
+/resources/*.png — matches all .png files in the resources directory
+
+/resources/** — matches all files underneath the /resources/ path, including /resources/image.png and /resources/css/spring.css
+
+7. Para convertir nuestro Gateway en un OAuth2 Resource Server hay que añadir al POM la siguiente configuración
 
 ```
 <dependency>
