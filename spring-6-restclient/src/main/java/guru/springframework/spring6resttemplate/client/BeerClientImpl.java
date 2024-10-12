@@ -1,12 +1,14 @@
 package guru.springframework.spring6resttemplate.client;
 
 import guru.springframework.spring6resttemplate.model.BeerDTO;
+import guru.springframework.spring6resttemplate.model.BeerDTOPageImpl;
 import guru.springframework.spring6resttemplate.model.BeerStyle;
 import lombok.RequiredArgsConstructor;
 import lombok.val;
 import org.springframework.data.domain.Page;
 import org.springframework.stereotype.Service;
 import org.springframework.web.client.RestClient;
+import org.springframework.web.util.UriComponentsBuilder;
 
 import java.util.UUID;
 
@@ -21,12 +23,41 @@ public class BeerClientImpl implements BeerClient {
 
     @Override
     public Page<BeerDTO> listBeers() {
-        return null;
+        return listBeers(null, null, null, null, null);
     }
 
     @Override
     public Page<BeerDTO> listBeers(String beerName, BeerStyle beerStyle, Boolean showInventory, Integer pageNumber, Integer pageSize) {
-        return null;
+
+        RestClient restClient = restClientBuilder.build();
+
+        UriComponentsBuilder uriComponentsBuilder = UriComponentsBuilder.fromPath(GET_BEER_PATH);
+
+        if (beerName != null) {
+            uriComponentsBuilder.queryParam("beerName", beerName);
+        }
+
+        if (beerStyle != null) {
+            uriComponentsBuilder.queryParam("beerStyle", beerStyle);
+        }
+
+        if (showInventory != null) {
+            uriComponentsBuilder.queryParam("showInventory", showInventory);
+        }
+
+        if (pageNumber != null) {
+            uriComponentsBuilder.queryParam("pageNumber", pageNumber);
+        }
+
+        if (pageSize != null) {
+            uriComponentsBuilder.queryParam("pageSize", pageSize);
+        }
+
+        // No debemos temer este warning porque estamos enlazados a la implementación de BeerDTOPageImpl
+        return restClient.get()
+                .uri(uriComponentsBuilder.toUriString())
+                .retrieve()
+                .body(BeerDTOPageImpl.class);
     }
 
     @Override
@@ -72,9 +103,8 @@ public class BeerClientImpl implements BeerClient {
         restClient.put()
                 .uri(uriBuilder -> uriBuilder.path(GET_BEER_BY_ID_PATH).build(beerDto.getId()))
                 .body(beerDto)
-                .retrieve();
-                // No hace falta
-                // .toBodilessEntity();
+                .retrieve()
+                .toBodilessEntity();
 
         return getBeerById(beerDto.getId());
 
@@ -87,6 +117,8 @@ public class BeerClientImpl implements BeerClient {
 
         restClient.delete()
                 .uri(uriBuilder -> uriBuilder.path(GET_BEER_BY_ID_PATH).build(beerId))
-                .retrieve();
+                .retrieve()
+                // Esta parte hace falta para cuando no encuentra el id (test notfound)
+                .toBodilessEntity();
     }
 }
