@@ -139,6 +139,10 @@
 - Introduction to Spring AI
   - spring-6-ai
     - Nuevo proyecto con un ejemplo para usar la API Key de OpenAI
+- Spring RestClient
+  - spring-6-restclient
+    - Cogemos toda la estructura del proyecto `spring-6-resttemplate-oauth2` para realizar este proyecto
+    - RestClient sigue el estilo de programación de WebClient, pero es de naturaleza bloqueante, y realmente está construido sobre RestTemplate, a tal nivel que se puede instanciar un RestClient usando una instancia de RestTemplate
 
 ## URLs con documentación
 
