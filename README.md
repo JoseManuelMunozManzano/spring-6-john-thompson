@@ -143,6 +143,9 @@
   - spring-6-restclient
     - Cogemos toda la estructura del proyecto `spring-6-resttemplate-oauth2` para realizar este proyecto
     - RestClient sigue el estilo de programación de WebClient, pero es de naturaleza bloqueante, y realmente está construido sobre RestTemplate, a tal nivel que se puede instanciar un RestClient usando una instancia de RestTemplate
+- Spring Boot Actuator
+  - Vamos a modificar los siguientes proyectos para añadir Actuator
+    - spring-6-resource-server
 
 ## URLs con documentación
 

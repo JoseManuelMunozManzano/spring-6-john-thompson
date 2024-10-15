@@ -4,6 +4,8 @@ Usando las credenciales de OAuth2 generadas en el proyecto anterior `spring-6-au
 
 Partimos del proyecto `spring-6-security-basic` y vamos a usar Spring Security para configurarlo como un OAuth2 Resource Server, es decir, que va a aceptar un Token JWT que obtendremos del Authentication Server y usarlo para dar seguridad a nuestras APIs
 
+Para no crear otro proyecto, porque es muy sencillo, añadimos Spring Boot Actuator aquí mismo.
+
 ## Notas
 
 1. Necesitamos añadir al POM la dependencia de resource-server
@@ -14,6 +16,17 @@ Partimos del proyecto `spring-6-security-basic` y vamos a usar Spring Security p
     <artifactId>spring-boot-starter-oauth2-resource-server</artifactId>
 </dependency>
 ```
+
+2. Añadir la dependencia para Spring Boot Actuator
+
+```
+<dependency>
+    <groupId>org.springframework.boot</groupId>
+    <artifactId>spring-boot-starter-security</artifactId>
+</dependency>
+```
+
+Se ha añadido la configuración de seguridad en `SpringSecConfig.java`.
 
 ## Testing
 
@@ -28,3 +41,5 @@ Partimos del proyecto `spring-6-security-basic` y vamos a usar Spring Security p
   - Si eliminamos algún carácter del token, veremos que da error 401, Unauthorized
 - Ejecutar los tests de nuestro proyecto `spring-6-resource-server`
   - Para esto no hace falta ejecutar el proyecto `spring-6-auth-server`
+- Para probar `Spring Boot Actuator`, ejecutar este proyecto e ir a Postman (en la carpeta `/postman/actuator` tenemos el endpoint)
+  - El resultado es un pequeño JSON que indica "status": "UP"

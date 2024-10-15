@@ -1,7 +1,9 @@
 package com.jmunoz.restmvc.config;
 
+import org.springframework.boot.actuate.autoconfigure.security.servlet.EndpointRequest;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.core.annotation.Order;
 import org.springframework.security.config.Customizer;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.web.SecurityFilterChain;
@@ -9,9 +11,20 @@ import org.springframework.security.web.SecurityFilterChain;
 @Configuration
 public class SpringSecConfig {
 
+    // Este bean es para configurar la seguridad en el endpoint de Actuator.
+    // Por defecto solo el endpoint health va a ser habilitado.
+    @Bean
+    @Order(1)
+    public SecurityFilterChain actuatorSecurityFilterChain(HttpSecurity http) throws Exception {
+        http.authorizeHttpRequests(authorize -> authorize.requestMatchers(EndpointRequest.toAnyEndpoint()).permitAll());
+
+        return http.build();
+    }
+
     // Configuramos para que soporte ser un resource server que usa JWT.
     // Con esta configuración no hace falta deshabilitar CSRF.
     @Bean
+    @Order(2)
     public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
 
         http.authorizeHttpRequests(authorizationManagerRequestMatcherRegistry -> {
