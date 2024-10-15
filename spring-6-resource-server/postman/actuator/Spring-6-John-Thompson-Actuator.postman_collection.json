@@ -24,6 +24,46 @@
 				}
 			},
 			"response": []
+		},
+		{
+			"name": "Actuator Health Readiness",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "localhost:8081/actuator/health/readiness",
+					"host": [
+						"localhost"
+					],
+					"port": "8081",
+					"path": [
+						"actuator",
+						"health",
+						"readiness"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Actuator Health Liveness",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "localhost:8081/actuator/health/liveness",
+					"host": [
+						"localhost"
+					],
+					"port": "8081",
+					"path": [
+						"actuator",
+						"health",
+						"liveness"
+					]
+				}
+			},
+			"response": []
 		}
 	]
 }
