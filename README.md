@@ -146,6 +146,7 @@
 - Spring Boot Actuator
   - Vamos a modificar los siguientes proyectos para añadir Actuator
     - spring-6-resource-server
+    - spring-6-webflux-resource-server
 
 ## URLs con documentación
 
