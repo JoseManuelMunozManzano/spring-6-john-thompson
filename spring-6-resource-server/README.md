@@ -22,7 +22,7 @@ Para no crear otro proyecto, porque es muy sencillo, añadimos Spring Boot Actua
 ```
 <dependency>
     <groupId>org.springframework.boot</groupId>
-    <artifactId>spring-boot-starter-security</artifactId>
+    <artifactId>spring-boot-starter-actuator</artifactId>
 </dependency>
 ```
 
