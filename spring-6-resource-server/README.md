@@ -28,6 +28,16 @@ Para no crear otro proyecto, porque es muy sencillo, añadimos Spring Boot Actua
 
 Se ha añadido la configuración de seguridad en `SpringSecConfig.java`.
 
+3. Añadir Integración de Actuator para las sondas en Kubernates
+
+Se hace vía properties.
+
+```
+management.endpoint.health.probes.enabled=true
+management.health.readinessstate.enabled=true
+management.health.livenessstate.enabled=true
+```
+
 ## Testing
 
 - Clonar el repositorio
@@ -41,5 +51,5 @@ Se ha añadido la configuración de seguridad en `SpringSecConfig.java`.
   - Si eliminamos algún carácter del token, veremos que da error 401, Unauthorized
 - Ejecutar los tests de nuestro proyecto `spring-6-resource-server`
   - Para esto no hace falta ejecutar el proyecto `spring-6-auth-server`
-- Para probar `Spring Boot Actuator`, ejecutar este proyecto e ir a Postman (en la carpeta `/postman/actuator` tenemos el endpoint)
-  - El resultado es un pequeño JSON que indica "status": "UP"
+- Para probar `Spring Boot Actuator`, ejecutar este proyecto e ir a Postman
+  - En la carpeta `/postman/actuator` tenemos los distintos endpoints
