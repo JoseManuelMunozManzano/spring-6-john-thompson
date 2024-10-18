@@ -1,0 +1,69 @@
+{
+	"info": {
+		"_postman_id": "2b060d95-c87b-41b4-8c53-d37868d169c1",
+		"name": "Spring-6-John-Thompson-Actuator",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+		"_exporter_id": "7508044"
+	},
+	"item": [
+		{
+			"name": "Actuator Health",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "localhost:9000/actuator/health",
+					"host": [
+						"localhost"
+					],
+					"port": "9000",
+					"path": [
+						"actuator",
+						"health"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Actuator Health Readiness",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "localhost:9000/actuator/health/readiness",
+					"host": [
+						"localhost"
+					],
+					"port": "9000",
+					"path": [
+						"actuator",
+						"health",
+						"readiness"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Actuator Health Liveness",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "localhost:9000/actuator/health/liveness",
+					"host": [
+						"localhost"
+					],
+					"port": "9000",
+					"path": [
+						"actuator",
+						"health",
+						"liveness"
+					]
+				}
+			},
+			"response": []
+		}
+	]
+}

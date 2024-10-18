@@ -8,7 +8,9 @@ Los pasos para lograr esto son:
 - Configurar un resource server
 - Como puede un RestTemplate obtener el token y usarlo para autenticarse
 
-Vamos a ver en concreto el primer paso
+Vamos a ver en concreto el primer paso.
+
+Además, para no crear otro proyecto, porque es muy sencillo, añadimos Spring Boot Actuator aquí mismo.
 
 ## Notas
 
@@ -49,8 +51,31 @@ Ir a `https://www.jstoolset.com/jwt` y pegarlo. Se debe ver algo tipo así.
 
 NOTA: No usar esta página para JWT de la empresa, puesto que no sabemos que hace con él
 
+5. Añadir la dependencia para Spring Boot Actuator
+
+```
+<dependency>
+    <groupId>org.springframework.boot</groupId>
+    <artifactId>spring-boot-starter-actuator</artifactId>
+</dependency>
+```
+
+Se ha añadido la configuración de seguridad en `SecurityConfig.java`.
+
+6. Añadir Integración de Actuator para las sondas en Kubernates
+
+Se hace vía properties.
+
+```
+management.endpoint.health.probes.enabled=true
+management.health.readinessstate.enabled=true
+management.health.livenessstate.enabled=true
+```
+
 ## Testing
 
 - Clonar el repositorio
 - Ejecutar esta aplicación
 - Uso de Postman para obtener un token de nuestro authorization server
+- Para probar `Spring Boot Actuator`, ejecutar este proyecto e ir a Postman
+    - En la carpeta `/postman/actuator` tenemos los distintos endpoints

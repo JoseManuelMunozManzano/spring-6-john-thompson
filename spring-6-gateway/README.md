@@ -4,6 +4,8 @@ Nuevo proyecto para crear un Gateway que, usando `spring-6-auth-server` va a lla
 
 Nuestro Gateway también va a ser un OAuth2 Resource Server, para que solo nos lleguen peticiones a las rutas que queremos.
 
+Además, para no crear otro proyecto, porque es muy sencillo, añadimos Spring Boot Actuator aquí mismo.
+
 ## Notas
 
 1. Lo que queremos conseguir es esto
@@ -88,6 +90,27 @@ En nuestro archivo `application.yml` tenemos que añadir ciertas properties de c
 
 Y hay que crear un fuente java de configuración.
 
+8. Añadir la dependencia para Spring Boot Actuator
+
+```
+<dependency>
+    <groupId>org.springframework.boot</groupId>
+    <artifactId>spring-boot-starter-actuator</artifactId>
+</dependency>
+```
+
+Se ha añadido la configuración de seguridad en `SpringSecConfig.java`.
+
+9. Añadir Integración de Actuator para las sondas en Kubernates
+
+Se hace vía properties.
+
+```
+management.endpoint.health.probes.enabled=true
+management.health.readinessstate.enabled=true
+management.health.livenessstate.enabled=true
+```
+
 ## Testing
 
 - Clonar el repositorio
@@ -100,3 +123,5 @@ Y hay que crear un fuente java de configuración.
 - Obtener el token usando el endpoint que está en esta carpeta `postman`, y, una vez obtenido el token, pulsar `Use Token` y probar el endpoint
   - En el endpoint alternar entre `v1`, `v2` y `v3` para probar los endpoints de los tres proyectos
   - El port de este endpoint si que debe ser el `8080`, para salir por el gateway
+- Para probar `Spring Boot Actuator`, ejecutar este proyecto e ir a Postman
+  - En la carpeta `/postman/actuator` tenemos los distintos endpoints

@@ -5,6 +5,7 @@ import com.nimbusds.jose.jwk.RSAKey;
 import com.nimbusds.jose.jwk.source.ImmutableJWKSet;
 import com.nimbusds.jose.jwk.source.JWKSource;
 import com.nimbusds.jose.proc.SecurityContext;
+import org.springframework.boot.actuate.autoconfigure.security.servlet.EndpointRequest;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.core.annotation.Order;
@@ -39,10 +40,19 @@ import java.util.UUID;
 @Configuration
 public class SecurityConfig {
 
+    @Bean
+    @Order(1)
+    public SecurityFilterChain actuatorSecurityFilterChain(HttpSecurity http) throws Exception {
+        http.securityMatcher(EndpointRequest.toAnyEndpoint())
+                .authorizeHttpRequests(authorize -> authorize.anyRequest().permitAll());
+
+        return http.build();
+    }
+
     // Este méto-do configura la funcionalidad para el OAuth authorization server.
     // Son endpoints concretos que van a ser expuestos por el authorization server y disponibles para usar.
     @Bean
-    @Order(1)
+    @Order(2)
     public SecurityFilterChain authorizationServerSecurityFilterChain(HttpSecurity http)
             throws Exception {
 
@@ -69,7 +79,7 @@ public class SecurityConfig {
     // Si no son autorizadas se redirigen al login.
     // Tal y como está, deben estar autorizadas todas salvo el login.
     @Bean
-    @Order(2)
+    @Order(3)
     public SecurityFilterChain defaultSecurityFilterChain(HttpSecurity http)
             throws Exception {
         http

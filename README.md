@@ -148,6 +148,7 @@
     - spring-6-resource-server
     - spring-6-webflux-resource-server
     - spring-6-webflux-fn-resource-server
+    - spring-6-gateway y spring-6-auth-server
 
 ## URLs con documentación
 
