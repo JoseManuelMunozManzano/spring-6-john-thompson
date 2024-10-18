@@ -4,7 +4,7 @@ Usando las credenciales de OAuth2 generadas en el proyecto anterior `spring-6-au
 
 Partimos del proyecto `spring-6-security-basic` y vamos a usar Spring Security para configurarlo como un OAuth2 Resource Server, es decir, que va a aceptar un Token JWT que obtendremos del Authentication Server y usarlo para dar seguridad a nuestras APIs
 
-Para no crear otro proyecto, porque es muy sencillo, añadimos Spring Boot Actuator aquí mismo.
+Para no crear otro proyecto, porque es muy sencillo, añadimos Spring Boot Actuator y Logbook aquí mismo.
 
 ## Notas
 
@@ -38,6 +38,26 @@ management.health.readinessstate.enabled=true
 management.health.livenessstate.enabled=true
 ```
 
+4. Logbook
+
+Para trabajar con Logbook solo hay que añadir la dependencia
+
+```
+<properties>
+    <logbook.version>3.9.0</logbook.version>
+</properties>
+
+<dependency>
+    <groupId>org.zalando</groupId>
+    <artifactId>logbook-spring-boot-starter</artifactId>
+    <version>${logbook.version}</version>
+</dependency>
+```
+
+Y la siguiente property en application.properties: `logging.level.org.zalando.logbook=trace`.
+
+Hay que ejecutar también el proyecto `spring-6-auth-server` porque nos hace falta el token OAuth2.0.
+
 ## Testing
 
 - Clonar el repositorio
@@ -53,3 +73,9 @@ management.health.livenessstate.enabled=true
   - Para esto no hace falta ejecutar el proyecto `spring-6-auth-server`
 - Para probar `Spring Boot Actuator`, ejecutar este proyecto e ir a Postman
   - En la carpeta `/postman/actuator` tenemos los distintos endpoints
+- Para probar `Logbook` solo hay que ejecutar el proyecto
+  - Ejecutar también el proyecto `spring-6-auth-server`
+    - Obtener un token usando el endpoint que está en su carpeta `postman`, y, una vez obtenido el token, pulsar `Use Token`
+  - En la carpeta `postman` tenemos los distintos endpoints. Copiar el token en cada uno y probar
+  - Debe verse la traza con la request en la consola de ejecución del proyecto MVC
+  - Debe verse la traza con la response en la consola de ejecución del proyecto MVC

@@ -145,10 +145,14 @@
     - RestClient sigue el estilo de programación de WebClient, pero es de naturaleza bloqueante, y realmente está construido sobre RestTemplate, a tal nivel que se puede instanciar un RestClient usando una instancia de RestTemplate
 - Spring Boot Actuator
   - Vamos a modificar los siguientes proyectos para añadir Actuator
-    - spring-6-resource-server
+    - spring-6-resource-server (nuestro MVC)
     - spring-6-webflux-resource-server
     - spring-6-webflux-fn-resource-server
-    - spring-6-gateway y spring-6-auth-server
+    - spring-6-gateway
+    - spring-6-auth-server
+- Request Logging
+  - Vamos a modificar los siguientes proyectos para añadir Logbook (de Zalando)
+    - spring-6-resource-server (nuestro MVC)
 
 ## URLs con documentación
 
