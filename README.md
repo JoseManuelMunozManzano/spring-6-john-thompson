@@ -151,7 +151,7 @@
     - spring-6-gateway
     - spring-6-auth-server
 - Request Logging
-  - Vamos a modificar los siguientes proyectos para añadir Logbook (de Zalando)
+  - Vamos a modificar los siguientes proyectos para añadir Logbook (de Zalando) y Logstash
     - spring-6-resource-server (nuestro MVC)
 
 ## URLs con documentación
