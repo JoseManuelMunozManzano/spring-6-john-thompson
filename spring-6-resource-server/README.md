@@ -115,6 +115,18 @@ Esto crea una sencilla implementación de caché por defecto.
 
 Veremos también como habilitar caché en métodos concretos.
 
+8. Cashing in methods
+
+Pensando que el cashing es como un map en memoria, tenemos que indicar que map queremos usar.
+
+Indicamos como map, beerCache en nuestro fichero de properties: `spring.cache.cache-name=beerCache`.
+
+Ahora tenemos que habilitar los métodos en los que queremos usar esta caché. Lo hacemos en `services/BeerServiceJPA.java` añadiendo al método:
+
+```
+@Cacheable(cacheNames = "beerCache", key = "#id")
+```
+
 ## Testing
 
 - Clonar el repositorio
@@ -142,3 +154,10 @@ Veremos también como habilitar caché en métodos concretos.
   - En la carpeta `postman` tenemos los distintos endpoints. Copiar el token en cada uno y probar
   - Debe verse la traza con la request en la consola de ejecución del proyecto MVC, ahora en formato JSON
   - Debe verse la traza con la response en la consola de ejecución del proyecto MVC, ahora en formato JSON
+- Para probar el cashing, tenemos que ejecutar este proyecto
+  - Ejecutar también el proyecto `spring-6-auth-server`
+    - Obtener un token usando el endpoint que está en su carpeta `postman`, y, una vez obtenido el token, pulsar `Use Token`
+    - Ejecutar el endpoint `Get All Beers` usando el token, para obtener todos los ids
+    - Ejecutar ahora el endpoint que realmente queremos y estamos cacheando, `Get Beer By Id` usando uno de los id que de la consulta anterior (y el token)
+    - Vemos que tarda unos 60ms en ejecutarse y en consola aparece que se ha ejecutado el service
+    - Si volvemos a ejecutar de nuevo el endpoint `Get Beer By Id` veremos que ahora tarda mucho menos, en mi ejemplo 13ms, y no se ha ejecutado la parte del service, porque gracias al cache no se le ha llamado siquiera

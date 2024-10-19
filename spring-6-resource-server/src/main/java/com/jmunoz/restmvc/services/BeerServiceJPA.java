@@ -5,6 +5,8 @@ import com.jmunoz.restmvc.model.BeerDto;
 import com.jmunoz.restmvc.model.BeerStyle;
 import com.jmunoz.restmvc.repositories.BeerRepository;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
+import org.springframework.cache.annotation.Cacheable;
 import org.springframework.context.annotation.Primary;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
@@ -17,6 +19,7 @@ import java.util.UUID;
 import java.util.concurrent.atomic.AtomicReference;
 
 // Como ahora vamos a tener dos implementaciones de BeerService, este que usa JPA lo hacemos @Primary
+@Slf4j
 @Service
 @Primary
 @RequiredArgsConstructor
@@ -98,8 +101,19 @@ public class BeerServiceJPA implements BeerService {
         return PageRequest.of(queryPageNumber, queryPageSize, sort);
     }
 
+    // En este méto-do vamos a habilitar cashing.
+    // La key es opcional y en este caso ni haría falta. Usa Spring Expression Language.
+    // En este caso solo tenemos un parámetro, e indica que se use el valor id.
+    // Spring va a crear automáticamente las keys por nosotros, usando reflexión.
+    //
+    // Cómo funciona: Cuando llega la petición, Spring usa AOP para interceptar dicha request,
+    // busca si ya está cacheado y devuelve el valor sin siquiera tener que invocar este méto-do.
+    @Cacheable(cacheNames = "beerCache", key = "#id")
     @Override
     public Optional<BeerDto> getBeerById(UUID id) {
+
+        log.info("Get Beer by Id - in service");
+
         // Para una búsqueda concreta, si debemos indicar si no se ha encontrado
         // el elemento.
         return Optional.ofNullable(beerMapper.beerEntityToBeerDto(beerRepository.findById(id)
