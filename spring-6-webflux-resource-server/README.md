@@ -2,7 +2,7 @@
 
 Vamos a coger el servidor de Spring reactivo `spring-6-webflux-rest-exception-handling` y se va a añadir OAuth, haciéndolo un OAuth Resource Server para realizar tareas de autorización
 
-Para no crear otro proyecto, porque es muy sencillo, añadimos Spring Boot Actuator aquí mismo.
+Para no crear otro proyecto, porque es muy sencillo, añadimos Spring Boot Actuator, Logbook y Logstash aquí mismo.
 
 ## Notas
 
@@ -54,15 +54,67 @@ Y `SecurityConfig.java` para añadir:
 
 Se ha añadido la configuración de seguridad en `SecurityConfig.java`.
 
-4. Añadir Integración de Actuator para las sondas en Kubernates
+4. Logbook
 
-Se hace vía properties.
+Para trabajar con Logbook solo hay que añadir las dependencias
 
 ```
-management.endpoint.health.probes.enabled=true
-management.health.readinessstate.enabled=true
-management.health.livenessstate.enabled=true
+<properties>
+    <logbook.version>3.9.0</logbook.version>
+</properties>
+
+<dependency>
+    <groupId>org.zalando</groupId>
+    <artifactId>logbook-spring-boot-starter</artifactId>
+    <version>${logbook.version}</version>
+</dependency>
+
+<dependency>
+    <groupId>org.zalando</groupId>
+    <artifactId>logbook-spring-boot-webflux-autoconfigure</artifactId>
+    <version>${logbook.version}</version>
+</dependency>
 ```
+
+Y la siguiente property en application.properties: `logging.level.org.zalando.logbook=trace`.
+
+Hay que ejecutar también el proyecto `spring-6-auth-server` porque nos hace falta el token OAuth2.0.
+
+5. Logstash
+
+Sirve para habilitar JSON logging. Hay que añadir las siguientes dependencias
+
+```
+<properties>
+    <logstash-logback-encoder.version>8.0</logstash-logback-encoder.version>
+</properties>
+
+<dependency>
+    <groupId>net.logstash.logback</groupId>
+    <artifactId>logstash-logback-encoder</artifactId>
+    <version>${logstash-logback-encoder.version}</version>
+</dependency>
+```
+
+Y para configurarlo, se crea dentro de la carpeta `resources` el fichero `logback-spring.xml` y se escribe dicha configuración.
+
+6. Que Logbook y Logstash trabajen juntos
+
+Hay que añadir la siguiente dependencia
+
+```
+<dependency>
+    <groupId>org.zalando</groupId>
+    <artifactId>logbook-logstash</artifactId>
+    <version>${logbook.version}</version>
+</dependency>
+```
+
+Y se crea la siguiente configuración en el package `config`, con nombre `LogbookConfig.java`.
+
+La idea es poder obtener en consola el JSON Payload en formato JSON, no String, y con el formato sin escapar.
+
+Con esto, podemos buscar problemas de ejecución y realizar auditorías.
 
 ## Testing
 
@@ -76,3 +128,15 @@ management.health.livenessstate.enabled=true
   - Una vez hecho indicado el token en los endpoints, ya se pueden ejecutar
 - Para probar `Spring Boot Actuator`, ejecutar este proyecto e ir a Postman
   - En la carpeta `/postman/actuator` tenemos los distintos endpoints
+- Para probar `Logbook` solo hay que ejecutar el proyecto
+  - Ejecutar también el proyecto `spring-6-auth-server`
+    - Obtener un token usando el endpoint que está en su carpeta `postman`, y, una vez obtenido el token, pulsar `Use Token`
+  - En la carpeta `postman` tenemos los distintos endpoints. Copiar el token en cada uno y probar
+  - Debe verse la traza con la request en la consola de ejecución del proyecto MVC, en formato String
+  - Debe verse la traza con la response en la consola de ejecución del proyecto MVC, en formato String
+- Para probar `Logbook` junto con `Logstash` solo hay que ejecutar el proyecto
+  - Ejecutar también el proyecto `spring-6-auth-server`
+    - Obtener un token usando el endpoint que está en su carpeta `postman`, y, una vez obtenido el token, pulsar `Use Token`
+  - En la carpeta `postman` tenemos los distintos endpoints. Copiar el token en cada uno y probar
+  - Debe verse la traza con la request en la consola de ejecución del proyecto MVC, ahora en formato JSON
+  - Debe verse la traza con la response en la consola de ejecución del proyecto MVC, ahora en formato JSON

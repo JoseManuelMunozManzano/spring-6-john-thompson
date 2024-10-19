@@ -153,6 +153,7 @@
 - Request Logging
   - Vamos a modificar los siguientes proyectos para añadir Logbook (de Zalando) y Logstash
     - spring-6-resource-server (nuestro MVC)
+    - spring-6-webflux-resource-server
 
 ## URLs con documentación
 
