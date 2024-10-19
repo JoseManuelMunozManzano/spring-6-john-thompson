@@ -33,8 +33,14 @@ public class BeerServiceJPA implements BeerService {
     private static final int DEFAULT_PAGE = 0;
     private static final int DEFAULT_PAGE_SIZE = 25;
 
+    // Cacheamos, sin indicar esta vez las keys.
+    // Spring crea la key, una combinación de todos los parámetros.
+    // Cuando cambie la key, no se encontrará la caché y se ejecutará el méto-do de nuevo.
+    @Cacheable(cacheNames = "beerListCache")
     @Override
     public Page<BeerDto> listBeers(Integer pageNumber, Integer pageSize) {
+
+        log.info("List Beers - in service");
 
         PageRequest pageRequest = buildPageRequest(pageNumber, pageSize);
 
@@ -42,8 +48,14 @@ public class BeerServiceJPA implements BeerService {
         return beerRepository.findAll(pageRequest).map(beerMapper::beerEntityToBeerDto);
     }
 
+    // Cacheamos, sin indicar esta vez las keys.
+    // Spring crea la key, una combinación de todos los parámetros.
+    // Cuando cambie la key, no se encontrará la caché y se ejecutará el méto-do de nuevo.
+    @Cacheable(cacheNames = "beerListCache")
     @Override
     public Page<BeerDto> listBeersByNameAndStyle(String beerName, BeerStyle beerStyle, Integer pageNumber, Integer pageSize) {
+
+        log.info("List Beers - in service");
 
         PageRequest pageRequest = buildPageRequest(pageNumber, pageSize);
 
@@ -51,7 +63,13 @@ public class BeerServiceJPA implements BeerService {
                 .map(beerMapper::beerEntityToBeerDto);
     }
 
+    // Cacheamos, sin indicar esta vez las keys.
+    // Spring crea la key, una combinación de todos los parámetros.
+    // Cuando cambie la key, no se encontrará la caché y se ejecutará el méto-do de nuevo.
+    @Cacheable(cacheNames = "beerListCache")
     public Page<BeerDto> listBeersByNameContainingIgnoreCase(String beerName, Integer pageNumber, Integer pageSize) {
+
+        log.info("List Beers - in service");
 
         PageRequest pageRequest = buildPageRequest(pageNumber, pageSize);
 
@@ -59,8 +77,14 @@ public class BeerServiceJPA implements BeerService {
                 .map(beerMapper::beerEntityToBeerDto);
     }
 
+    // Cacheamos, sin indicar esta vez las keys.
+    // Spring crea la key, una combinación de todos los parámetros.
+    // Cuando cambie la key, no se encontrará la caché y se ejecutará el méto-do de nuevo.
+    @Cacheable(cacheNames = "beerListCache")
     @Override
     public Page<BeerDto> listBeersByStyle(BeerStyle beerStyle, Integer pageNumber, Integer pageSize) {
+
+        log.info("List Beers - in service");
 
         PageRequest pageRequest = buildPageRequest(pageNumber, pageSize);
 
