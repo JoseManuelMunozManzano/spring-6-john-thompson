@@ -19,17 +19,6 @@ spring:
           uri: http://localhost:8083
           predicates:
             - Path=/api/v3/**
-# ENABLE BELOW FOR TROUBLESHOOTING
-#      httpserver:
-#        wiretap: true
-#      httpclient:
-#        wiretap: true
-#logging:
-#  level:
-#    root: error
-#    reactor.netty: trace
-#    org.springframework.cloud.gateway: trace
-#    org.springframework.http.server.reactive: trace
   # Actuator
 management:
   endpoint:
@@ -41,3 +30,16 @@ management:
       enabled: true
     livenessstate:
       enabled: true
+# ENABLE BELOW FOR TROUBLESHOOTING
+#      httpserver:
+#        wiretap: true
+#      httpclient:
+#        wiretap: true
+logging:
+  level:
+    # Para trabajar con Logbook
+    org.zalando.logbook: trace
+#    root: error
+#    reactor.netty: trace
+#    org.springframework.cloud.gateway: trace
+#    org.springframework.http.server.reactive: trace
