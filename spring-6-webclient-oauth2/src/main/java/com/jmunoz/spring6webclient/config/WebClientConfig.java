@@ -6,6 +6,8 @@ import org.springframework.context.annotation.Configuration;
 import org.springframework.security.oauth2.client.ReactiveOAuth2AuthorizedClientManager;
 import org.springframework.security.oauth2.client.web.reactive.function.client.ServerOAuth2AuthorizedClientExchangeFilterFunction;
 import org.springframework.web.reactive.function.client.WebClient;
+import org.zalando.logbook.Logbook;
+import org.zalando.logbook.spring.webflux.LogbookExchangeFilterFunction;
 
 // Establecemos la configuración de baseUrl.
 // Ahora, al desplegar nuestra app, si necesitamos cambiar la baseUrl, cosa que es fácil que ocurra,
@@ -34,7 +36,14 @@ public class WebClientConfig implements WebClientCustomizer {
         oAuth2AuthorizedClientExchangeFilterFunction
                 .setDefaultClientRegistrationId("springauth");
 
+        // Para poder trabajar con Logbook, añadimos este filtro.
+        // Se pueden configurar muchas cosas en el builder, pero aquí solo vamos a trabajar con la base.
+        LogbookExchangeFilterFunction logbookWebFilter = new LogbookExchangeFilterFunction(Logbook.builder().build());
+
         // Y ahora añadimos aquí el filtro.
-        webClientBuilder.filter(oAuth2AuthorizedClientExchangeFilterFunction).baseUrl(rootUrl);
+        webClientBuilder
+                .filter(oAuth2AuthorizedClientExchangeFilterFunction)
+                .filter(logbookWebFilter)
+                .baseUrl(rootUrl);
     }
 }
