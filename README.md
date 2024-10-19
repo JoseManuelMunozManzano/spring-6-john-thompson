@@ -157,6 +157,8 @@
     - spring-6-webflux-fn-resource-server
     - spring-6-gateway
     - No se hace en el proyecto spring-6-auth-server porque no aporta valor
+    - spring-6-resttemplate-oauth2
+    - spring-6-webclient-oauth2
 
 ## URLs con documentación
 

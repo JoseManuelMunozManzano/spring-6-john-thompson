@@ -4,6 +4,8 @@ Evolucionamos el proyecto `spring-6-resttemplate-security-basic` para poder acce
 
 Este proyecto utilizaba HTTP Basic Authentication, y lo vamos a cambiar para usar OAuth2 y Token JWT.
 
+Para no crear otro proyecto, porque es muy sencillo, añadimos Logbook aquí mismo.
+
 ## Notas
 
 1. Vamos a necesitar añadir una dependencia nueva al POM y aplicar ciertas propiedades
@@ -96,6 +98,28 @@ Ver `BeerClientMockTest.java`.
     }
 ```
 
+7. Logbook
+
+Para trabajar con Logbook solo hay que añadir la dependencia
+
+```
+<properties>
+    <logbook.version>3.9.0</logbook.version>
+</properties>
+
+<dependency>
+    <groupId>org.zalando</groupId>
+    <artifactId>logbook-spring</artifactId>
+    <version>${logbook.version}</version>
+</dependency>
+```
+
+Hay que realizar configuración, en el package `config`, fuente `RestTemplateBuilderConfig.java` para añadir un interceptor.
+
+Y la siguiente property en application.properties: `logging.level.org.zalando.logbook=trace`.
+
+En clientes, es muy útil para testear lo que se pasa a través de la red, para saber lo que hace nuestro cliente.
+
 ## Testing
 
 - Clonar el repositorio
@@ -104,3 +128,5 @@ Ver `BeerClientMockTest.java`.
   - Tienen que estar en ejecución los siguientes proyectos: `spring-6-auth-server` y `spring-6-resource-server`
 - Ejecutar los tests de la clase `BeerClientMockTest.java`
   - Para estos tests no es necesario que se ejecute ningún otro proyecto
+- Para probar `Logbook` vamos a ejecutar el test `BeerClientMockTest`, método `testListBeersWithQueryParam()`
+  - Debe verse la traza de la petición y la respuesta
