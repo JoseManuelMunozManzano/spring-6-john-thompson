@@ -68,6 +68,6 @@ En clientes, es muy útil para testear lo que se pasa a través de la red, para 
 - Renombrar `application.template.properties` a `application.properties` e indicar sus valores
 - Ejecutar los tests de la clase `BeerClientImplTest.java`
   - Tienen que estar en ejecución los siguientes proyectos: `spring-6-auth-server`, `spring-6-gateway` y `spring-6-webflux-fn-resource-server`
-- Para probar `Logbook` vamos a ejecutar el test `BeerClientImplTest`, método `tesUpdateBeer()`
+- Para probar `Logbook` vamos a ejecutar el test `BeerClientImplTest`, método `tesUpdateBeer()` (se pueden ejecutar todos)
   - Como no es un mock, deben ejecutarse los proyectos: `spring-6-auth-server`, `spring-6-gateway` y `spring-6-webflux-fn-resource-server`  
   - Debe verse la traza de la petición y la respuesta
