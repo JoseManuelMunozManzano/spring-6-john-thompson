@@ -166,3 +166,12 @@ Ahora tenemos que habilitar los métodos en los que queremos usar esta caché. L
       - Ejecutar el otro endpoint estamos cacheando, `Get All Beers`, usando el token obtenido
       - Vemos que tarda unos 140ms en ejecutarse y en consola aparece que se ha ejecutado el service
       - Si volvemos a ejecutar de nuevo el endpoint `Get All Beers` veremos que ahora tarda mucho menos, en mi ejemplo 16ms, y no se ha ejecutado la parte del service, porque gracias al cache no se le ha llamado siquiera
+    - 3
+      - Ejecutar el otro endpoint estamos cacheando, `Get All Customers`, usando el token obtenido
+      - Vemos que tarda unos 79ms en ejecutarse y en consola aparece que se ha ejecutado el service
+      - Si volvemos a ejecutar de nuevo el endpoint `Get All Customers` veremos que ahora tarda mucho menos, en mi ejemplo 11ms, y no se ha ejecutado la parte del service, porque gracias al cache no se le ha llamado siquiera
+    - 4
+      - Ejecutar el endpoint `Get All Customers` usando el token, para obtener todos los ids
+      - Ejecutar ahora el endpoint que realmente queremos y estamos cacheando, `Get Customer By Id` usando uno de los id que de la consulta anterior (y el token)
+      - Vemos que tarda unos 52ms en ejecutarse y en consola aparece que se ha ejecutado el service
+      - Si volvemos a ejecutar de nuevo el endpoint `Get Customer By Id` veremos que ahora tarda mucho menos, en mi ejemplo 10ms, y no se ha ejecutado la parte del service, porque gracias al cache no se le ha llamado siquiera

@@ -4,6 +4,8 @@ import com.jmunoz.restmvc.mappers.CustomerMapper;
 import com.jmunoz.restmvc.model.CustomerDto;
 import com.jmunoz.restmvc.repositories.CustomerRepository;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
+import org.springframework.cache.annotation.Cacheable;
 import org.springframework.context.annotation.Primary;
 import org.springframework.stereotype.Service;
 import org.springframework.util.StringUtils;
@@ -14,6 +16,7 @@ import java.util.UUID;
 import java.util.concurrent.atomic.AtomicReference;
 
 // Como ahora vamos a tener dos implementaciones de CustomerService, este que usa JPA lo hacemos @Primary
+@Slf4j
 @Service
 @Primary
 @RequiredArgsConstructor
@@ -23,16 +26,22 @@ public class CustomerServiceJPA implements CustomerService {
     private final CustomerRepository customerRepository;
     private final CustomerMapper customerMapper;
 
+    @Cacheable(cacheNames = "customerListCache")
     @Override
     public List<CustomerDto> listCustomers() {
+        log.info("List Customers - in service");
+
         return customerRepository.findAll()
                 .stream()
                 .map(customerMapper::customerEntityToCustomerDto)
                 .toList();
     }
 
+    @Cacheable(cacheNames = "customerCache")
     @Override
     public Optional<CustomerDto> getCustomerById(UUID id) {
+        log.info("Get Customer by Id - in service");
+
         return Optional.ofNullable(customerMapper
                 .customerEntityToCustomerDto(customerRepository.findById(id).orElse(null)));
     }
