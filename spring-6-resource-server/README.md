@@ -6,6 +6,8 @@ Partimos del proyecto `spring-6-security-basic` y vamos a usar Spring Security p
 
 Para no crear otro proyecto, porque es muy sencillo, añadimos Spring Boot Actuator, Logbook y Logstash aquí mismo.
 
+También vamos a añadir caché al proyecto. Cashing es el proceso de almacenar data en una localización temporal, con la idea de mejorar el rendimiento.
+
 ## Notas
 
 1. Necesitamos añadir al POM la dependencia de resource-server
@@ -93,6 +95,25 @@ Y se crea la siguiente configuración en el package `config`, con nombre `Logboo
 La idea es poder obtener en consola el JSON Payload en formato JSON, no String, y con el formato sin escapar.
 
 Con esto, podemos buscar problemas de ejecución y realizar auditorías.
+
+7. Cashing
+
+Para añadir tratamiento de caché a nuestro proyecto, necesitamos añadir la siguiente dependencia
+
+```
+<dependency>
+    <groupId>org.springframework.boot</groupId>
+    <artifactId>spring-boot-starter-cache</artifactId>
+</dependency>
+```
+
+Necesitamos habilitar este cashing.
+
+Como no tenemos ninguna clase de configuración de cashing, vamos a habilitarlo en la clase principal, `RestmvcApplication.java` para toda la aplicación.
+
+Esto crea una sencilla implementación de caché por defecto.
+
+Veremos también como habilitar caché en métodos concretos.
 
 ## Testing
 

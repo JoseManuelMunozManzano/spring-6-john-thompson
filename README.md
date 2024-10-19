@@ -160,6 +160,9 @@
     - spring-6-resttemplate-oauth2
     - spring-6-webclient-oauth2
     - spring-6-restclient
+- Cashing Data With Spring
+  - Cashing es el proceso de almacenar data en una localización temporal, con la idea de mejorar el rendimiento
+  - Vamos a modificar nuestro proyecto `spring-6-resource-server`, nuestro MVC original, para añadirle cache
 
 ## URLs con documentación
 
