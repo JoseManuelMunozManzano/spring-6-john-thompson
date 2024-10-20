@@ -153,7 +153,9 @@ public class BeerServiceJPA implements BeerService {
     public BeerDto saveNewBeer(BeerDto beer) {
 
         // Limpiamos la caché
-        cacheManager.getCache("beerListCache").clear();
+        if (cacheManager.getCache("beerListCache") != null) {
+            cacheManager.getCache("beerListCache").clear();
+        }
 
         return beerMapper.beerEntityToBeerDto(beerRepository.save(beerMapper.beerDtoToBeerEntity(beer)));
     }
@@ -188,8 +190,13 @@ public class BeerServiceJPA implements BeerService {
         // Sustituimos la anotación que hay en deleteBeerById() por esta programación.
         // Podemos usar el méto-do evict, donde indicamos la/s key/s a limpiar.
         // O podemos usar el méto-do clear, donde se limpiar to-do.
-        cacheManager.getCache("beerCache").evict(beerId);
-        cacheManager.getCache("beerListCache").clear();
+        if (cacheManager.getCache("beerCache") != null) {
+            cacheManager.getCache("beerCache").evict(beerId);
+        }
+
+        if (cacheManager.getCache("beerListCache") != null) {
+            cacheManager.getCache("beerListCache").clear();
+        }
     }
 
     // En vez de devolver un Optional y manejar una excepción en el controller, en este caso utilizamos una bandera.
