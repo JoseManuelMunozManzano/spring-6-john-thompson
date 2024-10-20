@@ -6,7 +6,9 @@ import com.jmunoz.restmvc.model.BeerStyle;
 import com.jmunoz.restmvc.repositories.BeerRepository;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.cache.annotation.CacheEvict;
 import org.springframework.cache.annotation.Cacheable;
+import org.springframework.cache.annotation.Caching;
 import org.springframework.context.annotation.Primary;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
@@ -173,6 +175,20 @@ public class BeerServiceJPA implements BeerService {
 
     // En vez de devolver un Optional y manejar una excepción en el controller, en este caso utilizamos una bandera.
     // Si existe el id se devuelve true y si no se devuelve false.
+    //
+    // Para el tema de cache, cuando hagamos una operación de manipulación de data (update, patch, delete),
+    // vamos a querer limpiarla.
+    // Pero esta anotación por si sola no funciona.
+    // Funcionaría si esta operación de delete estuviera en otra clase completamente distinta, pero el problema
+    // es que está en la misma clase donde más arriba, tenemos @Cacheable. Esto provoca un problema porque estamos
+    // cogiendo el cacheo proxy AOP, pero entonces NO cogemos el evict (limpieza de caché) proxy.
+    // Una forma de evitarlo sería usando AspectJ, otra forma de trabajar con aspectos.
+    // Otra forma de solucionarlo sería, como se ha dicho, usar otras clases, pero es demasiada refactorización.
+    // Vamos a usar una solución alternativa, Spring Cache Manager.
+    @Caching(evict = {
+            @CacheEvict(cacheNames = "beerCache", key = "#beerId"),
+            @CacheEvict(cacheNames = "beerListCache")
+    })
     @Override
     public Boolean deleteBeerById(UUID beerId) {
         if (beerRepository.existsById(beerId)) {

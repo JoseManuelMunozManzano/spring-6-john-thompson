@@ -127,6 +127,12 @@ Ahora tenemos que habilitar los métodos en los que queremos usar esta caché. L
 @Cacheable(cacheNames = "beerCache", key = "#id")
 ```
 
+9. Cache evition
+
+Consiste en limpiar la caché. Lo vamos a hacer tras operaciones de datos como update, patch o delete.
+
+Ver `BeerServiceJPA.java` para ver como se hace y los problemas que podemos tener.
+
 ## Testing
 
 - Clonar el repositorio
