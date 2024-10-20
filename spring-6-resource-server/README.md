@@ -129,9 +129,11 @@ Ahora tenemos que habilitar los métodos en los que queremos usar esta caché. L
 
 9. Cache evition
 
-Consiste en limpiar la caché. Lo vamos a hacer tras operaciones de datos como update, patch o delete.
+Consiste en limpiar la caché. Lo vamos a hacer tras operaciones de datos como save, update, patch o delete.
 
-Ver `BeerServiceJPA.java` para ver como se hace y los problemas que podemos tener.
+Ver `BeerServiceJPA.java` para ver como se hace y los problemas que podemos tener (stale cache, es decir, que la borramos, pero luego la buscamos y sigue apareciendo).
+
+Los problemas los solucionaremos con el uso de `CacheManager`.
 
 ## Testing
 
@@ -181,3 +183,8 @@ Ver `BeerServiceJPA.java` para ver como se hace y los problemas que podemos tene
       - Ejecutar ahora el endpoint que realmente queremos y estamos cacheando, `Get Customer By Id` usando uno de los id que de la consulta anterior (y el token)
       - Vemos que tarda unos 52ms en ejecutarse y en consola aparece que se ha ejecutado el service
       - Si volvemos a ejecutar de nuevo el endpoint `Get Customer By Id` veremos que ahora tarda mucho menos, en mi ejemplo 10ms, y no se ha ejecutado la parte del service, porque gracias al cache no se le ha llamado siquiera
+    - 5
+      - Ejecutar el endpoint `Get All Customers` usando el token, para obtener todos los ids. ejecutar dos veces para cachear
+      - Ejecutar ahora el endpoint `Get Customer By Id` usando uno de los id que de la consulta anterior (y el token). Ejecutar dos veces para cachear
+      - Ejecutar el endpoint `Delete Beer` usando ese id y el token. Debe borrarlo
+      - Volver a ejecutar los endpoints `Get All Customers` y `Get Customer By Id`. Si aparece ese id es que se ha producido el error `stale cache`. Si no aparece, es que todo ha ido bien y se borró la caché
