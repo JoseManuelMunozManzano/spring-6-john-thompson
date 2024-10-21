@@ -30,6 +30,4 @@ Para habilitar ese soporte, añadimos a la clase `BeerControllerIT` la anotació
 
 - Clonar el repositorio
 - Renombrar `application-localmysql.template.properties` a `application-localmysql.properties` e indicar sus valores
-- Ejecutar el proyecto con el siguiente profile activo `-Dspring.profiles.active=localmysql`
-  - Importante si queremos usar MySql en vez de H2
 - Ejecutar el test `BeerControllerIT`, en concreto el método `testCreateBeerMVC()`
