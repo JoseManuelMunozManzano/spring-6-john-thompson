@@ -12,6 +12,8 @@ Cada vez que creamos, actualizamos o borramos un Objecto Beer, vamos a lanzar un
 
 1. Los Pojos para los events se crean en el package `events`.
 
+2. Luego creamos los event listeners, que van a escuchar cuando el POJO se lanza al application event context. Se crean en el package `listeners`.
+
 ## Testing
 
 - Clonar el repositorio
