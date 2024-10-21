@@ -1,17 +1,22 @@
 package com.jmunoz.restmvc.services;
 
+import com.jmunoz.restmvc.events.BeerCreatedEvent;
 import com.jmunoz.restmvc.mappers.BeerMapper;
 import com.jmunoz.restmvc.model.BeerDto;
 import com.jmunoz.restmvc.model.BeerStyle;
 import com.jmunoz.restmvc.repositories.BeerRepository;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import lombok.val;
 import org.springframework.cache.CacheManager;
 import org.springframework.cache.annotation.Cacheable;
+import org.springframework.context.ApplicationEventPublisher;
 import org.springframework.context.annotation.Primary;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Sort;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
 import org.springframework.util.StringUtils;
 
@@ -33,6 +38,9 @@ public class BeerServiceJPA implements BeerService {
     // Uso de Cache Manager para evitar el problema de juntar en una misma clase el cacheo Proxy AOP y
     // eviction proxy AOP.
     private final CacheManager cacheManager;
+
+    // Utilizamos el Application Event Publisher para trabajar con el application event
+    private final ApplicationEventPublisher applicationEventPublisher;
 
     // El número de página es 0-index, pero en nuestra API empieza por 1, así que eso hay que configurarlo
     private static final int DEFAULT_PAGE = 0;
@@ -157,7 +165,16 @@ public class BeerServiceJPA implements BeerService {
             cacheManager.getCache("beerListCache").clear();
         }
 
-        return beerMapper.beerEntityToBeerDto(beerRepository.save(beerMapper.beerDtoToBeerEntity(beer)));
+        val savedBeer = beerRepository.save(beerMapper.beerDtoToBeerEntity(beer));
+
+        // Utility method dentro de Spring Security para obtener el contexto de Autenticación.
+        Authentication auth = SecurityContextHolder.getContext().getAuthentication();
+
+        // Y con esto publicamos el evento, usando savedBeer y el contexto de autorización.
+        // Esto se envía a nuestro event handler (BeerCreatedListener)
+        applicationEventPublisher.publishEvent(new BeerCreatedEvent(savedBeer, auth));
+
+        return beerMapper.beerEntityToBeerDto(savedBeer);
     }
 
     // Las funciones lambda no actualizan ninguna variable local (foundBeer), ya que son effective final o final.
