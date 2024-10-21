@@ -2,9 +2,15 @@
 
 Dado nuestro proyecto `spring-6-resource-server`, vamos a crear un nuevo proyecto y trabajar con eventos
 
-Se basa en el patrón Observer
+Se basa en el patrón Observer.
+
+Vamos a trabajar en un caso de uso para usar application events para crear un log de auditoría.
+
+Cada vez que creamos, actualizamos o borramos un Objecto Beer, vamos a lanzar un evento.
 
 ## Notas
+
+1. Los Pojos para los events se crean en el package `events`.
 
 ## Testing
 

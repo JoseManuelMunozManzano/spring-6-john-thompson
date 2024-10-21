@@ -167,6 +167,8 @@
   - Se basa en el patrón Observer
   - `spring-6-rest-mvc-events`
     - Dado nuestro proyecto `spring-6-resource-server`, vamos a crear un nuevo proyecto y trabajar con eventos
+    - Vamos a trabajar en un caso de uso para usar application events para crear un log de auditoría
+    - Cada vez que creamos, actualizamos o borramos un Objecto Beer, vamos a lanzar un evento
 
 ## URLs con documentación
 
