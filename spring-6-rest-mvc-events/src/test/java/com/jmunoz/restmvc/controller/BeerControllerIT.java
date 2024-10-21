@@ -2,12 +2,14 @@ package com.jmunoz.restmvc.controller;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.jmunoz.restmvc.entities.BeerEntity;
+import com.jmunoz.restmvc.events.BeerCreatedEvent;
 import com.jmunoz.restmvc.mappers.BeerMapper;
 import com.jmunoz.restmvc.model.BeerDto;
 import com.jmunoz.restmvc.model.BeerStyle;
 import com.jmunoz.restmvc.repositories.BeerRepository;
 import lombok.val;
 import org.hamcrest.core.IsNull;
+import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -17,6 +19,8 @@ import org.springframework.http.HttpStatusCode;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.test.annotation.Rollback;
+import org.springframework.test.context.event.ApplicationEvents;
+import org.springframework.test.context.event.RecordApplicationEvents;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.MvcResult;
 import org.springframework.test.web.servlet.setup.MockMvcBuilders;
@@ -43,8 +47,16 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 // es decir, tenemos un conjunto de datos para ejecutar nuestros tests.
 // Notar que se crea el test de integración para el controller.
 
+// Añadimos la anotación @RecordApplicationEvents para habilitar el soporte y saber si un evento se ha publicado.
+
+@RecordApplicationEvents
 @SpringBootTest
 class BeerControllerIT {
+
+    // Gracias a la anotación @RecordApplicationEvents tenemos disponible ApplicationEvents, que nos sirve
+    // como un log de todos los eventos que se crean durante el test.
+    @Autowired
+    ApplicationEvents applicationEvents;
 
     @Autowired
     BeerController beerController;
@@ -111,6 +123,13 @@ class BeerControllerIT {
                 .content(objectMapper.writeValueAsString(beerDTO)))
                 .andExpect(status().isCreated())
                 .andReturn();
+
+        // Obtención del evento publicado.
+        // Al informar en el stream BeerCreatedEvents, se filtra en dicho stream solo lo de BeerCreatedEvents.
+        // De esta forma, si hay más eventos, solo obtengo el que quiero.
+        Assertions.assertEquals(1, applicationEvents
+                .stream(BeerCreatedEvent.class)
+                .count());
     }
 
     @Test

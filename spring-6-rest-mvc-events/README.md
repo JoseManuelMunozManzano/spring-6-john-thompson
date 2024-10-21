@@ -18,6 +18,14 @@ Cada vez que creamos, actualizamos o borramos un Objecto Beer, vamos a lanzar un
 
 Ver el test `BeerControllerIT`, nuevo método `testCreateBeerMVC()`, que implementamos en el package `services`, clase `BeerServiceJPA`, método `saveNewBeer()`.
 
+4. Otras cosas que hacer
+
+Hasta el punto 3 sería todo lo necesario para crear un evento, pero Spring también tiene soporte para testear eventos.
+
+En nuestro test del punto 3, hicimos una acción que dispara el evento para ser publicado, pero en dicho test no está claro que el evento realmente se ha publicado.
+
+Para habilitar ese soporte, añadimos a la clase `BeerControllerIT` la anotación `@RecordApplicationEvents`.
+
 ## Testing
 
 - Clonar el repositorio
