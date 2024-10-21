@@ -163,6 +163,10 @@
 - Cashing Data With Spring
   - Cashing es el proceso de almacenar data en una localización temporal, con la idea de mejorar el rendimiento
   - Vamos a modificar nuestro proyecto `spring-6-resource-server`, nuestro MVC original, para añadirle cache
+- Spring Application Events for Auditing
+  - Se basa en el patrón Observer
+  - `spring-6-rest-mvc-events`
+    - Dado nuestro proyecto `spring-6-resource-server`, vamos a crear un nuevo proyecto y trabajar con eventos
 
 ## URLs con documentación
 
