@@ -167,11 +167,17 @@ public class BeerServiceJPA implements BeerService {
 
         val savedBeer = beerRepository.save(beerMapper.beerDtoToBeerEntity(beer));
 
+        System.out.println("Current Thread Name: " + Thread.currentThread().getName());
+        System.out.println("Current Thread ID: " + Thread.currentThread().getId());
+
         // Utility method dentro de Spring Security para obtener el contexto de Autenticación.
         Authentication auth = SecurityContextHolder.getContext().getAuthentication();
 
         // Y con esto publicamos el evento, usando savedBeer y el contexto de autorización.
         // Esto se envía a nuestro event handler (BeerCreatedListener)
+        //
+        // Haciendo el proceso asíncrono, esto apenas lleva tiempo, pero lo mejor es que no afecta
+        // al rendimiento del main thread.
         applicationEventPublisher.publishEvent(new BeerCreatedEvent(savedBeer, auth));
 
         return beerMapper.beerEntityToBeerDto(savedBeer);

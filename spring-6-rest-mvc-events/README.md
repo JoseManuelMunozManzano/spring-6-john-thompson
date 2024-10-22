@@ -26,8 +26,22 @@ En nuestro test del punto 3, hicimos una acción que dispara el evento para ser 
 
 Para habilitar ese soporte, añadimos a la clase `BeerControllerIT` la anotación `@RecordApplicationEvents`.
 
+5. Procesamiento de Eventos Asíncrono
+
+En todo lo visto en los puntos anteriores, los eventos se ejecutaban en el mismo hilo, de forma síncrona.
+
+Este es el funcionamiento por defecto.
+
+Pero queremos escribir un registro de auditoría, y este proceso lo queremos independiente de la transacción, desacoplado y por tanto asíncrono.
+
+Para hacer un evento asíncrono, lo primero es añadir un TaskExecutor. Lo hacemos en el package `config`, con nombre `TaskConfig.java`.
+
+Luego, en `BeerCreatedListener.java` tenemos que añadir la anotación `@Async`.
+
 ## Testing
 
 - Clonar el repositorio
 - Renombrar `application-localmysql.template.properties` a `application-localmysql.properties` e indicar sus valores
 - Ejecutar el test `BeerControllerIT`, en concreto el método `testCreateBeerMVC()`
+- Para probar la parte de los eventos asíncronos, ejecutar de nuevo el mismo test (punto anterior) y comprobar que se escribe en consola el thread y su id
+  - El nombre/id del Thread de `BeerServiceJPA` debe ser distinto al de `BeerCreatedListener`
