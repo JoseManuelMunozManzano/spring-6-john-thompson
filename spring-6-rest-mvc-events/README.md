@@ -47,3 +47,4 @@ Luego, en `BeerCreatedListener.java` tenemos que añadir la anotación `@Async`.
   - El nombre/id del Thread de `BeerServiceJPA` debe ser distinto al de `BeerCreatedListener`
 - Para probar la creación de la tabla `beerAuditEntity`, por ahora se hace con la BBDD H2 en memoria
   - Por tanto, ejecutar el proyecto sin activar el profile de mysql, es decir, quitar `-Dspring.profiles.active=localmysql`
+  - Pero por ahora solo hay que ejecutar el test `testCreateBeerMVC()`, no el proyecto
