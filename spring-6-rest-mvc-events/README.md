@@ -45,3 +45,5 @@ Luego, en `BeerCreatedListener.java` tenemos que añadir la anotación `@Async`.
 - Ejecutar el test `BeerControllerIT`, en concreto el método `testCreateBeerMVC()`
 - Para probar la parte de los eventos asíncronos, ejecutar de nuevo el mismo test (punto anterior) y comprobar que se escribe en consola el thread y su id
   - El nombre/id del Thread de `BeerServiceJPA` debe ser distinto al de `BeerCreatedListener`
+- Para probar la creación de la tabla `beerAuditEntity`, por ahora se hace con la BBDD H2 en memoria
+  - Por tanto, ejecutar el proyecto sin activar el profile de mysql, es decir, quitar `-Dspring.profiles.active=localmysql`
