@@ -52,4 +52,8 @@ Luego, en `BeerCreatedListener.java` tenemos que añadir la anotación `@Async`.
   - `testUpdateBeerMVC()`
   - `testPatchBeerMVC()`
   - `testDeleteBeerMVC()`
-- Por último, se pueden ejecutar todos los tests de `BeerControllerIT.java`, sin tener que ejecutar el proyecto 
+- Por último, se pueden ejecutar todos los tests de `BeerControllerIT.java`, sin tener que ejecutar el proyecto
+- Para hacer que todo funcione usando MySQL, además de en H2, recordar que estábamos manteniendo la BBDD usando Flyway para realizar migraciones
+  - Se ha hecho el script `V6__add-audit-table.sql` para la tabla `BeerAudit`, para la migración de Flyway
+  - Ejecutar el proyecto con el siguiente profile activo `-Dspring.profiles.active=localmysql`
+  - Trabajar con ella y confirmar, usando Squirrel por ejemplo, que se graban datos.
