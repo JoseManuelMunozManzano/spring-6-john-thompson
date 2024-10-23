@@ -48,3 +48,8 @@ Luego, en `BeerCreatedListener.java` tenemos que añadir la anotación `@Async`.
 - Para probar la creación de la tabla `beerAuditEntity`, por ahora se hace con la BBDD H2 en memoria
   - Por tanto, ejecutar el proyecto sin activar el profile de mysql, es decir, quitar `-Dspring.profiles.active=localmysql`
   - Pero por ahora solo hay que ejecutar el test `testCreateBeerMVC()`, no el proyecto
+- En los ejercicios se han creado los events y los listeners para update, patch y delete, y sus tests, que hay que ejecutar, siguientes:
+  - `testUpdateBeerMVC()`
+  - `testPatchBeerMVC()`
+  - `testDeleteBeerMVC()`
+- Por último, se pueden ejecutar todos los tests de `BeerControllerIT.java`, sin tener que ejecutar el proyecto 

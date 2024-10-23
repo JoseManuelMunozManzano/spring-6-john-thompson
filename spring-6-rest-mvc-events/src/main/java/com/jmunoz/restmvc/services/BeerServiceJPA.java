@@ -1,6 +1,10 @@
 package com.jmunoz.restmvc.services;
 
+import com.jmunoz.restmvc.entities.BeerEntity;
 import com.jmunoz.restmvc.events.BeerCreatedEvent;
+import com.jmunoz.restmvc.events.BeerDeletedEvent;
+import com.jmunoz.restmvc.events.BeerPatchEvent;
+import com.jmunoz.restmvc.events.BeerUpdatedEvent;
 import com.jmunoz.restmvc.mappers.BeerMapper;
 import com.jmunoz.restmvc.model.BeerDto;
 import com.jmunoz.restmvc.model.BeerStyle;
@@ -199,8 +203,12 @@ public class BeerServiceJPA implements BeerService {
             foundBeer.setPrice(beer.getPrice());
             foundBeer.setQuantityOnHand(beer.getQuantityOnHand());
 
+            val savedBeer = beerRepository.save(foundBeer);
+            val auth = SecurityContextHolder.getContext().getAuthentication();
+            applicationEventPublisher.publishEvent(new BeerUpdatedEvent(savedBeer, auth));
+
             atomicReference.set(Optional.of(beerMapper
-                    .beerEntityToBeerDto(beerRepository.save(foundBeer))));
+                    .beerEntityToBeerDto(savedBeer)));
         }, () -> {
             atomicReference.set(Optional.empty());
         });
@@ -246,6 +254,10 @@ public class BeerServiceJPA implements BeerService {
 
         if (beerRepository.existsById(beerId)) {
             beerRepository.deleteById(beerId);
+
+            val auth = SecurityContextHolder.getContext().getAuthentication();
+            applicationEventPublisher.publishEvent(new BeerDeletedEvent(BeerEntity.builder().id(beerId).build(), auth));
+
             return true;
         }
 
@@ -280,8 +292,12 @@ public class BeerServiceJPA implements BeerService {
                 foundBeer.setUpc(beer.getUpc());
             }
 
+            val savedBeer = beerRepository.save(foundBeer);
+            val auth = SecurityContextHolder.getContext().getAuthentication();
+            applicationEventPublisher.publishEvent(new BeerPatchEvent(savedBeer, auth));
+
             atomicReference.set(Optional.of(beerMapper
-                    .beerEntityToBeerDto(beerRepository.save(foundBeer))));
+                    .beerEntityToBeerDto(savedBeer)));
         }, () -> {
             atomicReference.set(Optional.empty());
         });

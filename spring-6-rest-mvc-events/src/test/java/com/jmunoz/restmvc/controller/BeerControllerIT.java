@@ -3,6 +3,9 @@ package com.jmunoz.restmvc.controller;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.jmunoz.restmvc.entities.BeerEntity;
 import com.jmunoz.restmvc.events.BeerCreatedEvent;
+import com.jmunoz.restmvc.events.BeerDeletedEvent;
+import com.jmunoz.restmvc.events.BeerPatchEvent;
+import com.jmunoz.restmvc.events.BeerUpdatedEvent;
 import com.jmunoz.restmvc.mappers.BeerMapper;
 import com.jmunoz.restmvc.model.BeerDto;
 import com.jmunoz.restmvc.model.BeerStyle;
@@ -131,6 +134,84 @@ class BeerControllerIT {
                 .stream(BeerCreatedEvent.class)
                 .count());
     }
+
+    @Test
+    void testUpdateBeerMVC() throws Exception {
+        val beerDTO = BeerDto.builder()
+                .beerName("New Beer")
+                .beerStyle(BeerStyle.IPA)
+                .upc("123123")
+                .price(BigDecimal.TEN)
+                .quantityOnHand(5)
+                .build();
+
+        MvcResult result = mockMvc.perform(post(BeerController.BEER_PATH)
+                        .with(BeerControllerTest.jwtRequestPostProcessor)
+                        .contentType(MediaType.APPLICATION_JSON)
+                        .accept(MediaType.APPLICATION_JSON)
+                        .content(objectMapper.writeValueAsString(beerDTO)))
+                .andExpect(status().isCreated())
+                .andReturn();
+
+        val savedDto = objectMapper.readValue(result.getResponse().getContentAsString(), BeerDto.class);
+        savedDto.setBeerName("Updated Beer");
+
+        mockMvc.perform(put(BeerController.BEER_PATH_ID, savedDto.getId())
+                        .with(BeerControllerTest.jwtRequestPostProcessor)
+                        .accept(MediaType.APPLICATION_JSON)
+                        .contentType(MediaType.APPLICATION_JSON)
+                        .content(objectMapper.writeValueAsString(beerDTO)))
+                .andExpect(status().isNoContent())
+                .andReturn();
+
+        Assertions.assertEquals(1, applicationEvents
+                .stream(BeerUpdatedEvent.class)
+                .count());
+    }
+
+    @Test
+    void testPatchBeerMVC() throws Exception {
+        // Otra forma. En vez de crear un nuevo BeerEntity y hacer el patch, lo obtengo y lo cambio.
+        // Y para cambiarlo, uso un Map.
+        BeerEntity beer = beerRepository.findAll().getFirst();
+
+        Map<String, Object> beerMap = new HashMap<>();
+        beerMap.put("beerName", "New Name");
+
+        mockMvc.perform(patch(BeerController.BEER_PATH_ID, beer.getId())
+                        .with(BeerControllerTest.jwtRequestPostProcessor)
+                        .accept(MediaType.APPLICATION_JSON)
+                        .contentType(MediaType.APPLICATION_JSON)
+                        .content(objectMapper.writeValueAsString(beerMap)))
+                .andExpect(status().isNoContent())
+                .andReturn();
+
+        Assertions.assertEquals(1, applicationEvents
+                .stream(BeerPatchEvent.class)
+                .count());
+    }
+
+    @Test
+    void testDeleteBeerMVC() throws Exception {
+
+        // Otra forma. En vez de grabar uno y cogerlo para borrarlo, cojo uno de los existentes y lo borro.
+        BeerEntity beer = beerRepository.findAll().getFirst();
+
+        BeerDto beerDto = beerMapper.beerEntityToBeerDto(beer);
+
+        mockMvc.perform(delete(BeerController.BEER_PATH_ID, beerDto.getId())
+                        .with(BeerControllerTest.jwtRequestPostProcessor)
+                        .accept(MediaType.APPLICATION_JSON)
+                        .contentType(MediaType.APPLICATION_JSON))
+                .andExpect(status().isNoContent())
+                .andReturn();
+
+        Assertions.assertEquals(1, applicationEvents
+                .stream(BeerDeletedEvent.class)
+                .count());
+    }
+
+    // Los tests normales que ya estaban antes de añadir los events
 
     @Test
     void testListBeers() {

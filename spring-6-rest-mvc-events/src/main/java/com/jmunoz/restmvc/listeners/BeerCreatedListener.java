@@ -1,6 +1,6 @@
 package com.jmunoz.restmvc.listeners;
 
-import com.jmunoz.restmvc.events.BeerCreatedEvent;
+import com.jmunoz.restmvc.events.*;
 import com.jmunoz.restmvc.mappers.BeerMapper;
 import com.jmunoz.restmvc.repositories.BeerAuditRepository;
 import lombok.RequiredArgsConstructor;
@@ -24,24 +24,54 @@ public class BeerCreatedListener {
     // Para habilitar este méto-do como un listener, tenemos que añadir la anotación @EventListener
     //
     // Para habilitar la asincronía, también tenemos que añadir la anotación @Async
+    //
+    // Sin utilizar la interfase BeerEvent
+//    @Async
+//    @EventListener
+//    public void listen(BeerCreatedEvent event) {
+//        // System.out.println("I heard a beer was created!");
+//        // System.out.println(event.getBeer().getId());
+//
+//        System.out.println("Current Thread Name: " + Thread.currentThread().getName());
+//        System.out.println("Current Thread ID: " + Thread.currentThread().getId());
+//
+//        val beerAudit = beerMapper.beerEntityToBeerAuditEntity(event.getBeer());
+//        beerAudit.setAuditEventType("BEER_CREATED");
+//
+//        // Autenticación
+//        if (event.getAuthentication() != null && event.getAuthentication().getName() != null) {
+//            beerAudit.setPrincipalName(event.getAuthentication().getName());
+//        }
+//
+//        val savedBeerAudit = beerAuditRepository.save(beerAudit);
+//        log.debug("Beer Audit Saved: " + savedBeerAudit.getId());
+//    }
+
+    // En vez de crear una clase para cada tipo de evento (update, patch, delete y create) se
+    // ha generalizado usando la interface BeerEvent.
     @Async
     @EventListener
-    public void listen(BeerCreatedEvent event) {
-//        System.out.println("I heard a beer was created!");
-//        System.out.println(event.getBeer().getId());
-
-        System.out.println("Current Thread Name: " + Thread.currentThread().getName());
-        System.out.println("Current Thread ID: " + Thread.currentThread().getId());
-
+    public void listen(BeerEvent event) {
+        
         val beerAudit = beerMapper.beerEntityToBeerAuditEntity(event.getBeer());
-        beerAudit.setAuditEventType("BEER_CREATED");
+        
+        String eventType = null;
+        
+        switch (event) {
+            case BeerCreatedEvent beerCreatedEvent -> eventType = "BEER_CREATED";
+            case BeerPatchEvent beerPatchEvent -> eventType = "BEER_UPDATED";
+            case BeerUpdatedEvent beerUpdatedEvent -> eventType = "BEER_PATCH";
+            case BeerDeletedEvent beerDeletedEvent -> eventType = "BEER_DELETE";
+            default -> eventType = "UNKNOWN";
+        }
 
-        // Autenticación
+        beerAudit.setAuditEventType(eventType);
+
         if (event.getAuthentication() != null && event.getAuthentication().getName() != null) {
             beerAudit.setPrincipalName(event.getAuthentication().getName());
         }
 
         val savedBeerAudit = beerAuditRepository.save(beerAudit);
-        log.debug("Beer Audit Saved: " + savedBeerAudit.getId());
+        log.debug("Beer Audit Saved: " + eventType + " " + savedBeerAudit.getId());
     }
 }
