@@ -1,6 +1,7 @@
 package com.jmunoz.restmvc.entities;
 
 import jakarta.persistence.*;
+import jakarta.validation.constraints.Min;
 import lombok.*;
 import org.hibernate.annotations.CreationTimestamp;
 import org.hibernate.annotations.JdbcTypeCode;
@@ -39,7 +40,8 @@ public class BeerOrderLineEntity {
     @UpdateTimestamp
     private Timestamp lastModifiedDate;
 
-    private Integer orderQuantity = 0;
+    @Min(value = 1, message = "Quantity Allocated must be greater than 0")
+    private Integer orderQuantity = 1;
     private Integer quantityAllocated = 0;
 
     // Relación bidireccional con BeerOrderEntity

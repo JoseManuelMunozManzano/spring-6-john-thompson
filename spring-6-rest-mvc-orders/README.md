@@ -27,6 +27,10 @@ BeerOrderShipmentEntity -a/desde Dto
 
 Al ejecutar Maven Compile, se crearán automáticamente las clases.
 
+3. Añadir Validaciones
+
+Hay que añadir validaciones tanto a DTOs como a Entities.
+
 ## Testing
 
 - Clonar el repositorio
