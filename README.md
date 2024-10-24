@@ -169,6 +169,16 @@
     - Dado nuestro proyecto `spring-6-resource-server`, vamos a crear un nuevo proyecto y trabajar con eventos
     - Vamos a trabajar en un caso de uso para usar application events para crear un log de auditoría
     - Cada vez que creamos, actualizamos o borramos un Objecto Beer, vamos a lanzar un evento
+- Using Your Spring Framework Skills
+  - `spring-6-rest-mvc-orders`
+    - Se va a partir del proyecto MVC (`spring-6-rest-mvc-events`) y se van a añadir endpoints para la funcionalidad de Orders
+    - El objetivo de este proyecto es hacer cada parte como ejercicio, para reforzar los conocimientos adquiridos
+      - Crear DTOs
+      - Crear Mappers
+      - Añadir Validaciones
+      - TDD antes de realizar la funcionalidad (primero get, luego create, update, patch y delete)
+      - Implementar la funcionalidad (primero get, luego create, update, patch y delete)
+      - Por último, añadiremos auditoría para las operaciones de Order
 
 ## URLs con documentación
 
