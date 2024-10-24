@@ -13,6 +13,12 @@ El objetivo de este proyecto es hacer cada parte como ejercicio, para reforzar l
 
 ## Notas
 
+1. Creamos DTOs para las entidades
+
+BeerOrderEntity
+BeerOrderLine
+BeerOrderShipment
+
 ## Testing
 
 - Clonar el repositorio
