@@ -19,6 +19,14 @@ BeerOrderEntity
 BeerOrderLine
 BeerOrderShipment
 
+2. Creamos Mappers para
+
+BeerOrderEntity -a/desde Dto
+BeerOrderLineEntity -a/desde Dto
+BeerOrderShipmentEntity -a/desde Dto
+
+Al ejecutar Maven Compile, se crearán automáticamente las clases.
+
 ## Testing
 
 - Clonar el repositorio
