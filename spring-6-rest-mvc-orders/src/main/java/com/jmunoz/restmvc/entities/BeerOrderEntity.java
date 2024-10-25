@@ -1,7 +1,10 @@
 package com.jmunoz.restmvc.entities;
 
 import jakarta.persistence.*;
-import lombok.*;
+import lombok.Builder;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
 import org.hibernate.annotations.CreationTimestamp;
 import org.hibernate.annotations.JdbcTypeCode;
 import org.hibernate.annotations.UpdateTimestamp;
@@ -19,7 +22,7 @@ import java.util.UUID;
 @Setter
 @Entity
 @NoArgsConstructor
-// @AllArgsConstructor
+//@AllArgsConstructor
 @Builder
 @Table(name="beer_order")
 public class BeerOrderEntity {
@@ -33,7 +36,7 @@ public class BeerOrderEntity {
         this.lastModifiedDate = lastModifiedDate;
         this.customerRef = customerRef;
         this.setCustomer(customer);
-        this.beerOrderLines = beerOrderLines;
+        this.setBeerOrderLines(beerOrderLines);
         this.setBeerOrderShipment(beerOrderShipment);
     }
 
@@ -62,7 +65,7 @@ public class BeerOrderEntity {
     private CustomerEntity customer;
 
     // Relación con BeerOrderLineEntity
-    @OneToMany(mappedBy = "beerOrder")
+    @OneToMany(mappedBy = "beerOrder", cascade = CascadeType.ALL)
     private Set<BeerOrderLineEntity> beerOrderLines;
 
     // Ejemplo de relacion uno a uno
@@ -80,13 +83,25 @@ public class BeerOrderEntity {
     // El único problema que podemos tener es que el Set de beerOrders no esté inicializado, por lo que
     // lo inicializamos directamente en la clase CustomerEntity.
     public void setCustomer(CustomerEntity customer) {
-        this.customer = customer;
-        customer.getBeerOrders().add(this);
+        if (customer != null) {
+            this.customer = customer;
+            customer.getBeerOrders().add(this);
+        }
+    }
+    
+    public void setBeerOrderLines(Set<BeerOrderLineEntity> beerOrderLines) {
+        if (beerOrderLines != null) {
+            this.beerOrderLines = beerOrderLines;
+            beerOrderLines.forEach(beerOrderLine -> beerOrderLine.setBeerOrder(this));
+        }
     }
 
     // Helper method
     public void setBeerOrderShipment(BeerOrderShipmentEntity beerOrderShipment) {
-        this.beerOrderShipment = beerOrderShipment;
-        beerOrderShipment.setBeerOrder(this);
+
+        if (beerOrderShipment != null) {
+            this.beerOrderShipment = beerOrderShipment;
+            beerOrderShipment.setBeerOrder(this);
+        }
     }
 }

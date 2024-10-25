@@ -31,7 +31,14 @@ Al ejecutar Maven Compile, se crearán automáticamente las clases.
 
 Hay que añadir validaciones tanto a DTOs como a Entities.
 
+4. Inicializar Beer Order Data
+
+Para propósitos de testing, deberíamos cargar data inicial (bootstrap data).
+
+A cada uno de los Customers le vamos a crear dos orders con dos beers.
+
 ## Testing
 
 - Clonar el repositorio
 - Renombrar `application-localmysql.template.properties` a `application-localmysql.properties` e indicar sus valores
+- Ejecutar el proyecto con el siguiente profile activo `-Dspring.profiles.active=localmysql`

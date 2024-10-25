@@ -1,13 +1,17 @@
 package com.jmunoz.restmvc.bootstrap;
 
 import com.jmunoz.restmvc.entities.BeerEntity;
+import com.jmunoz.restmvc.entities.BeerOrderEntity;
+import com.jmunoz.restmvc.entities.BeerOrderLineEntity;
 import com.jmunoz.restmvc.entities.CustomerEntity;
 import com.jmunoz.restmvc.model.BeerCSVRecord;
 import com.jmunoz.restmvc.model.BeerStyle;
+import com.jmunoz.restmvc.repositories.BeerOrderRepository;
 import com.jmunoz.restmvc.repositories.BeerRepository;
 import com.jmunoz.restmvc.repositories.CustomerRepository;
 import com.jmunoz.restmvc.services.BeerCsvService;
 import lombok.RequiredArgsConstructor;
+import lombok.val;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.stereotype.Component;
@@ -20,6 +24,7 @@ import java.math.BigDecimal;
 import java.time.LocalDateTime;
 import java.util.Arrays;
 import java.util.List;
+import java.util.Set;
 
 @Component
 @RequiredArgsConstructor
@@ -27,6 +32,7 @@ public class BootstrapData implements CommandLineRunner {
 
     private final BeerRepository beerRepository;
     private final CustomerRepository customerRepository;
+    private final BeerOrderRepository beerOrderRepository;
     private final BeerCsvService beerCsvService;
 
     // Con @Transactional, o se persiste to-do, o nada
@@ -36,6 +42,7 @@ public class BootstrapData implements CommandLineRunner {
         loadBeerData();
         loadCsvData();
         loadCustomerData();
+        loadOrderData();
     }
 
     private void loadCsvData() throws FileNotFoundException {
@@ -134,4 +141,48 @@ public class BootstrapData implements CommandLineRunner {
             customerRepository.saveAll(Arrays.asList(jm, adri, marina));
         }
     }
+
+    private void loadOrderData() {
+
+        if (beerOrderRepository.count() == 0) {
+
+            val customers = customerRepository.findAll();
+            val beers = beerRepository.findAll();
+
+            val beerIterator = beers.iterator();
+
+            customers.forEach(customer -> {
+
+                beerOrderRepository.save(BeerOrderEntity.builder()
+                                .customer(customer)
+                                .beerOrderLines(Set.of(
+                                        BeerOrderLineEntity.builder()
+                                                .beer(beerIterator.next())
+                                                .orderQuantity(1)
+                                                .build(),
+                                        BeerOrderLineEntity.builder()
+                                                .beer(beerIterator.next())
+                                                .orderQuantity(2)
+                                                .build()
+                                )).build());
+
+                beerOrderRepository.save(BeerOrderEntity.builder()
+                        .customer(customer)
+                        .beerOrderLines(Set.of(
+                                BeerOrderLineEntity.builder()
+                                        .beer(beerIterator.next())
+                                        .orderQuantity(1)
+                                        .build(),
+                                BeerOrderLineEntity.builder()
+                                        .beer(beerIterator.next())
+                                        .orderQuantity(2)
+                                        .build()
+                        )).build());
+            });
+
+            // Poner aquí un debug para ver si se añaden las líneas de las órdenes a las beerOrders y ejecutar esta línea
+            val orders = beerOrderRepository.findAll();
+        }
+    }
+
 }

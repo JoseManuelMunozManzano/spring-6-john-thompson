@@ -1,5 +1,6 @@
 package com.jmunoz.restmvc.bootstrap;
 
+import com.jmunoz.restmvc.repositories.BeerOrderRepository;
 import com.jmunoz.restmvc.repositories.BeerRepository;
 import com.jmunoz.restmvc.repositories.CustomerRepository;
 import com.jmunoz.restmvc.services.BeerCsvService;
@@ -26,13 +27,16 @@ class BootstrapDataTest {
     CustomerRepository customerRepository;
 
     @Autowired
+    BeerOrderRepository beerOrderRepository;
+
+    @Autowired
     BeerCsvService csvService;
 
     BootstrapData bootstrapData;
 
     @BeforeEach
     void setUp() {
-        bootstrapData = new BootstrapData(beerRepository, customerRepository, csvService);
+        bootstrapData = new BootstrapData(beerRepository, customerRepository, beerOrderRepository, csvService);
     }
 
     @Test
