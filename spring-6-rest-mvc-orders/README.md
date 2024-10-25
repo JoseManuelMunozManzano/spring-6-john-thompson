@@ -37,8 +37,17 @@ Para propósitos de testing, deberíamos cargar data inicial (bootstrap data).
 
 A cada uno de los Customers le vamos a crear dos orders con dos beers.
 
+5. Añadir TDD para operaciones GET
+
+Usaremos Spring Mock MVC para testear List Beer Orders y Get Beer Order by Id.
+
+Crearemos un controller con URLs como constantes para usarlas en los tests.
+
 ## Testing
 
 - Clonar el repositorio
 - Renombrar `application-localmysql.template.properties` a `application-localmysql.properties` e indicar sus valores
 - Ejecutar el proyecto con el siguiente profile activo `-Dspring.profiles.active=localmysql`
+  - Esto para la parte de ver que se ha añadido la data en el package `bootstrap`
+- Para el TDD, lo que hay que ejecutar son los tests, no el proyecto
+  - `BeerOrderControllerIT`
