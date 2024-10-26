@@ -51,6 +51,23 @@ Implementamos los métodos del controller.
 
 Verificar que se pasan los tests.
 
+7. Añadir DTO para Operación Create
+
+Los DTO existentes (BeerOrderDto y BeerOrderLineDto) representan la estructura de datos de la entidad y las relaciones de objetos.
+
+Esto NO es apropiado para las operaciones de creación y actualización.
+
+Para las relaciones, solo se necesita una referencia a la propiedad de ID. Es decir, no estamos creando o actualizando entidades de customers o de beer.
+
+Crear un DTO con:
+  - customer id, y beer id como referencias
+
+Esto lo necesitamos para encontrar el customer y el beer que vamos a asociar con la BeerOrderLine.
+
+La BeerOrderShipment no es necesaria en la operación de creación.
+
+Creamos, en el package `model`, las clases `BeerOrderCreateDto` y `BeerOrderLineCreateDto`.
+
 ## Testing
 
 - Clonar el repositorio
