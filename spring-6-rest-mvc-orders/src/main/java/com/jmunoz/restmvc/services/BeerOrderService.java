@@ -1,5 +1,6 @@
 package com.jmunoz.restmvc.services;
 
+import com.jmunoz.restmvc.model.BeerOrderCreateDto;
 import com.jmunoz.restmvc.model.BeerOrderDto;
 import org.springframework.data.domain.Page;
 
@@ -11,4 +12,6 @@ public interface BeerOrderService {
     Page<BeerOrderDto> listBeerOrders(Integer pageNumber, Integer pageSize);
 
     Optional<BeerOrderDto> getBeerOrderById(UUID id);
+
+    BeerOrderDto saveBeerOrder(BeerOrderCreateDto beerOrderCreateDto);
 }

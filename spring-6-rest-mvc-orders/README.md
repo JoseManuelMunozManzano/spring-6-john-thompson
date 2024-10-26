@@ -74,6 +74,14 @@ Usaremos Spring Mock MVC para testear Create BeerOrder.
 
 Verificaremos el header en busca de la property Location devuelta.
 
+9. Implementamos la operación CREATE
+
+El método en el controlador espera un `BeerOrderCreateDto` y devuelve `201` con la property `location` en el header.
+
+Añadir método en el service para persistir una `BeerOrder` y devolver la entidad grabada al controller.
+
+Devolver `404 Not found` si algún id no se encuentra.
+
 ## Testing
 
 - Clonar el repositorio
