@@ -68,6 +68,12 @@ La BeerOrderShipment no es necesaria en la operación de creación.
 
 Creamos, en el package `model`, las clases `BeerOrderCreateDto` y `BeerOrderLineCreateDto`.
 
+8. Añadir TDD para operación CREATE
+
+Usaremos Spring Mock MVC para testear Create BeerOrder.
+
+Verificaremos el header en busca de la property Location devuelta.
+
 ## Testing
 
 - Clonar el repositorio
