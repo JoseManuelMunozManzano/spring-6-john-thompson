@@ -9,6 +9,7 @@ import com.jmunoz.restmvc.events.BeerUpdatedEvent;
 import com.jmunoz.restmvc.mappers.BeerMapper;
 import com.jmunoz.restmvc.model.BeerDto;
 import com.jmunoz.restmvc.model.BeerStyle;
+import com.jmunoz.restmvc.repositories.BeerOrderRepository;
 import com.jmunoz.restmvc.repositories.BeerRepository;
 import lombok.val;
 import org.hamcrest.core.IsNull;
@@ -66,6 +67,9 @@ class BeerControllerIT {
 
     @Autowired
     BeerRepository beerRepository;
+
+    @Autowired
+    BeerOrderRepository beerOrderRepository;
 
     @Autowired
     BeerMapper beerMapper;
@@ -194,12 +198,14 @@ class BeerControllerIT {
     @Test
     void testDeleteBeerMVC() throws Exception {
 
-        // Otra forma. En vez de grabar uno y cogerlo para borrarlo, cojo uno de los existentes y lo borro.
-        BeerEntity beer = beerRepository.findAll().getFirst();
+        BeerEntity beer = beerRepository.save(BeerEntity.builder()
+                        .beerName("New Beer")
+                        .beerStyle(BeerStyle.IPA)
+                        .upc("123123")
+                        .price(BigDecimal.TEN)
+                .build());
 
-        BeerDto beerDto = beerMapper.beerEntityToBeerDto(beer);
-
-        mockMvc.perform(delete(BeerController.BEER_PATH_ID, beerDto.getId())
+        mockMvc.perform(delete(BeerController.BEER_PATH_ID, beer.getId())
                         .with(BeerControllerTest.jwtRequestPostProcessor)
                         .accept(MediaType.APPLICATION_JSON)
                         .contentType(MediaType.APPLICATION_JSON))
@@ -229,7 +235,10 @@ class BeerControllerIT {
     @Transactional
     @Test
     void testEmptyList() {
+        beerOrderRepository.deleteAll();
+
         beerRepository.deleteAll();
+
         Page<BeerDto> dtos = beerController.listBeers(null, null, false, 1, 25);
 
         assertThat(dtos.getContent().size()).isEqualTo(0);

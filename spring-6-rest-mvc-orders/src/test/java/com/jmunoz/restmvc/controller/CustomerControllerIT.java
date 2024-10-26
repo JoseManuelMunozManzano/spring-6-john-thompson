@@ -3,6 +3,7 @@ package com.jmunoz.restmvc.controller;
 import com.jmunoz.restmvc.entities.CustomerEntity;
 import com.jmunoz.restmvc.mappers.CustomerMapper;
 import com.jmunoz.restmvc.model.CustomerDto;
+import com.jmunoz.restmvc.repositories.BeerOrderRepository;
 import com.jmunoz.restmvc.repositories.CustomerRepository;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -28,6 +29,9 @@ class CustomerControllerIT {
     CustomerRepository customerRepository;
 
     @Autowired
+    BeerOrderRepository beerOrderRepository;
+
+    @Autowired
     CustomerMapper customerMapper;
 
     @Test
@@ -41,6 +45,8 @@ class CustomerControllerIT {
     @Transactional
     @Test
     void testEmptyList() {
+        beerOrderRepository.deleteAll();
+
         customerRepository.deleteAll();
 
         List<CustomerDto> dtos = customerController.listCustomers();
