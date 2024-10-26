@@ -82,6 +82,22 @@ Añadir método en el service para persistir una `BeerOrder` y devolver la entid
 
 Devolver `404 Not found` si algún id no se encuentra.
 
+10. Añadir DTO para Operación Update
+
+La operación de actualización tiene necesidades únicas en comparación con la operación de creación.
+
+Debe aceptar y requerir el customer id.
+
+Puede aceptar opcionalmente información de Shipment.
+
+BeerOrderLine necesita opcionalmente el line id.
+
+- Si no se proporciona un id, se trata como una nueva línea
+- Podría opcionalmente requerir id, y no permitir la adición de Order Lines
+- Debe aceptar la cantidad asignada (quantity allocated)
+
+Creamos, en el package `model`, las clases `BeerOrderUpdateDto` y `BeerOrderLineUpdateDto`.
+
 ## Testing
 
 - Clonar el repositorio
