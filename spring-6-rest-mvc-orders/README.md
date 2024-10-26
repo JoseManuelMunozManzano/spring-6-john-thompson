@@ -136,3 +136,4 @@ Devolver `404` si el id no se encuentra.
   - Esto para la parte de ver que se ha añadido la data en el package `bootstrap`
 - Para el TDD, lo que hay que ejecutar son los tests, no el proyecto
   - `controller/BeerOrderControllerIT`
+- Por último, ejecutar todos los tests (no hace falta ejecutar el proyecto)
