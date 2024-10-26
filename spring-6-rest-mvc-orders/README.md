@@ -118,6 +118,10 @@ En el servicio necesitamos:
 - Actualizar o crear BeerOrderLines
 - Actualizar o crear BeerOrderShipment, siempre que `trackingNumber` venga informado
 
+13. Añadir TDD para operación DELETE
+
+Escribir test para la operación delete y verificar que la orden seleccionada está borrada.
+
 ## Testing
 
 - Clonar el repositorio
