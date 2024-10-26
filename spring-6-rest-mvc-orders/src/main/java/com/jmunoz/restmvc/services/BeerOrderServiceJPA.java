@@ -146,6 +146,14 @@ public class BeerOrderServiceJPA implements BeerOrderService {
 
     }
 
+    @Override
+    public void deleteBeerOrder(UUID beerOrderId) {
+
+        BeerOrderEntity beerOrder = beerOrderRepository.findById(beerOrderId).orElseThrow(NotFoundException::new);
+
+        beerOrderRepository.deleteById(beerOrderId);
+    }
+
     private BeerEntity createNewBeerOrHandleNewBeer() {
 
         BeerEntity defaultBeer = BeerEntity.builder()

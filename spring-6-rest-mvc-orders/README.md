@@ -122,6 +122,12 @@ En el servicio necesitamos:
 
 Escribir test para la operación delete y verificar que la orden seleccionada está borrada.
 
+14. Implementamos la operación DELETE
+
+Añadir al controller el endpoint `deleteBeerOrder`.
+
+Devolver `404` si el id no se encuentra.
+
 ## Testing
 
 - Clonar el repositorio
