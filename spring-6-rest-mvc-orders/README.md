@@ -43,6 +43,14 @@ Usaremos Spring Mock MVC para testear List Beer Orders y Get Beer Order by Id.
 
 Crearemos un controller con URLs como constantes para usarlas en los tests.
 
+6. Implementamos las operaciones GET
+
+Creamos `BeerOrderService` con los métodos `GetById` y `ListBeerOrders`, en este último usando paginación (número de página a 1 y tamaño de página a 25 por defecto).
+
+Implementamos los métodos del controller.
+
+Verificar que se pasan los tests.
+
 ## Testing
 
 - Clonar el repositorio
@@ -50,4 +58,4 @@ Crearemos un controller con URLs como constantes para usarlas en los tests.
 - Ejecutar el proyecto con el siguiente profile activo `-Dspring.profiles.active=localmysql`
   - Esto para la parte de ver que se ha añadido la data en el package `bootstrap`
 - Para el TDD, lo que hay que ejecutar son los tests, no el proyecto
-  - `BeerOrderControllerIT`
+  - `controller/BeerOrderControllerIT`
