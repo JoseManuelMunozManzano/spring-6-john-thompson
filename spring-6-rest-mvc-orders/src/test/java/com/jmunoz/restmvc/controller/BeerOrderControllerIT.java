@@ -5,6 +5,7 @@ import com.jmunoz.restmvc.model.*;
 import com.jmunoz.restmvc.repositories.BeerOrderRepository;
 import com.jmunoz.restmvc.repositories.BeerRepository;
 import com.jmunoz.restmvc.repositories.CustomerRepository;
+import jakarta.transaction.Transactional;
 import lombok.val;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -95,12 +96,16 @@ class BeerOrderControllerIT {
                 .andExpect(header().exists("Location"));
     }
 
+    // Se usa el Transactional para que Hibernate tenga una sesión y pueda hacer la carga perezosa sobre
+    // beerOrderLines.
+    @Transactional
     @Test
     void testUpdateBeerOrder() throws Exception {
         val beerOrder = beerOrderRepository.findAll().getFirst();
 
         Set<BeerOrderLineUpdateDto> beerOrderLineUpdateDtos = new HashSet<>();
 
+        // Necesario la anotación @Transactional
         beerOrder.getBeerOrderLines().forEach(beerOrderLine -> {
             beerOrderLineUpdateDtos.add(BeerOrderLineUpdateDto.builder()
                             .id(beerOrderLine.getId())

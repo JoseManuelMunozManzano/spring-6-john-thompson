@@ -106,6 +106,18 @@ Actualizar `customerRef`.
 
 Escribir test para actualizar la orden y verificar que `customerRef` se ha actualizado.
 
+12. Implementamos la operación UPDATE
+
+Añadir al controller el endpoint `updateBeerOrder`.
+
+Añadir al service la operación de update.
+
+En el servicio necesitamos:
+
+- Aplicar actualizaciones a BeerOrder
+- Actualizar o crear BeerOrderLines
+- Actualizar o crear BeerOrderShipment, siempre que `trackingNumber` venga informado
+
 ## Testing
 
 - Clonar el repositorio

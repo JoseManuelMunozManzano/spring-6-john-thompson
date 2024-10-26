@@ -2,6 +2,7 @@ package com.jmunoz.restmvc.controller;
 
 import com.jmunoz.restmvc.model.BeerOrderCreateDto;
 import com.jmunoz.restmvc.model.BeerOrderDto;
+import com.jmunoz.restmvc.model.BeerOrderUpdateDto;
 import com.jmunoz.restmvc.services.BeerOrderService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
@@ -44,5 +45,12 @@ public class BeerOrderController {
                 .toUri();
 
         return ResponseEntity.created(location).build();
+    }
+
+    @PutMapping(BEER_ORDER_PATH_ID)
+    public ResponseEntity<BeerOrderDto> updateBeerOrder(@PathVariable("beerOrderId") UUID beerOrderId,
+                                                        @Validated @RequestBody BeerOrderUpdateDto beerOrderUpdateDto) {
+
+        return ResponseEntity.ok(beerOrderService.updateBeerOrder(beerOrderId, beerOrderUpdateDto));
     }
 }
