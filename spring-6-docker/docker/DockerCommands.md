@@ -59,7 +59,7 @@ docker start gateway
 spring6gateway:0.0.1-SNAPSHOT
 spring-6-auth-server:0.0.1-SNAPSHOT
 restmvc:0.0.1-SNAPSHOT
-spring-6-reactive:0.0.1-SNAPSHOT
+spring6datar2dbc:0.0.1-SNAPSHOT
 reactive-mongo:0.0.1-SNAPSHOT
 
 

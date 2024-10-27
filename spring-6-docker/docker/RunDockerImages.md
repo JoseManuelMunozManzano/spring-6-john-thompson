@@ -2,7 +2,7 @@
 * `spring6gateway:0.0.1-SNAPSHOT`
 * `spring-6-auth-server:0.0.1-SNAPSHOT`
 * `restmvc:0.0.1-SNAPSHOT`
-* `spring-6-reactive:0.0.1-SNAPSHOT`
+* `spring6datar2dbc:0.0.1-SNAPSHOT`
 * `reactive-mongo:0.0.1-SNAPSHOT`
 
 Run Gateway
@@ -101,7 +101,7 @@ docker run --name rest-mvc -d -p 8081:8080 -e SPRING_PROFILES_ACTIVE=localmysql 
 Run Reactive Container
 ```shell    
 docker run --name reactive -d -p 8082:8082 -e SPRING_SECURITY_OAUTH2_RESOURCESERVER_JWT_ISSUER_URI=http://auth-server:9000 \
- --link auth-server:auth-server spring-6-reactive:0.0.1-SNAPSHOT
+ --link auth-server:auth-server spring6datar2dbc:0.0.1-SNAPSHOT
 ```
 
 Rerun gateway with link to auth-server and rest-mvc and reactive

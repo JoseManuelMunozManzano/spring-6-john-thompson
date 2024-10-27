@@ -25,13 +25,22 @@ La imagen a tener en la cabeza es esta>
 
 - Clonar este repositorio
 - Llevar la carpeta spring-6-docker a IntelliJ para que tenga todos los proyectos
+- Borrar todos los contenedores
+  - ```shell
+    docker container stop gateway reactive rest-mvc auth-server
+    docker container rm gateway reactive rest-mvc auth-server
+  ```
 - Para lanzar todo:
   - Crear imágenes: Acceder a cada uno de los proyectos y ejecutar:
     - `./mvnw clean package spring-boot:build-image`
   - Ejecutar contenedores: 
     - `docker run --name auth-server --platform linux/amd64 -d -p 9000:9000 spring-6-auth-server:0.0.1-SNAPSHOT`
-    - `docker run --name rest-mvc -d -p 8081:8080 --platform linux/amd64 -e SPRING_PROFILES_ACTIVE=localmysql \
- -e SPRING_SECURITY_OAUTH2_RESOURCESERVER_JWT_ISSUER_URI=http://auth-server:9000 -e SPRING_DATASOURCE_URL=jdbc:mysql://mysql:3306/restdb  \
- -e SERVER_PORT=8080 --link auth-server:auth-server --link mysql:mysql restmvc:0.0.1-SNAPSHOT`
+    - `docker run --name rest-mvc -d -p 8081:8080 --platform linux/amd64 -e SPRING_PROFILES_ACTIVE=localmysql -e SPRING_SECURITY_OAUTH2_RESOURCESERVER_JWT_ISSUER_URI=http://auth-server:9000 -e SPRING_DATASOURCE_URL=jdbc:mysql://mysql:3306/restdb -e SERVER_PORT=8080 --link auth-server:auth-server --link mysql:mysql restmvc:0.0.1-SNAPSHOT`
       - Tener en cuenta mi configuración de MySql (esta es fake, ver archivo `docker/RunDockerContainerRestMVCMySql.md)
-    - `docker run --name gateway -d -p 8080:8080 --platform linux/amd64 -e SPRING_PROFILES_ACTIVE=docker --link auth-server:auth-server --link rest-mvc:rest-mvc spring6gateway:0.0.1-SNAPSHOT`
+    - `docker run --name reactive -d -p 8082:8080 --platform linux/amd64 -e SPRING_SECURITY_OAUTH2_RESOURCESERVER_JWT_ISSUER_URI=http://auth-server:9000 -e SERVER_PORT=8080 --link auth-server:auth-server spring6datar2dbc:0.0.1-SNAPSHOT`
+    - `docker run --name gateway -d -p 8080:8080 --platform linux/amd64 -e SPRING_PROFILES_ACTIVE=docker --link auth-server:auth-server --link rest-mvc:rest-mvc --link reactive:reactive spring6gateway:0.0.1-SNAPSHOT`
+- Para probar en Postman, tenemos que pedir un token (spring-6-auth-sever, importar carpeta postman)
+- Luego probar para cada versión
+  - GET: http://localhost:8080/api/v1/beer
+  - GET: http://localhost:8080/api/v2/beer
+  - GET: http://localhost:8080/api/v3/beer
