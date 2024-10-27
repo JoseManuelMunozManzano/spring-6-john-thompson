@@ -3,7 +3,7 @@
 * `spring-6-auth-server:0.0.1-SNAPSHOT`
 * `restmvc:0.0.1-SNAPSHOT`
 * `spring6datar2dbc:0.0.1-SNAPSHOT`
-* `reactive-mongo:0.0.1-SNAPSHOT`
+* `reactivemongo:0.0.1-SNAPSHOT`
 
 Run Gateway
 ```shell
@@ -119,9 +119,10 @@ docker run -d --name mongo -e MONGO_INITDB_ROOT_USERNAME=root -e MONGO_INITDB_RO
 
 Run Reactive Mongo
 ```shell
-docker run --name reactive-mongo -d  -e SPRING_SECURITY_OAUTH2_RESOURCESERVER_JWT_ISSUER_URI=http://auth-server:9000 \
- -e SFG_MONGOHOST=mongo -e SERVER_PORT=8080 --link auth-server:auth-server --link mongo:mongo reactive-mongo:0.0.1-SNAPSHOT
+docker run --name reactive-mongo -d -p 8083:8080 --platform linux/amd64 -e SPRING_SECURITY_OAUTH2_RESOURCESERVER_JWT_ISSUER_URI=http://auth-server:9000 \
+ -e MONGO_ADDRESS=mongo -e SERVER_PORT=8080 --link auth-server:auth-server --link mongo:mongo reactivemongo:0.0.1-SNAPSHOT
 ```
+
 Rerun gateway with link to auth-server and rest-mvc and reactive and reactive-mongo
 ```shell
 docker stop gateway 
