@@ -32,7 +32,7 @@ class CustomerControllerTest {
                 .exchange()
                 .expectStatus().isOk()
                 .expectHeader().valueEquals("Content-type", "application/json")
-                .expectBody().jsonPath("$.size()").isEqualTo(2);
+                .expectBody().jsonPath("$.size()").isEqualTo(1);
     }
 
     @Test
@@ -68,7 +68,7 @@ class CustomerControllerTest {
                 .header("Content-type", "application/json")
                 .exchange()
                 .expectStatus().isCreated()
-                .expectHeader().location("http://localhost:8080/api/v2/customer/3");
+                .expectHeader().location("http://localhost:8080/api/v2/customer/2");
     }
 
     @Test

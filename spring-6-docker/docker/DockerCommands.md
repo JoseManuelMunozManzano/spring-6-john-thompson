@@ -1,9 +1,13 @@
 # Docker Commands
 
 Use Spring Boot Maven Plugin to build a Docker image:
-
 ```shell
 ./mvnw clean package spring-boot:build-image
+```
+
+Create Docker image skipping the tests:
+```shell
+./mvnw clean package spring-boot:build-image -DskipTests=true
 ```
 
 Inspect the Docker image:

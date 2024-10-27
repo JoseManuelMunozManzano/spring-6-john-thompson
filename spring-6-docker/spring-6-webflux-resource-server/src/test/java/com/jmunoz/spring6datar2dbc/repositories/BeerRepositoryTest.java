@@ -11,12 +11,6 @@ import org.springframework.context.annotation.Import;
 
 import java.math.BigDecimal;
 
-// Queremos probar una situación donde vamos a persistir data en la BD y verificar que ha funcionado.
-// La anotación @DataR2dbcTest trae una configuración Spring mínima.
-//
-// Para coger la habilitación de los campos de auditoría, hay que importar explícitamente la configuración de BD.
-//
-// Hacemos la clase pública para poder reutilizar el méto-do estático getTestBeer()
 @DataR2dbcTest
 @Import(DatabaseConfig.class)
 public class BeerRepositoryTest {
@@ -26,28 +20,17 @@ public class BeerRepositoryTest {
 
     @Test
     void saveNewBeer() {
-        // El méto-do save devuelve un Mono del objeto Beer.
         beerRepository.save(getTestBeer())
-                .subscribe(beer -> {
-                    System.out.println(beer);
-                });
+                .subscribe(System.out::println);
     }
 
-    // El objetivo de este méto-do es servir de utilidad para generar JSON
-    // y poder hacer testing de endpoints WebFlux.
-    // TIP: Ejecutamos este test, cogemos el resultado y ya tenemos un JSON para hacer pruebas en Postman.
     @Test
     void testCreateJson() throws JsonProcessingException {
-        // Normalmente el contexto de Spring Boot hace el autowired de una instancia
-        // preconfigurada de Jackson, porque usamos el test slice.
-        // Pero no va a estar en el contexto y por eso añadimos un ObjectMapper.
         ObjectMapper objectMapper = new ObjectMapper();
 
         System.out.println(objectMapper.writeValueAsString(getTestBeer()));
     }
 
-    // Helper method para crear una objeto Beer
-    // Lo hacemos public y static para poder reutilizarlo en otros tests.
     public static Beer getTestBeer() {
         return Beer.builder()
                 .beerName("Space Dust")

@@ -59,3 +59,7 @@ Ejecutar el siguiente comando en la terminal: `docker run -d -p 8080:8080 --name
 Con esto ya podemos trabajar mejor por nombre en vez de usar el `CONTAINER ID`
 
 Ahora, para parar el contenedor, podemos ejecutar en la terminal: `docker stop spring-gateway`
+
+4. No ejecutar los tests a la hora de crear la imagen
+
+Para crear una imagen Docker, pero sin ejecutar los tests, ejecutar en la terminal el comando: `./mvnw clean package spring-boot:build-image -DskipTests=true`
