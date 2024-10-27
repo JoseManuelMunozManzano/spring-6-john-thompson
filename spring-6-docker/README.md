@@ -30,5 +30,8 @@ La imagen a tener en la cabeza es esta>
     - `./mvnw clean package spring-boot:build-image`
   - Ejecutar contenedores: 
     - `docker run --name auth-server --platform linux/amd64 -d -p 9000:9000 spring-6-auth-server:0.0.1-SNAPSHOT`
-    - `docker run --name rest-mvc -d -p 8081:8080 --platform linux/amd64 -e SPRING_SECURITY_OAUTH2_RESOURCESERVER_JWT_ISSUER_URI=http://auth-server:9000 --link auth-server:auth-server restmvc:0.0.1-SNAPSHOT`
+    - `docker run --name rest-mvc -d -p 8081:8080 --platform linux/amd64 -e SPRING_PROFILES_ACTIVE=localmysql \
+ -e SPRING_SECURITY_OAUTH2_RESOURCESERVER_JWT_ISSUER_URI=http://auth-server:9000 -e SPRING_DATASOURCE_URL=jdbc:mysql://mysql:3306/restdb  \
+ -e SERVER_PORT=8080 --link auth-server:auth-server --link mysql:mysql restmvc:0.0.1-SNAPSHOT`
+      - Tener en cuenta mi configuración de MySql (esta es fake, ver archivo `docker/RunDockerContainerRestMVCMySql.md)
     - `docker run --name gateway -d -p 8080:8080 --platform linux/amd64 -e SPRING_PROFILES_ACTIVE=docker --link auth-server:auth-server --link rest-mvc:rest-mvc spring6gateway:0.0.1-SNAPSHOT`

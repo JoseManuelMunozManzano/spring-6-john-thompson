@@ -33,3 +33,17 @@ Ejecutar el terminal el mandato:
 `docker run --name mysql -d -e MYSQL_USER=restadmin -e MYSQL_PASSWORD=password -e MYSQL_DATABASE=restdb -e MYSQL_ROOT_PASSWORD=password mysql:8`
 
 Yo esto no lo hago ya que ya tengo en una Raspberry Pi MySQL corriendo en Docker, y este proyecto usa ese MySql.
+
+5. Ejecutar el contenedor RestMVC con MySql
+
+Tenemos que mirar/configurar el archivo `application-localmysql.properties` y ejecutar lo siguiente:
+
+```shell
+docker stop rest-mvc
+docker rm rest-mvc
+docker run --name rest-mvc -d -p 8081:8080 --platform linux/amd64 -e SPRING_PROFILES_ACTIVE=localmysql \
+ -e SPRING_SECURITY_OAUTH2_RESOURCESERVER_JWT_ISSUER_URI=http://auth-server:9000 -e SPRING_DATASOURCE_URL=jdbc:mysql://mysql:3306/restdb  \
+ -e SERVER_PORT=8080 --link auth-server:auth-server --link mysql:mysql restmvc:0.0.1-SNAPSHOT
+```
+
+Este mandato lo cambio para que tire del MySql que tengo en mi Raspberry Pi, es decir, esta es fake (ver archivo `docker/RunDockerContainerRestMVCMySql.md)
