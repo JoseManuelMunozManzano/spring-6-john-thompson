@@ -67,3 +67,27 @@ Y si tenemos que volver a arrancarlo, podemos ejecutar `docker start spring-gate
 4. No ejecutar los tests a la hora de crear la imagen
 
 Para crear una imagen Docker, pero sin ejecutar los tests, ejecutar en la terminal el comando: `./mvnw clean package spring-boot:build-image -DskipTests=true`
+
+5. Tenemos que actualizar la configuración del gateway para que funcione en Docker correctamente.
+
+Para ello copiamos el archivo `application.yml` y creamos otro profile llamado `application-docker.yml`.
+
+Este nuevo profile tiene precedencia sobre el por defecto.
+
+En dicho nuevo profile cambiamos el nombre de los host al nombre de los servicios que se ejecutarán dentro de la red Docker.
+
+También tenemos que actualizar la configuración de Spring Security, archivo `SpringSecConfig`.
+
+Con estos cambios, nuestro gateway está listo para ejecutarse en el contexto de Docker y enrutar el tráfico correctamente.
+
+Ahora tenemos que reconstruir la imagen de Docker.
+
+Ejecutar en la carpeta del proyecto gateway: `./mvnw clean package spring-boot:build-image`
+
+Y para ejecutar el contenedor, tenemos que indicar el profile activo. Para ello, ejecutar:
+
+`docker run --name gateway -d -p 8080:8080 -e SPRING_PROFILES_ACTIVE=docker --link auth-server:auth-server spring6gateway:0.0.1-SNAPSHOT`
+
+Ahora podemos ir a `Postman` para confirmar que accedemos a esa imagen:
+
+- Importar en Postman, del proyecto `spring-6-auth-server`, el fichero de la carpeta `/postman` y ejecutar `Generate Token`

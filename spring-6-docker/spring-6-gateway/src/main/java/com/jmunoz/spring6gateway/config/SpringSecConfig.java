@@ -29,7 +29,11 @@ public class SpringSecConfig {
     public SecurityWebFilterChain securityWebFilterChain(ServerHttpSecurity http) {
 
         http.csrf(ServerHttpSecurity.CsrfSpec::disable)
-                .authorizeExchange(authorizeExchangeSpec -> authorizeExchangeSpec.anyExchange().authenticated())
+                .authorizeExchange(authorizeExchangeSpec -> authorizeExchangeSpec
+                        // Configuración para Docker.
+                        // Abrimos auth-server (ver en application-docker.yml la parte predicates del id: spring-6-auth-server).
+                        .pathMatchers("/oauth2/**", "/oauth2/token").permitAll()
+                        .anyExchange().authenticated())
                 .oauth2ResourceServer(oAuth2ResourceServerSpec -> oAuth2ResourceServerSpec.jwt(Customizer.withDefaults()));
 
         return http.build();

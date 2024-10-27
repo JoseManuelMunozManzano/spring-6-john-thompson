@@ -16,6 +16,11 @@
 					"type": "oauth2",
 					"oauth2": [
 						{
+							"key": "accessTokenUrl",
+							"value": "http://localhost:8080/oauth2/token",
+							"type": "string"
+						},
+						{
 							"key": "clientSecret",
 							"value": "{{secret}}",
 							"type": "string"
@@ -33,11 +38,6 @@
 						{
 							"key": "grant_type",
 							"value": "client_credentials",
-							"type": "string"
-						},
-						{
-							"key": "accessTokenUrl",
-							"value": "http://localhost:9000/oauth2/token",
 							"type": "string"
 						},
 						{
