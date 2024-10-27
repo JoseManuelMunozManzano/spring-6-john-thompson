@@ -50,15 +50,19 @@ Para ver los logs del contenedor, ejecutar en la terminal el comando `docker log
 
 Y para cancelar la visualización de logs pulsar en la terminal `Ctrl+C`.
 
-3. Darle al contenedor un nombre distinto
+3. Darle al contenedor un nombre distinto y ejecución compatible con Apple Silicon
 
 Parar la ejecución del contenedor, si este se está ejecutando: `docker stop c70e96de30e6`
 
-Ejecutar el siguiente comando en la terminal: `docker run -d -p 8080:8080 --name spring-gateway docker.io/library/spring6gateway:0.0.1-SNAPSHOT`
+Ejecutar el siguiente comando en la terminal: 
+
+`docker run -d -p 8080:8080 --name spring-gateway --platform linux/amd64 docker.io/library/spring6gateway:0.0.1-SNAPSHOT`
 
 Con esto ya podemos trabajar mejor por nombre en vez de usar el `CONTAINER ID`
 
 Ahora, para parar el contenedor, podemos ejecutar en la terminal: `docker stop spring-gateway`
+
+Y si tenemos que volver a arrancarlo, podemos ejecutar `docker start spring-gateway`
 
 4. No ejecutar los tests a la hora de crear la imagen
 
