@@ -25,3 +25,11 @@ docker stop gateway
 docker rm gateway
 docker run --name gateway -d -p 8080:8080 --platform linux/amd64 -e SPRING_PROFILES_ACTIVE=docker --link auth-server:auth-server --link rest-mvc:rest-mvc spring6gateway:0.0.1-SNAPSHOT
 ```
+
+4. Ejecutar MySql en Docker
+
+Ejecutar el terminal el mandato:
+
+`docker run --name mysql -d -e MYSQL_USER=restadmin -e MYSQL_PASSWORD=password -e MYSQL_DATABASE=restdb -e MYSQL_ROOT_PASSWORD=password mysql:8`
+
+Yo esto no lo hago ya que ya tengo en una Raspberry Pi MySQL corriendo en Docker, y este proyecto usa ese MySql.
