@@ -179,6 +179,20 @@
       - TDD antes de realizar la funcionalidad (primero get, luego create, update, patch y delete)
       - Implementar la funcionalidad (primero get, luego create, update, patch y delete)
       - Por último, añadiremos auditoría para las operaciones de Order
+- Docker with Spring Boot
+  - spring-6-docker
+    - Carpeta que contiene todos los proyectos para dockerizarlos
+    - Vamos a dockerizar los siguientes proyectos, usando el plugin Maven de Spring Boot (ver documentación en los URLs de abajo)
+      - spring-6-auth-server
+        - Puerto 9000
+      - spring-6-gateway
+        - Puerto 8080
+      - spring-6-rest-mvc-orders
+        - Puerto 8081 y usando MySql
+      - spring-6-webflux-resource-server
+        - Puerto 8082 y usando H2
+      - spring-6-webflux-fn-resource-server
+        - Puerto 8083 y usando MongoDB
 
 ## URLs con documentación
 
@@ -219,3 +233,5 @@
   - https://springdoc.org/#getting-started
 - Swagger Request Validator
   - https://bitbucket.org/atlassian/swagger-request-validator/src/master/
+- Construcción de imágenes Docker usando el plugin Maven de Spring Boot
+  - https://docs.spring.io/spring-boot/maven-plugin/build-image.html

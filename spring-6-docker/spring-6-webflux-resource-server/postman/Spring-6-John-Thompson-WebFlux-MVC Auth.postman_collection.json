@@ -1,0 +1,1224 @@
+{
+	"info": {
+		"_postman_id": "22d8b4f7-0399-4c12-9263-64319ada8451",
+		"name": "Spring-6-John-Thompson-WebFlux-MVC Auth",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+		"_exporter_id": "7508044"
+	},
+	"item": [
+		{
+			"name": "All Beers",
+			"request": {
+				"auth": {
+					"type": "oauth2",
+					"oauth2": [
+						{
+							"key": "clientSecret",
+							"value": "{{secret}}",
+							"type": "string"
+						},
+						{
+							"key": "clientId",
+							"value": "{{client}}",
+							"type": "string"
+						},
+						{
+							"key": "scope",
+							"value": "message.read message.write",
+							"type": "string"
+						},
+						{
+							"key": "grant_type",
+							"value": "client_credentials",
+							"type": "string"
+						},
+						{
+							"key": "accessTokenUrl",
+							"value": "http://localhost:9000/oauth2/token",
+							"type": "string"
+						},
+						{
+							"key": "redirect_uri",
+							"value": "",
+							"type": "string"
+						},
+						{
+							"key": "headerPrefix",
+							"value": "Bearer",
+							"type": "string"
+						},
+						{
+							"key": "challengeAlgorithm",
+							"value": "plain",
+							"type": "string"
+						},
+						{
+							"key": "addTokenTo",
+							"value": "header",
+							"type": "string"
+						},
+						{
+							"key": "client_authentication",
+							"value": "header",
+							"type": "string"
+						},
+						{
+							"key": "tokenName",
+							"value": "new",
+							"type": "string"
+						}
+					]
+				},
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "http://localhost:8082/api/v2/beer",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8082",
+					"path": [
+						"api",
+						"v2",
+						"beer"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Beer By Id",
+			"request": {
+				"auth": {
+					"type": "oauth2",
+					"oauth2": [
+						{
+							"key": "clientSecret",
+							"value": "{{secret}}",
+							"type": "string"
+						},
+						{
+							"key": "clientId",
+							"value": "{{client}}",
+							"type": "string"
+						},
+						{
+							"key": "scope",
+							"value": "message.read message.write",
+							"type": "string"
+						},
+						{
+							"key": "grant_type",
+							"value": "client_credentials",
+							"type": "string"
+						},
+						{
+							"key": "accessTokenUrl",
+							"value": "http://localhost:9000/oauth2/token",
+							"type": "string"
+						},
+						{
+							"key": "redirect_uri",
+							"value": "",
+							"type": "string"
+						},
+						{
+							"key": "headerPrefix",
+							"value": "Bearer",
+							"type": "string"
+						},
+						{
+							"key": "challengeAlgorithm",
+							"value": "plain",
+							"type": "string"
+						},
+						{
+							"key": "addTokenTo",
+							"value": "header",
+							"type": "string"
+						},
+						{
+							"key": "client_authentication",
+							"value": "header",
+							"type": "string"
+						},
+						{
+							"key": "tokenName",
+							"value": "new",
+							"type": "string"
+						}
+					]
+				},
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "http://localhost:8082/api/v2/beer/1",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8082",
+					"path": [
+						"api",
+						"v2",
+						"beer",
+						"1"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Create Beer",
+			"request": {
+				"auth": {
+					"type": "oauth2",
+					"oauth2": [
+						{
+							"key": "clientSecret",
+							"value": "{{secret}}",
+							"type": "string"
+						},
+						{
+							"key": "clientId",
+							"value": "{{client}}",
+							"type": "string"
+						},
+						{
+							"key": "scope",
+							"value": "message.read message.write",
+							"type": "string"
+						},
+						{
+							"key": "grant_type",
+							"value": "client_credentials",
+							"type": "string"
+						},
+						{
+							"key": "accessTokenUrl",
+							"value": "http://localhost:9000/oauth2/token",
+							"type": "string"
+						},
+						{
+							"key": "redirect_uri",
+							"value": "",
+							"type": "string"
+						},
+						{
+							"key": "headerPrefix",
+							"value": "Bearer",
+							"type": "string"
+						},
+						{
+							"key": "challengeAlgorithm",
+							"value": "plain",
+							"type": "string"
+						},
+						{
+							"key": "addTokenTo",
+							"value": "header",
+							"type": "string"
+						},
+						{
+							"key": "client_authentication",
+							"value": "header",
+							"type": "string"
+						},
+						{
+							"key": "tokenName",
+							"value": "new",
+							"type": "string"
+						}
+					]
+				},
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n    \"id\": null,\n    \"beerName\": \"Space Dust\",\n    \"beerStyle\": \"IPA\",\n    \"upc\": \"123213\",\n    \"quantityOnHand\": 12,\n    \"price\": 10,\n    \"createdDate\": null,\n    \"lastModifiedDate\": null\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://localhost:8082/api/v2/beer",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8082",
+					"path": [
+						"api",
+						"v2",
+						"beer"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Update Beer",
+			"request": {
+				"auth": {
+					"type": "oauth2",
+					"oauth2": [
+						{
+							"key": "clientSecret",
+							"value": "{{secret}}",
+							"type": "string"
+						},
+						{
+							"key": "clientId",
+							"value": "{{client}}",
+							"type": "string"
+						},
+						{
+							"key": "scope",
+							"value": "message.read message.write",
+							"type": "string"
+						},
+						{
+							"key": "grant_type",
+							"value": "client_credentials",
+							"type": "string"
+						},
+						{
+							"key": "accessTokenUrl",
+							"value": "http://localhost:9000/oauth2/token",
+							"type": "string"
+						},
+						{
+							"key": "redirect_uri",
+							"value": "",
+							"type": "string"
+						},
+						{
+							"key": "headerPrefix",
+							"value": "Bearer",
+							"type": "string"
+						},
+						{
+							"key": "challengeAlgorithm",
+							"value": "plain",
+							"type": "string"
+						},
+						{
+							"key": "addTokenTo",
+							"value": "header",
+							"type": "string"
+						},
+						{
+							"key": "client_authentication",
+							"value": "header",
+							"type": "string"
+						},
+						{
+							"key": "tokenName",
+							"value": "new",
+							"type": "string"
+						}
+					]
+				},
+				"method": "PUT",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n    \"beerName\": \"Very Cool Galaxy Cat\",\n    \"beerStyle\": \"Pale Ale\",\n    \"upc\": \"12356\",\n    \"quantityOnHand\": 122,\n    \"price\": 13\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://localhost:8082/api/v2/beer/1",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8082",
+					"path": [
+						"api",
+						"v2",
+						"beer",
+						"1"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Patch Beer",
+			"request": {
+				"auth": {
+					"type": "oauth2",
+					"oauth2": [
+						{
+							"key": "clientSecret",
+							"value": "{{secret}}",
+							"type": "string"
+						},
+						{
+							"key": "clientId",
+							"value": "{{client}}",
+							"type": "string"
+						},
+						{
+							"key": "scope",
+							"value": "message.read message.write",
+							"type": "string"
+						},
+						{
+							"key": "grant_type",
+							"value": "client_credentials",
+							"type": "string"
+						},
+						{
+							"key": "accessTokenUrl",
+							"value": "http://localhost:9000/oauth2/token",
+							"type": "string"
+						},
+						{
+							"key": "redirect_uri",
+							"value": "",
+							"type": "string"
+						},
+						{
+							"key": "headerPrefix",
+							"value": "Bearer",
+							"type": "string"
+						},
+						{
+							"key": "challengeAlgorithm",
+							"value": "plain",
+							"type": "string"
+						},
+						{
+							"key": "addTokenTo",
+							"value": "header",
+							"type": "string"
+						},
+						{
+							"key": "client_authentication",
+							"value": "header",
+							"type": "string"
+						},
+						{
+							"key": "tokenName",
+							"value": "new",
+							"type": "string"
+						}
+					]
+				},
+				"method": "PATCH",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n    \"beerName\": \"Very Cool Galaxy Cat\",\n    \"beerStyle\": \"Pale Ale\",\n    \"price\": 14\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://localhost:8082/api/v2/beer/1",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8082",
+					"path": [
+						"api",
+						"v2",
+						"beer",
+						"1"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Delete Beer By Id",
+			"request": {
+				"auth": {
+					"type": "oauth2",
+					"oauth2": [
+						{
+							"key": "clientSecret",
+							"value": "{{secret}}",
+							"type": "string"
+						},
+						{
+							"key": "clientId",
+							"value": "{{client}}",
+							"type": "string"
+						},
+						{
+							"key": "scope",
+							"value": "message.read message.write",
+							"type": "string"
+						},
+						{
+							"key": "grant_type",
+							"value": "client_credentials",
+							"type": "string"
+						},
+						{
+							"key": "accessTokenUrl",
+							"value": "http://localhost:9000/oauth2/token",
+							"type": "string"
+						},
+						{
+							"key": "redirect_uri",
+							"value": "",
+							"type": "string"
+						},
+						{
+							"key": "headerPrefix",
+							"value": "Bearer",
+							"type": "string"
+						},
+						{
+							"key": "challengeAlgorithm",
+							"value": "plain",
+							"type": "string"
+						},
+						{
+							"key": "addTokenTo",
+							"value": "header",
+							"type": "string"
+						},
+						{
+							"key": "client_authentication",
+							"value": "header",
+							"type": "string"
+						},
+						{
+							"key": "tokenName",
+							"value": "new",
+							"type": "string"
+						}
+					]
+				},
+				"method": "DELETE",
+				"header": [],
+				"url": {
+					"raw": "http://localhost:8082/api/v2/beer/1",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8082",
+					"path": [
+						"api",
+						"v2",
+						"beer",
+						"1"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Validate Create Beer",
+			"request": {
+				"auth": {
+					"type": "oauth2",
+					"oauth2": [
+						{
+							"key": "clientSecret",
+							"value": "{{secret}}",
+							"type": "string"
+						},
+						{
+							"key": "clientId",
+							"value": "{{client}}",
+							"type": "string"
+						},
+						{
+							"key": "scope",
+							"value": "message.read message.write",
+							"type": "string"
+						},
+						{
+							"key": "grant_type",
+							"value": "client_credentials",
+							"type": "string"
+						},
+						{
+							"key": "accessTokenUrl",
+							"value": "http://localhost:9000/oauth2/token",
+							"type": "string"
+						},
+						{
+							"key": "redirect_uri",
+							"value": "",
+							"type": "string"
+						},
+						{
+							"key": "headerPrefix",
+							"value": "Bearer",
+							"type": "string"
+						},
+						{
+							"key": "challengeAlgorithm",
+							"value": "plain",
+							"type": "string"
+						},
+						{
+							"key": "addTokenTo",
+							"value": "header",
+							"type": "string"
+						},
+						{
+							"key": "client_authentication",
+							"value": "header",
+							"type": "string"
+						},
+						{
+							"key": "tokenName",
+							"value": "new",
+							"type": "string"
+						}
+					]
+				},
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n    \"beerName\": \"Sp\",\n    \"beerStyle\": \"IP\",\n    \"upc\": \"123213\",\n    \"quantityOnHand\": 12,\n    \"price\": 10,\n    \"createdDate\": null,\n    \"lastModifiedDate\": null\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://localhost:8082/api/v2/beer",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8082",
+					"path": [
+						"api",
+						"v2",
+						"beer"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "All Customers",
+			"request": {
+				"auth": {
+					"type": "oauth2",
+					"oauth2": [
+						{
+							"key": "clientSecret",
+							"value": "{{secret}}",
+							"type": "string"
+						},
+						{
+							"key": "clientId",
+							"value": "{{client}}",
+							"type": "string"
+						},
+						{
+							"key": "scope",
+							"value": "message.read message.write",
+							"type": "string"
+						},
+						{
+							"key": "grant_type",
+							"value": "client_credentials",
+							"type": "string"
+						},
+						{
+							"key": "accessTokenUrl",
+							"value": "http://localhost:9000/oauth2/token",
+							"type": "string"
+						},
+						{
+							"key": "redirect_uri",
+							"value": "",
+							"type": "string"
+						},
+						{
+							"key": "headerPrefix",
+							"value": "Bearer",
+							"type": "string"
+						},
+						{
+							"key": "challengeAlgorithm",
+							"value": "plain",
+							"type": "string"
+						},
+						{
+							"key": "addTokenTo",
+							"value": "header",
+							"type": "string"
+						},
+						{
+							"key": "client_authentication",
+							"value": "header",
+							"type": "string"
+						},
+						{
+							"key": "tokenName",
+							"value": "new",
+							"type": "string"
+						}
+					]
+				},
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "http://localhost:8082/api/v2/customer",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8082",
+					"path": [
+						"api",
+						"v2",
+						"customer"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Customer By Id",
+			"request": {
+				"auth": {
+					"type": "oauth2",
+					"oauth2": [
+						{
+							"key": "clientSecret",
+							"value": "{{secret}}",
+							"type": "string"
+						},
+						{
+							"key": "clientId",
+							"value": "{{client}}",
+							"type": "string"
+						},
+						{
+							"key": "scope",
+							"value": "message.read message.write",
+							"type": "string"
+						},
+						{
+							"key": "grant_type",
+							"value": "client_credentials",
+							"type": "string"
+						},
+						{
+							"key": "accessTokenUrl",
+							"value": "http://localhost:9000/oauth2/token",
+							"type": "string"
+						},
+						{
+							"key": "redirect_uri",
+							"value": "",
+							"type": "string"
+						},
+						{
+							"key": "headerPrefix",
+							"value": "Bearer",
+							"type": "string"
+						},
+						{
+							"key": "challengeAlgorithm",
+							"value": "plain",
+							"type": "string"
+						},
+						{
+							"key": "addTokenTo",
+							"value": "header",
+							"type": "string"
+						},
+						{
+							"key": "client_authentication",
+							"value": "header",
+							"type": "string"
+						},
+						{
+							"key": "tokenName",
+							"value": "new",
+							"type": "string"
+						}
+					]
+				},
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "http://localhost:8082/api/v2/customer/1",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8082",
+					"path": [
+						"api",
+						"v2",
+						"customer",
+						"1"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Create Customer",
+			"request": {
+				"auth": {
+					"type": "oauth2",
+					"oauth2": [
+						{
+							"key": "clientSecret",
+							"value": "{{secret}}",
+							"type": "string"
+						},
+						{
+							"key": "clientId",
+							"value": "{{client}}",
+							"type": "string"
+						},
+						{
+							"key": "scope",
+							"value": "message.read message.write",
+							"type": "string"
+						},
+						{
+							"key": "grant_type",
+							"value": "client_credentials",
+							"type": "string"
+						},
+						{
+							"key": "accessTokenUrl",
+							"value": "http://localhost:9000/oauth2/token",
+							"type": "string"
+						},
+						{
+							"key": "redirect_uri",
+							"value": "",
+							"type": "string"
+						},
+						{
+							"key": "headerPrefix",
+							"value": "Bearer",
+							"type": "string"
+						},
+						{
+							"key": "challengeAlgorithm",
+							"value": "plain",
+							"type": "string"
+						},
+						{
+							"key": "addTokenTo",
+							"value": "header",
+							"type": "string"
+						},
+						{
+							"key": "client_authentication",
+							"value": "header",
+							"type": "string"
+						},
+						{
+							"key": "tokenName",
+							"value": "new",
+							"type": "string"
+						}
+					]
+				},
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n    \"customerName\": \"Joseph\"\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://localhost:8082/api/v2/customer",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8082",
+					"path": [
+						"api",
+						"v2",
+						"customer"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Update Customer",
+			"request": {
+				"auth": {
+					"type": "oauth2",
+					"oauth2": [
+						{
+							"key": "clientSecret",
+							"value": "{{secret}}",
+							"type": "string"
+						},
+						{
+							"key": "clientId",
+							"value": "{{client}}",
+							"type": "string"
+						},
+						{
+							"key": "scope",
+							"value": "message.read message.write",
+							"type": "string"
+						},
+						{
+							"key": "grant_type",
+							"value": "client_credentials",
+							"type": "string"
+						},
+						{
+							"key": "accessTokenUrl",
+							"value": "http://localhost:9000/oauth2/token",
+							"type": "string"
+						},
+						{
+							"key": "redirect_uri",
+							"value": "",
+							"type": "string"
+						},
+						{
+							"key": "headerPrefix",
+							"value": "Bearer",
+							"type": "string"
+						},
+						{
+							"key": "challengeAlgorithm",
+							"value": "plain",
+							"type": "string"
+						},
+						{
+							"key": "addTokenTo",
+							"value": "header",
+							"type": "string"
+						},
+						{
+							"key": "client_authentication",
+							"value": "header",
+							"type": "string"
+						},
+						{
+							"key": "tokenName",
+							"value": "new",
+							"type": "string"
+						}
+					]
+				},
+				"method": "PUT",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n    \"customerName\": \"Marina\"\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://localhost:8082/api/v2/customer/1",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8082",
+					"path": [
+						"api",
+						"v2",
+						"customer",
+						"1"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Patch Customer",
+			"request": {
+				"auth": {
+					"type": "oauth2",
+					"oauth2": [
+						{
+							"key": "clientSecret",
+							"value": "{{secret}}",
+							"type": "string"
+						},
+						{
+							"key": "clientId",
+							"value": "{{client}}",
+							"type": "string"
+						},
+						{
+							"key": "scope",
+							"value": "message.read message.write",
+							"type": "string"
+						},
+						{
+							"key": "grant_type",
+							"value": "client_credentials",
+							"type": "string"
+						},
+						{
+							"key": "accessTokenUrl",
+							"value": "http://localhost:9000/oauth2/token",
+							"type": "string"
+						},
+						{
+							"key": "redirect_uri",
+							"value": "",
+							"type": "string"
+						},
+						{
+							"key": "headerPrefix",
+							"value": "Bearer",
+							"type": "string"
+						},
+						{
+							"key": "challengeAlgorithm",
+							"value": "plain",
+							"type": "string"
+						},
+						{
+							"key": "addTokenTo",
+							"value": "header",
+							"type": "string"
+						},
+						{
+							"key": "client_authentication",
+							"value": "header",
+							"type": "string"
+						},
+						{
+							"key": "tokenName",
+							"value": "new",
+							"type": "string"
+						}
+					]
+				},
+				"method": "PATCH",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n    \"customerName\": \"John\"\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://localhost:8082/api/v2/customer/1",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8082",
+					"path": [
+						"api",
+						"v2",
+						"customer",
+						"1"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Delete Customer By Id",
+			"request": {
+				"auth": {
+					"type": "oauth2",
+					"oauth2": [
+						{
+							"key": "clientSecret",
+							"value": "{{secret}}",
+							"type": "string"
+						},
+						{
+							"key": "clientId",
+							"value": "{{client}}",
+							"type": "string"
+						},
+						{
+							"key": "scope",
+							"value": "message.read message.write",
+							"type": "string"
+						},
+						{
+							"key": "grant_type",
+							"value": "client_credentials",
+							"type": "string"
+						},
+						{
+							"key": "accessTokenUrl",
+							"value": "http://localhost:9000/oauth2/token",
+							"type": "string"
+						},
+						{
+							"key": "redirect_uri",
+							"value": "",
+							"type": "string"
+						},
+						{
+							"key": "headerPrefix",
+							"value": "Bearer",
+							"type": "string"
+						},
+						{
+							"key": "challengeAlgorithm",
+							"value": "plain",
+							"type": "string"
+						},
+						{
+							"key": "addTokenTo",
+							"value": "header",
+							"type": "string"
+						},
+						{
+							"key": "client_authentication",
+							"value": "header",
+							"type": "string"
+						},
+						{
+							"key": "tokenName",
+							"value": "new",
+							"type": "string"
+						}
+					]
+				},
+				"method": "DELETE",
+				"header": [],
+				"url": {
+					"raw": "http://localhost:8082/api/v2/customer/1",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8082",
+					"path": [
+						"api",
+						"v2",
+						"customer",
+						"1"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Validate Create Customer",
+			"request": {
+				"auth": {
+					"type": "oauth2",
+					"oauth2": [
+						{
+							"key": "clientSecret",
+							"value": "{{secret}}",
+							"type": "string"
+						},
+						{
+							"key": "clientId",
+							"value": "{{client}}",
+							"type": "string"
+						},
+						{
+							"key": "scope",
+							"value": "message.read message.write",
+							"type": "string"
+						},
+						{
+							"key": "grant_type",
+							"value": "client_credentials",
+							"type": "string"
+						},
+						{
+							"key": "accessTokenUrl",
+							"value": "http://localhost:9000/oauth2/token",
+							"type": "string"
+						},
+						{
+							"key": "redirect_uri",
+							"value": "",
+							"type": "string"
+						},
+						{
+							"key": "headerPrefix",
+							"value": "Bearer",
+							"type": "string"
+						},
+						{
+							"key": "challengeAlgorithm",
+							"value": "plain",
+							"type": "string"
+						},
+						{
+							"key": "addTokenTo",
+							"value": "header",
+							"type": "string"
+						},
+						{
+							"key": "client_authentication",
+							"value": "header",
+							"type": "string"
+						},
+						{
+							"key": "tokenName",
+							"value": "new",
+							"type": "string"
+						}
+					]
+				},
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n    \"beerName\": \"Sp\"\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://localhost:8082/api/v2/customer",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8082",
+					"path": [
+						"api",
+						"v2",
+						"customer"
+					]
+				}
+			},
+			"response": []
+		}
+	]
+}

@@ -1,0 +1,132 @@
+{
+	"info": {
+		"_postman_id": "6880f06a-cfab-4d33-8cf8-e69e9c595998",
+		"name": "Spring-6-John-Thompson-Authorization-Server",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+		"_exporter_id": "7508044"
+	},
+	"item": [
+		{
+			"name": "Generate Token",
+			"protocolProfileBehavior": {
+				"disableBodyPruning": true
+			},
+			"request": {
+				"auth": {
+					"type": "oauth2",
+					"oauth2": [
+						{
+							"key": "clientSecret",
+							"value": "{{secret}}",
+							"type": "string"
+						},
+						{
+							"key": "clientId",
+							"value": "{{client}}",
+							"type": "string"
+						},
+						{
+							"key": "scope",
+							"value": "message.read message.write",
+							"type": "string"
+						},
+						{
+							"key": "grant_type",
+							"value": "client_credentials",
+							"type": "string"
+						},
+						{
+							"key": "accessTokenUrl",
+							"value": "http://localhost:9000/oauth2/token",
+							"type": "string"
+						},
+						{
+							"key": "redirect_uri",
+							"value": "",
+							"type": "string"
+						},
+						{
+							"key": "headerPrefix",
+							"value": "Bearer",
+							"type": "string"
+						},
+						{
+							"key": "challengeAlgorithm",
+							"value": "plain",
+							"type": "string"
+						},
+						{
+							"key": "addTokenTo",
+							"value": "header",
+							"type": "string"
+						},
+						{
+							"key": "client_authentication",
+							"value": "header",
+							"type": "string"
+						},
+						{
+							"key": "tokenName",
+							"value": "new",
+							"type": "string"
+						}
+					]
+				},
+				"method": "GET",
+				"header": [],
+				"body": {
+					"mode": "urlencoded",
+					"urlencoded": []
+				},
+				"url": {
+					"raw": "http://localhost:8080/api/v1/beer",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"api",
+						"v1",
+						"beer"
+					]
+				}
+			},
+			"response": []
+		}
+	],
+	"event": [
+		{
+			"listen": "prerequest",
+			"script": {
+				"type": "text/javascript",
+				"packages": {},
+				"exec": [
+					""
+				]
+			}
+		},
+		{
+			"listen": "test",
+			"script": {
+				"type": "text/javascript",
+				"packages": {},
+				"exec": [
+					""
+				]
+			}
+		}
+	],
+	"variable": [
+		{
+			"key": "client",
+			"value": "oidc-client",
+			"type": "string"
+		},
+		{
+			"key": "secret",
+			"value": "secret",
+			"type": "string"
+		}
+	]
+}
