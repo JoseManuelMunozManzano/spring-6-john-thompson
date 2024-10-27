@@ -46,3 +46,4 @@ La imagen a tener en la cabeza es esta>
   - GET: http://localhost:8080/api/v1/beer
   - GET: http://localhost:8080/api/v2/beer
   - GET: http://localhost:8080/api/v3/beer
+- Para la sección Docker Compose, necesitamos parar y borrar todos estos contenedores, al igual que las imágenes.
