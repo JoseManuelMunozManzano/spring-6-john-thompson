@@ -195,8 +195,7 @@
         - Puerto 8083 y usando MongoDB
 - Docker Compose with Spring Boot
   - spring-6-docker-compose
-    - Carpeta que contiene todos los proyectos para dockerizarlos usando docker compose
-    - Los proyectos son los mismos que los que había en el proyecto `spring-6-docker`
+    - Uso de docker compose para crear los contenedores
 
 ## URLs con documentación
 
