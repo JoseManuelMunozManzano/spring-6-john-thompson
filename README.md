@@ -193,6 +193,10 @@
         - Puerto 8082 y usando H2
       - spring-6-webflux-fn-resource-server
         - Puerto 8083 y usando MongoDB
+- Docker Compose with Spring Boot
+  - spring-6-docker-compose
+    - Carpeta que contiene todos los proyectos para dockerizarlos usando docker compose
+    - Los proyectos son los mismos que los que había en el proyecto `spring-6-docker`
 
 ## URLs con documentación
 
