@@ -1,6 +1,6 @@
 package com.jmunoz.restmvc.services;
 
-import com.jmunoz.restmvc.model.CustomerDto;
+import guru.springframework.spring6restmvcapi.model.CustomerDto;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 import org.springframework.util.StringUtils;
@@ -22,7 +22,6 @@ public class CustomerServiceImpl implements CustomerService {
                 .name("José Manuel")
                 .version(1)
                 .createdDate(LocalDateTime.now())
-                .lastModifiedDate(LocalDateTime.now())
                 .build();
 
         CustomerDto adri = CustomerDto.builder()
@@ -30,7 +29,6 @@ public class CustomerServiceImpl implements CustomerService {
                 .name("Adriana")
                 .version(1)
                 .createdDate(LocalDateTime.now())
-                .lastModifiedDate(LocalDateTime.now())
                 .build();
 
         CustomerDto marina = CustomerDto.builder()
@@ -38,7 +36,6 @@ public class CustomerServiceImpl implements CustomerService {
                 .name("Marina")
                 .version(1)
                 .createdDate(LocalDateTime.now())
-                .lastModifiedDate(LocalDateTime.now())
                 .build();
 
         customerMap.put(jm.getId(), jm);
@@ -63,7 +60,6 @@ public class CustomerServiceImpl implements CustomerService {
         CustomerDto savedCustomer = CustomerDto.builder()
                 .id(UUID.randomUUID())
                 .createdDate(LocalDateTime.now())
-                .lastModifiedDate(LocalDateTime.now())
                 .version(customer.getVersion())
                 .name(customer.getName())
                 .build();
@@ -79,7 +75,6 @@ public class CustomerServiceImpl implements CustomerService {
     public Optional<CustomerDto> updateCustomerById(UUID id, CustomerDto customer) {
         CustomerDto existing = customerMap.get(id);
         existing.setName(customer.getName());
-        existing.setLastModifiedDate(LocalDateTime.now());
 
         log.debug("Update Customer: {}", existing.toString());
 
@@ -101,8 +96,6 @@ public class CustomerServiceImpl implements CustomerService {
         if (StringUtils.hasText(customer.getName())) {
             existing.setName(customer.getName());
         }
-
-        existing.setLastModifiedDate(LocalDateTime.now());
 
         log.debug("Patch Customer: {}, {}", id, customer);
 

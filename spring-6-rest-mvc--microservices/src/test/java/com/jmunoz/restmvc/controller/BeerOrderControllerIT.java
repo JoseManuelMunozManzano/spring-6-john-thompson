@@ -1,10 +1,10 @@
 package com.jmunoz.restmvc.controller;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.jmunoz.restmvc.model.*;
 import com.jmunoz.restmvc.repositories.BeerOrderRepository;
 import com.jmunoz.restmvc.repositories.BeerRepository;
 import com.jmunoz.restmvc.repositories.CustomerRepository;
+import guru.springframework.spring6restmvcapi.model.*;
 import jakarta.transaction.Transactional;
 import lombok.val;
 import org.junit.jupiter.api.BeforeEach;

@@ -1,8 +1,8 @@
 package com.jmunoz.restmvc.controller;
 
-import com.jmunoz.restmvc.model.BeerDto;
-import com.jmunoz.restmvc.model.BeerStyle;
 import com.jmunoz.restmvc.services.BeerService;
+import guru.springframework.spring6restmvcapi.model.BeerDto;
+import guru.springframework.spring6restmvcapi.model.BeerStyle;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.data.domain.Page;

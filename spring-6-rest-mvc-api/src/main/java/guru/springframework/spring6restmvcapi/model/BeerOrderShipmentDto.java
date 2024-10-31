@@ -1,4 +1,4 @@
-package com.jmunoz.restmvc.model;
+package guru.springframework.spring6restmvcapi.model;
 
 import jakarta.validation.constraints.NotBlank;
 import lombok.Builder;
@@ -7,10 +7,15 @@ import lombok.Data;
 import java.sql.Timestamp;
 import java.util.UUID;
 
-@Builder
+/**
+ * Created by jt, Spring Framework Guru.
+ */
 @Data
+@Builder
 public class BeerOrderShipmentDto {
+
     private UUID id;
+
     private Long version;
 
     @NotBlank

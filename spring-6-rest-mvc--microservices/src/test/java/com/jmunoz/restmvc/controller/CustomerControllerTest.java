@@ -2,8 +2,8 @@ package com.jmunoz.restmvc.controller;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.jmunoz.restmvc.config.SpringSecConfig;
-import com.jmunoz.restmvc.model.CustomerDto;
 import com.jmunoz.restmvc.services.CustomerService;
+import guru.springframework.spring6restmvcapi.model.CustomerDto;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.mockito.ArgumentCaptor;
@@ -58,7 +58,6 @@ class CustomerControllerTest {
                 .name("José Manuel")
                 .version(1)
                 .createdDate(LocalDateTime.now())
-                .lastModifiedDate(LocalDateTime.now())
                 .build();
 
         CustomerDto adri = CustomerDto.builder()
@@ -66,7 +65,6 @@ class CustomerControllerTest {
                 .name("Adriana")
                 .version(1)
                 .createdDate(LocalDateTime.now())
-                .lastModifiedDate(LocalDateTime.now())
                 .build();
 
         CustomerDto marina = CustomerDto.builder()
@@ -74,7 +72,6 @@ class CustomerControllerTest {
                 .name("Marina")
                 .version(1)
                 .createdDate(LocalDateTime.now())
-                .lastModifiedDate(LocalDateTime.now())
                 .build();
 
         testCustomers = Arrays.asList(jm, adri, marina);

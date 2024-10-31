@@ -1,8 +1,8 @@
 package com.jmunoz.restmvc.services;
 
-import com.jmunoz.restmvc.model.BeerOrderCreateDto;
-import com.jmunoz.restmvc.model.BeerOrderDto;
-import com.jmunoz.restmvc.model.BeerOrderUpdateDto;
+import guru.springframework.spring6restmvcapi.model.BeerOrderCreateDto;
+import guru.springframework.spring6restmvcapi.model.BeerOrderDto;
+import guru.springframework.spring6restmvcapi.model.BeerOrderUpdateDto;
 import org.springframework.data.domain.Page;
 
 import java.util.Optional;

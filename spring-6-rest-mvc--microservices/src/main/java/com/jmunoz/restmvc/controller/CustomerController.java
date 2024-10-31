@@ -1,7 +1,7 @@
 package com.jmunoz.restmvc.controller;
 
-import com.jmunoz.restmvc.model.CustomerDto;
 import com.jmunoz.restmvc.services.CustomerService;
+import guru.springframework.spring6restmvcapi.model.CustomerDto;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpHeaders;

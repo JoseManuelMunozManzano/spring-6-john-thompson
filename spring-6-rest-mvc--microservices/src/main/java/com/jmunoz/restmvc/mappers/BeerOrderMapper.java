@@ -3,9 +3,9 @@ package com.jmunoz.restmvc.mappers;
 import com.jmunoz.restmvc.entities.BeerOrderEntity;
 import com.jmunoz.restmvc.entities.BeerOrderLineEntity;
 import com.jmunoz.restmvc.entities.BeerOrderShipmentEntity;
-import com.jmunoz.restmvc.model.BeerOrderDto;
-import com.jmunoz.restmvc.model.BeerOrderLineDto;
-import com.jmunoz.restmvc.model.BeerOrderShipmentDto;
+import guru.springframework.spring6restmvcapi.model.BeerOrderDto;
+import guru.springframework.spring6restmvcapi.model.BeerOrderLineDto;
+import guru.springframework.spring6restmvcapi.model.BeerOrderShipmentDto;
 import org.mapstruct.Mapper;
 import org.mapstruct.Mapping;
 

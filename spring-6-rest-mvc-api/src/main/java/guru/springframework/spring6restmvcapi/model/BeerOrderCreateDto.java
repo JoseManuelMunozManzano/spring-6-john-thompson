@@ -1,4 +1,4 @@
-package com.jmunoz.restmvc.model;
+package guru.springframework.spring6restmvcapi.model;
 
 import jakarta.validation.constraints.NotNull;
 import lombok.Builder;
@@ -7,16 +7,17 @@ import lombok.Data;
 import java.util.Set;
 import java.util.UUID;
 
-@Builder
+/**
+ * Created by jt, Spring Framework Guru.
+ */
 @Data
-public class BeerOrderUpdateDto {
+@Builder
+public class BeerOrderCreateDto {
 
     private String customerRef;
 
     @NotNull
     private UUID customerId;
 
-    private Set<BeerOrderLineUpdateDto> beerOrderLines;
-
-    private BeerOrderShipmentUpdateDto beerOrderShipment;
+    private Set<BeerOrderLineCreateDto> beerOrderLines;
 }

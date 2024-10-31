@@ -2,8 +2,8 @@ package com.jmunoz.restmvc.repositories;
 
 import com.jmunoz.restmvc.bootstrap.BootstrapData;
 import com.jmunoz.restmvc.entities.BeerEntity;
-import com.jmunoz.restmvc.model.BeerStyle;
 import com.jmunoz.restmvc.services.BeerCsvServiceImpl;
+import guru.springframework.spring6restmvcapi.model.BeerStyle;
 import jakarta.validation.ConstraintViolationException;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;

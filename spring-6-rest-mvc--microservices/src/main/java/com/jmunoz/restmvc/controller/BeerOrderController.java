@@ -1,9 +1,9 @@
 package com.jmunoz.restmvc.controller;
 
-import com.jmunoz.restmvc.model.BeerOrderCreateDto;
-import com.jmunoz.restmvc.model.BeerOrderDto;
-import com.jmunoz.restmvc.model.BeerOrderUpdateDto;
 import com.jmunoz.restmvc.services.BeerOrderService;
+import guru.springframework.spring6restmvcapi.model.BeerOrderCreateDto;
+import guru.springframework.spring6restmvcapi.model.BeerOrderDto;
+import guru.springframework.spring6restmvcapi.model.BeerOrderUpdateDto;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.http.ResponseEntity;

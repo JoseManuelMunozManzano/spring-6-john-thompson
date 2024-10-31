@@ -3,13 +3,13 @@ package com.jmunoz.restmvc.services;
 import com.jmunoz.restmvc.controller.NotFoundException;
 import com.jmunoz.restmvc.entities.*;
 import com.jmunoz.restmvc.mappers.BeerOrderMapper;
-import com.jmunoz.restmvc.model.BeerOrderCreateDto;
-import com.jmunoz.restmvc.model.BeerOrderDto;
-import com.jmunoz.restmvc.model.BeerOrderUpdateDto;
-import com.jmunoz.restmvc.model.BeerStyle;
 import com.jmunoz.restmvc.repositories.BeerOrderRepository;
 import com.jmunoz.restmvc.repositories.BeerRepository;
 import com.jmunoz.restmvc.repositories.CustomerRepository;
+import guru.springframework.spring6restmvcapi.model.BeerOrderCreateDto;
+import guru.springframework.spring6restmvcapi.model.BeerOrderDto;
+import guru.springframework.spring6restmvcapi.model.BeerOrderUpdateDto;
+import guru.springframework.spring6restmvcapi.model.BeerStyle;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import lombok.val;
@@ -42,7 +42,7 @@ public class BeerOrderServiceJPA implements BeerOrderService {
     private static final int DEFAULT_PAGE_SIZE = 25;
 
     @Override
-    public Page<BeerOrderDto> listBeerOrders(Integer pageNumber, Integer pageSize) {
+    public Page listBeerOrders(Integer pageNumber, Integer pageSize) {
 
         log.info("listBeerOrders - in service");
 

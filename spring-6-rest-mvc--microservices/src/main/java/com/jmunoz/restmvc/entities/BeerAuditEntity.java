@@ -1,6 +1,6 @@
 package com.jmunoz.restmvc.entities;
 
-import com.jmunoz.restmvc.model.BeerStyle;
+import guru.springframework.spring6restmvcapi.model.BeerStyle;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.Id;

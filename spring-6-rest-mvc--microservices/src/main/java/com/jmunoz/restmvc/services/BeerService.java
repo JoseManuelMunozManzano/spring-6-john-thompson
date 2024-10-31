@@ -1,7 +1,7 @@
 package com.jmunoz.restmvc.services;
 
-import com.jmunoz.restmvc.model.BeerDto;
-import com.jmunoz.restmvc.model.BeerStyle;
+import guru.springframework.spring6restmvcapi.model.BeerDto;
+import guru.springframework.spring6restmvcapi.model.BeerStyle;
 import org.springframework.data.domain.Page;
 
 import java.util.Optional;

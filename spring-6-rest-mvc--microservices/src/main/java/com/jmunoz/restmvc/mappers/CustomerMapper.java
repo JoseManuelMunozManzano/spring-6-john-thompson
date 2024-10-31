@@ -1,7 +1,7 @@
 package com.jmunoz.restmvc.mappers;
 
 import com.jmunoz.restmvc.entities.CustomerEntity;
-import com.jmunoz.restmvc.model.CustomerDto;
+import guru.springframework.spring6restmvcapi.model.CustomerDto;
 import org.mapstruct.Mapper;
 
 @Mapper

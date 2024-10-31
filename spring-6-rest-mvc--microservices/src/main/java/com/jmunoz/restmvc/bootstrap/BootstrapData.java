@@ -5,11 +5,11 @@ import com.jmunoz.restmvc.entities.BeerOrderEntity;
 import com.jmunoz.restmvc.entities.BeerOrderLineEntity;
 import com.jmunoz.restmvc.entities.CustomerEntity;
 import com.jmunoz.restmvc.model.BeerCSVRecord;
-import com.jmunoz.restmvc.model.BeerStyle;
 import com.jmunoz.restmvc.repositories.BeerOrderRepository;
 import com.jmunoz.restmvc.repositories.BeerRepository;
 import com.jmunoz.restmvc.repositories.CustomerRepository;
 import com.jmunoz.restmvc.services.BeerCsvService;
+import guru.springframework.spring6restmvcapi.model.BeerStyle;
 import lombok.RequiredArgsConstructor;
 import lombok.val;
 import org.apache.commons.lang3.StringUtils;
@@ -93,7 +93,7 @@ public class BootstrapData implements CommandLineRunner {
 
             BeerEntity beer2 = BeerEntity.builder()
                     .beerName("Crank")
-                    .beerStyle(BeerStyle.PALE_ALE)
+                    .beerStyle(BeerStyle.IPA)
                     .upc("1235622")
                     .price(new BigDecimal("12.99"))
                     .quantityOnHand(392)

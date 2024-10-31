@@ -1,6 +1,6 @@
 package com.jmunoz.restmvc.entities;
 
-import com.jmunoz.restmvc.model.BeerStyle;
+import guru.springframework.spring6restmvcapi.model.BeerStyle;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;

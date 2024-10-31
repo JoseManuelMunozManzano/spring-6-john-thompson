@@ -1,4 +1,4 @@
-package com.jmunoz.restmvc.model;
+package guru.springframework.spring6restmvcapi.model;
 
 import lombok.Builder;
 import lombok.Data;
@@ -6,13 +6,15 @@ import lombok.Data;
 import java.time.LocalDateTime;
 import java.util.UUID;
 
-@Builder
+/**
+ * Created by jt, Spring Framework Guru.
+ */
 @Data
+@Builder
 public class CustomerDto {
-
     private UUID id;
-    private Integer version;
     private String name;
+    private Integer version;
     private LocalDateTime createdDate;
-    private LocalDateTime lastModifiedDate;
+    private LocalDateTime updateDate;
 }

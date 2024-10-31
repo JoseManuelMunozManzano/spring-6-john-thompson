@@ -2,7 +2,7 @@ package com.jmunoz.restmvc.mappers;
 
 import com.jmunoz.restmvc.entities.BeerAuditEntity;
 import com.jmunoz.restmvc.entities.BeerEntity;
-import com.jmunoz.restmvc.model.BeerDto;
+import guru.springframework.spring6restmvcapi.model.BeerDto;
 import org.mapstruct.Mapper;
 import org.mapstruct.Mapping;
 

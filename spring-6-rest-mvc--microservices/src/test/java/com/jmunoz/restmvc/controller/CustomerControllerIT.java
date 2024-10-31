@@ -2,9 +2,9 @@ package com.jmunoz.restmvc.controller;
 
 import com.jmunoz.restmvc.entities.CustomerEntity;
 import com.jmunoz.restmvc.mappers.CustomerMapper;
-import com.jmunoz.restmvc.model.CustomerDto;
 import com.jmunoz.restmvc.repositories.BeerOrderRepository;
 import com.jmunoz.restmvc.repositories.CustomerRepository;
+import guru.springframework.spring6restmvcapi.model.CustomerDto;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;

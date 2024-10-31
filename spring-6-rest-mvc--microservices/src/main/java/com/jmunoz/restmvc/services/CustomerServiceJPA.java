@@ -1,8 +1,8 @@
 package com.jmunoz.restmvc.services;
 
 import com.jmunoz.restmvc.mappers.CustomerMapper;
-import com.jmunoz.restmvc.model.CustomerDto;
 import com.jmunoz.restmvc.repositories.CustomerRepository;
+import guru.springframework.spring6restmvcapi.model.CustomerDto;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.cache.CacheManager;

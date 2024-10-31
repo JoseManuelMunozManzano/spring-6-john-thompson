@@ -2,9 +2,9 @@ package com.jmunoz.restmvc.controller;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.jmunoz.restmvc.config.SpringSecConfig;
-import com.jmunoz.restmvc.model.BeerDto;
-import com.jmunoz.restmvc.model.BeerStyle;
 import com.jmunoz.restmvc.services.BeerService;
+import guru.springframework.spring6restmvcapi.model.BeerDto;
+import guru.springframework.spring6restmvcapi.model.BeerStyle;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.mockito.ArgumentCaptor;

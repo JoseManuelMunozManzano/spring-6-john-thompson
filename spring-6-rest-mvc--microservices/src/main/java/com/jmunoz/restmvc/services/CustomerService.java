@@ -1,6 +1,6 @@
 package com.jmunoz.restmvc.services;
 
-import com.jmunoz.restmvc.model.CustomerDto;
+import guru.springframework.spring6restmvcapi.model.CustomerDto;
 
 import java.util.List;
 import java.util.Optional;

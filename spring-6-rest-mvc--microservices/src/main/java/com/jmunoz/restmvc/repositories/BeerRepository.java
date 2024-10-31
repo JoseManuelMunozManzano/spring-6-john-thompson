@@ -1,7 +1,7 @@
 package com.jmunoz.restmvc.repositories;
 
 import com.jmunoz.restmvc.entities.BeerEntity;
-import com.jmunoz.restmvc.model.BeerStyle;
+import guru.springframework.spring6restmvcapi.model.BeerStyle;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.JpaRepository;
