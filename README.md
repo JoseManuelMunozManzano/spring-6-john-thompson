@@ -196,6 +196,14 @@
 - Docker Compose with Spring Boot
   - spring-6-docker-compose
     - Uso de docker compose para crear los contenedores
+- Introduction to Spring Boot Microservices
+  - spring-6-rest-mvc-microservice
+    - A partir de `spring-6-rest-mvc-orders` añadimos a Beer Order Entity el campo `paymentAmount` para disparar el flujo de trabajo de los microservicios
+    - Documentación importante (ver abajo las URLs):
+      - The Twelve Factors
+      - The Reactive Manifesto
+    - Libro importante
+      - Enterprise Integration Patterns: Designing, Building, and Deploying Messaging Solutions
 
 ## URLs con documentación
 
@@ -238,3 +246,7 @@
   - https://bitbucket.org/atlassian/swagger-request-validator/src/master/
 - Construcción de imágenes Docker usando el plugin Maven de Spring Boot
   - https://docs.spring.io/spring-boot/maven-plugin/build-image.html
+- The Twelve Factors
+  - https://12factor.net/es/
+- The Reactive Manifesto
+  - https://www.reactivemanifesto.org/
