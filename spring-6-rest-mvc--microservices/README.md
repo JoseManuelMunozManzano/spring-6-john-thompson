@@ -24,6 +24,8 @@ Añadimos una nueva migración de Flyway para añadir el campo a la BD.
 
 Importante, una vez refactorizado, ejecutar, del ciclo de vida de Maven, el goal `clean` y luego `compile`.
 
+Queremos que, al actualizar aquí el campo `paymentAmount` se dispare la creación de `OrderPlacedEvent` en `spring-6-rest-mvc-api`. 
+
 ## Testing
 
 - Clonar el repositorio

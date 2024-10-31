@@ -6,6 +6,7 @@ import com.jmunoz.restmvc.mappers.BeerOrderMapper;
 import com.jmunoz.restmvc.repositories.BeerOrderRepository;
 import com.jmunoz.restmvc.repositories.BeerRepository;
 import com.jmunoz.restmvc.repositories.CustomerRepository;
+import guru.springframework.spring6restmvcapi.events.OrderPlacedEvent;
 import guru.springframework.spring6restmvcapi.model.BeerOrderCreateDto;
 import guru.springframework.spring6restmvcapi.model.BeerOrderDto;
 import guru.springframework.spring6restmvcapi.model.BeerOrderUpdateDto;
@@ -13,6 +14,7 @@ import guru.springframework.spring6restmvcapi.model.BeerStyle;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import lombok.val;
+import org.springframework.context.ApplicationEventPublisher;
 import org.springframework.context.annotation.Primary;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
@@ -37,6 +39,9 @@ public class BeerOrderServiceJPA implements BeerOrderService {
     private final BeerRepository beerRepository;
 
     private final CustomerRepository customerRepository;
+
+    // Para disparar el evento cuando se actualiza paymentAmount
+    private final ApplicationEventPublisher applicationEventPublisher;
 
     private static final int DEFAULT_PAGE = 0;
     private static final int DEFAULT_PAGE_SIZE = 25;
@@ -142,7 +147,15 @@ public class BeerOrderServiceJPA implements BeerOrderService {
             }
         }
 
-        return beerOrderMapper.beerOrderEntityToBeerOrderDto(beerOrderRepository.save(beerOrder));
+        BeerOrderDto dto = beerOrderMapper.beerOrderEntityToBeerOrderDto(beerOrderRepository.save(beerOrder));
+
+        // Aquí publicamos el evento
+        if (beerOrderUpdateDto.getPaymentAmount() != null) {
+            applicationEventPublisher.publishEvent(OrderPlacedEvent.builder()
+                    .beerOrderDto(dto));
+        }
+
+        return dto;
 
     }
 
