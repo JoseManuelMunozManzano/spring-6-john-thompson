@@ -6,6 +6,12 @@ También modificamos nuestro Dto.
 
 Añadimos una nueva migración de Flyway para añadir el campo a la BD.
 
+También añadimos a Beer Order Line Entity el campo `status` para disparar el flujo de trabajo de los microservicios.
+
+También modificamos nuestro Dto.
+
+Añadimos una nueva migración de Flyway para añadir el campo a la BD.
+
 ## Notas
 
 1. En BD, lo que mejor emula un Big Decimal es NUMERIC.
@@ -24,7 +30,7 @@ Añadimos una nueva migración de Flyway para añadir el campo a la BD.
 
 Importante, una vez refactorizado, ejecutar, del ciclo de vida de Maven, el goal `clean` y luego `compile`.
 
-Queremos que, al actualizar aquí el campo `paymentAmount` se dispare la creación de `OrderPlacedEvent` en `spring-6-rest-mvc-api`. 
+Queremos que, al actualizar aquí el campo `paymentAmount` se dispare la creación de `OrderPlacedEvent` en `spring-6-rest-mvc-api`.
 
 ## Testing
 

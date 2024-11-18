@@ -1,5 +1,6 @@
 package com.jmunoz.restmvc.entities;
 
+import guru.springframework.spring6restmvcapi.model.BeerOrderLineStatus;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.Min;
 import lombok.*;
@@ -51,6 +52,10 @@ public class BeerOrderLineEntity {
     // Relación bidireccional con BeerEntity
     @ManyToOne
     private BeerEntity beer;
+
+    @Builder.Default
+    @JdbcTypeCode(SqlTypes.SMALLINT)
+    private BeerOrderLineStatus status = BeerOrderLineStatus.NEW;
 
     public boolean isNew() {
         return this.id == null;

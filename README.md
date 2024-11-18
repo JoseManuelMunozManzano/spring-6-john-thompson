@@ -199,6 +199,7 @@
 - Introduction to Spring Boot Microservices
   - spring-6-rest-mvc-microservice
     - A partir de `spring-6-rest-mvc-orders` añadimos a Beer Order Entity el campo `paymentAmount` para disparar el flujo de trabajo de los microservicios
+    - También añadimos a Beer Order Line Entity el campo `status` para disparar el flujo de trabajo de los microservicios
     - Documentación importante (ver abajo las URLs):
       - The Twelve Factors
       - The Reactive Manifesto
