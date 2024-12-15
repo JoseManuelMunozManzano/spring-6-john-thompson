@@ -62,6 +62,18 @@ public class BootstrapData implements CommandLineRunner {
                         .lastModifiedDate(LocalDateTime.now())
                         .build();
 
+//                beerRepository.save(beer1).subscribe(beer -> {
+//                    System.out.println(beer.toString());
+//                });
+//                beerRepository.save(beer2).subscribe(beer -> {
+//                    System.out.println(beer.toString());
+//                });
+//                beerRepository.save(beer3).subscribe(beer -> {
+//                    System.out.println(beer.toString());
+//                });
+//
+//                System.out.println("Loaded Beers: " + beerRepository.count().block());
+
                 beerRepository.save(beer1).subscribe();
                 beerRepository.save(beer2).subscribe();
                 beerRepository.save(beer3).subscribe();
