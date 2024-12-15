@@ -210,6 +210,18 @@
     - Creación de Biblioteca de Mensajes Compartidos. Este proyecto solo va a mantener POJOs
   - spring-6-rest-mvc-microservice
     - Seguimos con este proyecto, donde lo refactorizamos para poder usar la biblioteca `spring-6-rest-mvc-api`
+- New Spring Boot 3.4.0
+  - structured-logging
+    - Nuevo proyecto para ver como funciona Structured Logging en la versión de Spring Boot 3.4.0
+- Using Test Containers with Spring Boot
+  - Nueva sección que aparece entre las secciones `Flyway Migrations with Spring Boot` y `CSV File Uploads`
+  - Los `Test containers` fueron añadidos a la versión 3.1 de Spring Boot
+  - Nos permite traer un contenedor Docker y automáticamente configurarlo para conectarlo a nuestra configuracieon de BBDD
+  - Van a arrancar en puertos aleatorios para evitar conflictos de puertos en el sistema host y, aunque el puerto cambia con cada ejecución, la configuración automática de Spring Boot recogerá los ajustes del contenedor Docker
+  - Nos permite añadir pruebas de integración con BBDD, message brokers, auth servers... que son portables y funcionarán en múltiples plataformas
+  - Necesitamos tener Docker instalado
+  - `spring-6-rest-mvc-test-containers`
+    - A partir del proyecto `spring-6-fliway` monto este proyecto
 
 ## URLs con documentación
 
