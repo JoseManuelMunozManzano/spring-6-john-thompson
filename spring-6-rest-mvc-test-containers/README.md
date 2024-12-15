@@ -108,12 +108,31 @@ En el pom, incluir el siguiente plugin:
 </plugin>
 ```
 
+5. Using Spring Boot Docker Compose
+
+A partir de SpringBoot 3.1, Spring añadió soporte a Docker Compose. Es muy útil cuando queremos hacer tests o ejecutar nuestra aplicación contra un entorno Docker local.
+
+Vamos a configurar nuestro proyecto para usarlo, para ello, en el pom hay que añadir:
+
+```
+<dependency>
+    <groupId>org.springframework.boot</groupId>
+    <artifactId>spring-boot-docker-compose</artifactId>
+    <scope>runtime</scope>
+    <optional>true</optional>
+</dependency>
+```
+
+Luego necesitamos incluir en el proyecto, en el root, un fichero `compose.yaml`.
+
+El siguiente paso es ir a `application.properties` y añadir: `spring.docker.compose.enabled=false`. Aquí deshabilitamos docker compose, ya que trabajamos con H2.
+
+Y, por último, en `application-localmysql.properties` añadir: `spring.docker.compose.enabled=true`. Con esto habilitamos docker compose cuando activamos el profile MySQL.
+
 ## Testing
 
 - Clonar el repositorio
 - Renombrar `application-localmysql.template.properties` a `application-localmysql.properties` e indicar sus valores
-- Ejecutar el proyecto con el siguiente profile activo `-Dspring.profiles.active=localmysql`
-  - Deben generarse las tablas `beer`, `customer` y un historial de flyway `flyway_schema_history` donde podemos ver en que estado está la BD, que scripts se han aplicado y cuales no.
 - Ejecutar con debug el test `MySqlTest.java`
   - Para ejecutar, eliminar @Disabled
   - Hay que tener arrancado Docker (o Docker Desktop)
@@ -125,3 +144,10 @@ En el pom, incluir el siguiente plugin:
 - Con la clase `Using Maven Failsafe for Running Integration Tests`, hay que ejecutar el ciclo Maven `test` para ejecutar los tests unitarios, y `verify` para ejecutar los tests de integración
   - Por eso se ha puesto `@Disabled` en los tests anteriores, porque realmente son tests de integración, y no queremos que se ejecuten como unitarios porque tardan mucho
   - Solo queda activo el test de integración `MySqlIT.java`
+
+- Para la parte de Spring Boot Docker Compose, solo hay que ejecutar la aplicación con el siguiente profile activo `-Dspring.profiles.active=localmysql`
+  - De los logs de arranque, debemos fijarnos que aparezca `The following 1 profile is active: "localmysql"`
+  - Para la parte de Docker Compose debemos ver en los logs `Using Docker Compose file ...\compose.yaml`
+  - También aparecerá esto `Database: jdbc:mysql://127.0.0.1:53034/mydatabase (MySQL 9.1)`
+    - Esto es lo mismo que vimos en los tests con `@ServiceConnection`, es decir, Spring automáticamente enlaza las propiedades de BBDD por nosotros
+  - Y si vamos a Docker Desktop veremos arrancada una imagen de mysql
