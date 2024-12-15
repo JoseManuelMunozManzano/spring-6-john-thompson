@@ -50,8 +50,37 @@ Si ejecutamos de nuevo el test `BeerServiceImplTest.java` veremos que sigue func
 
 Con esto podemos borrar `config/MongoConfig.java`, pero la voy a dejar por motivos docentes, para saber como se construye.
 
+6. Using Test Containers with MongoDB
+
+Vamos a usar test containers para nuestra conexión de Mongo.
+
+Tenemos que añadir las siguientes dependencias al pom:
+
+```
+<dependency>
+    <groupId>org.springframework.boot</groupId>
+    <artifactId>spring-boot-testcontainers</artifactId>
+    <scope>test</scope>
+</dependency>
+
+<dependency>
+    <groupId>org.testcontainers</groupId>
+    <artifactId>junit-jupiter</artifactId>
+    <scope>test</scope>
+</dependency>
+
+<dependency>
+    <groupId>org.testcontainers</groupId>
+    <artifactId>mongodb</artifactId>
+    <scope>test</scope>
+</dependency>
+```
+
+En el test `/services/BeerServiceImplTest.java` añadimos la anotación `@Testcontainers` a nivel de clase y `@Container` y `@ServiceConnection` a nivel de property.
+
 ## Testing
 
 - Clonar el repositorio
 - Renombrar `application.template.properties` a `application.properties` e indicar sus valores
 - Ejecutar el test `BeerServiceImplTest.java`
+  - Tras el refactor realizado, va contra test containers, así que tira de Docker local

@@ -8,6 +8,10 @@ import com.jmunoz.reactivemongo.repositories.BeerRepository;
 import org.junit.jupiter.api.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.boot.testcontainers.service.connection.ServiceConnection;
+import org.testcontainers.containers.MongoDBContainer;
+import org.testcontainers.junit.jupiter.Container;
+import org.testcontainers.junit.jupiter.Testcontainers;
 import reactor.core.publisher.Mono;
 
 import java.math.BigDecimal;
@@ -20,8 +24,14 @@ import static org.junit.jupiter.api.Assertions.assertTrue;
 
 // No hay mocking, así que son tests de integración reales que van a almacenar la data realmente en BD.
 // En producción vamos a querer usar streams, es decir, subscribe(), no .block()
+// Como hemos refactorizado para añadir test containers, incluimos su anotación.
 @SpringBootTest
+@Testcontainers
 class BeerServiceImplTest {
+
+    @Container
+    @ServiceConnection
+    public static MongoDBContainer mongoDBContainer = new MongoDBContainer("mongo:latest");
 
     @Autowired
     BeerService beerService;
