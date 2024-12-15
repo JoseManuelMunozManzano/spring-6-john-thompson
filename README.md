@@ -270,3 +270,7 @@
   - https://www.reactivemanifesto.org/
 - Test Containers
   - https://docs.spring.io/spring-boot/reference/testing/testcontainers.html
+- Plugin Maven Surefire
+  - https://maven.apache.org/surefire/maven-surefire-plugin/
+- Plugin Maven Failsafe
+  - https://maven.apache.org/surefire/maven-failsafe-plugin/

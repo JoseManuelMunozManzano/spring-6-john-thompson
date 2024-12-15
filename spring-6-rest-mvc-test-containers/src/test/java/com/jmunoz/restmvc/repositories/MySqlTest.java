@@ -1,6 +1,7 @@
 package com.jmunoz.restmvc.repositories;
 
 import com.jmunoz.restmvc.entities.BeerEntity;
+import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
@@ -18,6 +19,9 @@ import static org.assertj.core.api.Assertions.assertThat;
 
 // Sobreescribimos algunas de las propiedades indicadas en application-localmysql.properties
 // Para eso, primero lo cargamos
+//
+// Para ejecutar, eliminar @Disabled
+@Disabled
 @Testcontainers
 @SpringBootTest
 @ActiveProfiles("localmysql")

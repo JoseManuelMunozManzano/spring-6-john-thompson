@@ -1,7 +1,6 @@
 package com.jmunoz.restmvc.repositories;
 
 import com.jmunoz.restmvc.entities.BeerEntity;
-import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
@@ -15,15 +14,15 @@ import java.util.List;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
-// Este test es básicamente el mismo de MySqlTest, pero sobreescribiendo automáticamente
-// las propiedades de MySql con las del test container, usando Service Connection.
+// Al acabar el nombre de la clase en IT, se indica que es un Integration Test.
+// Indicar que tenemos el plugin de Failsafe para que los tests de integración se ejecuten en el Maven Lifecycle verify
 //
-// Para ejecutar, eliminar @Disabled
-@Disabled
+// Con @Disabled el test no se ejecuta.
+//@Disabled
 @Testcontainers
 @SpringBootTest
 @ActiveProfiles("localmysql")
-public class MySqlTestServiceConnection {
+public class MySqlIT {
 
     @Container
     @ServiceConnection
