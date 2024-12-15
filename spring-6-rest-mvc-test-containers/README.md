@@ -9,6 +9,8 @@ Parte del ejemplo `spring-6-flyway`
 - Nos permite añadir pruebas de integración con BBDD, message brokers, auth servers... que son portables y funcionarán en múltiples plataformas
 - Necesitamos tener Docker instalado
 
+Documentación: `https://docs.spring.io/spring-boot/reference/testing/testcontainers.html`
+
 ## Notas
 
 1. Añadir las dependencias
@@ -36,7 +38,19 @@ Tenemos que añadir 3 dependencias:
 
 Ver la clase de test `repositories/MySqlTest.java`.
 
-Notar que se usan la anotaciones `@TestContainers` a nivel de clase y `@Container` a nivel de método.
+Notar que se usan la anotaciones `@TestContainers` a nivel de clase y `@Container` y `@DynamicPropertySource` a nivel de método.
+
+Lo que hacemos es sobreescribir propiedades de conexión de MySQL, en concreto username, password y url, para que use las del test container.
+
+3. Using Service Connection with Test Containers
+
+Ver la clase de test `repositories/MySqlTestServiceConnection.java`
+
+En el punto 2 vimos una manera "difícil" de configurar los test containers.
+
+Usando `@ServiceConnection` se simplifica mucho más toda esta configuración.
+
+Lo que hace es marcar ese contenedor para, automáticamente, sobreescribir las propiedades de conexión.
 
 ## Testing
 
@@ -48,3 +62,4 @@ Notar que se usan la anotaciones `@TestContainers` a nivel de clase y `@Containe
   - Hay que tener arrancado Docker (o Docker Desktop)
   - Al ejecutar el debug del test, si vamos a Docker, veremos una imagen `mysql`, y si vamos al container, veremos un puerto asignado random
   - Ver, del debug, `this.dataSource` cuyos valores `username`, `password` y `jdbcUrl` deben haber sido sustituidos por los del test container
+- Ejecutar el test `MySqlTestServiceConnection.java` y ver que funciona

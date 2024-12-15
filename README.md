@@ -268,3 +268,5 @@
   - https://12factor.net/es/
 - The Reactive Manifesto
   - https://www.reactivemanifesto.org/
+- Test Containers
+  - https://docs.spring.io/spring-boot/reference/testing/testcontainers.html
