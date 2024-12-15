@@ -2,6 +2,8 @@
 
 Nuevo proyecto en el que se prueba la conectividad de Spring 6 con la BBDD no relacional MongoDB usando programación reactiva.
 
+Se añade también tests de integración con MongoDB usando test containers.
+
 ## Notas
 
 1. Awaitility
@@ -35,6 +37,18 @@ Another difference is that Awaitility relies on polling to check for completion 
 Si se encuentra más de un registro, findBy lanza una excepción, mientras que findFirst devuelve el primero que pilla.
 
 4. En este proyecto también tenemos una clase `BootstrapData.java` para inicializar la BD.
+
+5. Refactor Database Configuration
+
+Como vimos en el proyecto `spring-6-rest-mvc-test-containers`, a partir de Spring Boot 3.1 tenemos soporte para Docker y Docker Compose.
+
+Vamos a refactorizar la configuración de la conexión a la BD Mongo para usar propiedades de Spring Boot.
+
+Para ello vamos a la clase `config/MongoConfig.java` y eliminamos la anotación `@Configuration` para que no la utilice. Ejecutamos el ciclo Maven `clean`.
+
+Si ejecutamos de nuevo el test `BeerServiceImplTest.java` veremos que sigue funcionando porque coge los valores de conexión a la BD Mongo directamente de `application.properties`
+
+Con esto podemos borrar `config/MongoConfig.java`, pero la voy a dejar por motivos docentes, para saber como se construye.
 
 ## Testing
 

@@ -7,28 +7,27 @@ import com.mongodb.reactivestreams.client.MongoClient;
 import com.mongodb.reactivestreams.client.MongoClients;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
-import org.springframework.context.annotation.Configuration;
 import org.springframework.data.mongodb.config.AbstractReactiveMongoConfiguration;
 
 import static java.util.Collections.singletonList;
 
 // Esta es la configuración base para conectarnos a una BD de MongoDB.
-@Configuration
+//@Configuration
 public class MongoConfig extends AbstractReactiveMongoConfiguration {
 
-    @Value("${mongo.username}")
+    @Value("${spring.data.mongo.username}")
     private String username;
 
-    @Value("${mongo.database}")
+    @Value("${spring.data.mongo.database}")
     private String database;
 
-    @Value("${mongo.password}")
+    @Value("${spring.data.mongo.password}")
     private String password;
 
-    @Value("${mongo.address}")
+    @Value("${spring.data.mongo.address}")
     private String address;
 
-    @Value("${mongo.port}")
+    @Value("${spring.data.mongo.port}")
     private Integer port;
 
     // Configuración de un bean que devuelve un MongoClient
