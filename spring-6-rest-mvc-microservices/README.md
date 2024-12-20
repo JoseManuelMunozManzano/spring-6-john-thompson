@@ -78,8 +78,19 @@ En `listeners/OrderPlacedListener.java` indicamos el método `listen()`.
 
 Y creamos los tests `listeners/OrderPlacedListenerTest.java` y `listeners/OrderPlacedKafkaListener.java`.
 
+6. Create Order Splitter Router
+
+En el proyecto `spring-6-rest-mvc-api` hemos creado las clases `DrinkRequestEvent` y `DrinkPreparedEvent`.
+
+En este proyecto, creamos nuevos topics en `config/KafkaConfig.java`.
+
+A falta de un sitio mejor, creamos en `listeners` la clase `DrinkSplitterRouter.java`.
+
+Creamos la configuración de test `listeners/DrinkListenerKafkaConsumer.java` y modificamos el test `listeners/OrderPlacedListenerTest.java`.
+
 ## Testing
 
 - Clonar el repositorio
 - Renombrar `application-localmysql.template.properties` a `application-localmysql.properties` e indicar sus valores
 - Ejecutar el proyecto con el siguiente profile activo `-Dspring.profiles.active=localmysql` 
+    - Ejecutar el test `listeners/OrderPlacedListenerTest.java`
