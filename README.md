@@ -210,6 +210,13 @@
     - Creación de Biblioteca de Mensajes Compartidos. Este proyecto solo va a mantener POJOs
   - `spring-6-rest-mvc-microservice`
     - Seguimos con este proyecto, donde lo refactorizamos para poder usar la biblioteca `spring-6-rest-mvc-api`
+  - Creamos tres repositorios independientes, uno para cada servicio
+    - `spring-6-icecold-service`
+      - Creamos un nuevo microservicio para Kafka
+    - `spring-6-cold-service`
+      - Creamos un nuevo microservicio para Kafka
+    - `spring-6-cool-service`
+      - Creamos un nuevo microservicio para Kafka
 - New Spring Boot 3.4.0
   - structured-logging
     - Nuevo proyecto para ver como funciona Structured Logging en la versión de Spring Boot 3.4.0

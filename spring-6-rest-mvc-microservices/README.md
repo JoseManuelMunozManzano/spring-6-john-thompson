@@ -88,6 +88,14 @@ A falta de un sitio mejor, creamos en `listeners` la clase `DrinkSplitterRouter.
 
 Creamos la configuración de test `listeners/DrinkListenerKafkaConsumer.java` y modificamos el test `listeners/OrderPlacedListenerTest.java`.
 
+7. Create Spring Boot Kafka Microservices
+
+Vamos a crear un microservicio para Kafka por cada servicio, en el que cada servicio va a ser tratado como un proyecto independiente.
+
+Compartiremos su biblioteca API.
+
+Ver proyectos `spring-6-icecold-service`, `spring-6-cold-service` y `spring-6-cool-service`.
+
 ## Testing
 
 - Clonar el repositorio
