@@ -56,8 +56,10 @@ Y añadimos en `application.properties`:
 # Kafka - consumer and producer
 spring.kafka.consumer.group-id=sfg
 spring.kafka.consumer.auto-offset-reset=earliest
-spring,kafka.consumer.key-deserializer=org.apache.kafka.common.serialization.StringDeserializer
-spring.kafka.consumer.value-deserializer=org.springframework.kafka.support.serializer.JsonDeserializer
+spring.kafka.consumer.key-deserializer=org.apache.kafka.common.serialization.StringDeserializer
+spring.kafka.consumer.value-deserializer=org.springframework.kafka.support.serializer.ErrorHandlingDeserializer
+spring.kafka.consumer.properties.spring.deserializer.value.delegate.class=org.springframework.kafka.support.serializer.JsonDeserializer
+spring.kafka.consumer.properties.spring.json.value.default.type=guru.springframework.spring6restmvcapi.model.BeerOrderDto
 spring.kafka.consumer.properties.spring.json.trusted.packages=*
 
 spring.kafka.producer.key-serializer=org.apache.kafka.common.serialization.StringSerializer
@@ -65,6 +67,16 @@ spring.kafka.producer.value-serializer=org.springframework.kafka.support.seriali
 ```
 
 No tiene nada que ver con el proyecto, pero sí con que los logs sean más fáciles de leer el hecho de haber renombrado el fichero `logback-spring.xml` a `logback-spring.xml.old` para que no lo coja.
+
+5. Testing with Embedded Kafka
+
+Vamos a enviar un mensaje a un topic de Kafka y asegurarnos de que se recibe.
+
+Creamos una clase Kafka de configuración en `config/KafkaConfig.java`.
+
+En `listeners/OrderPlacedListener.java` indicamos el método `listen()`.
+
+Y creamos los tests `listeners/OrderPlacedListenerTest.java` y `listeners/OrderPlacedKafkaListener.java`.
 
 ## Testing
 

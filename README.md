@@ -206,9 +206,9 @@
     - Libro importante
       - Enterprise Integration Patterns: Designing, Building, and Deploying Messaging Solutions
 - Apache Kafka with Spring Boot
-  - spring-6-rest-mvc-api
+  - `spring-6-rest-mvc-api`
     - Creación de Biblioteca de Mensajes Compartidos. Este proyecto solo va a mantener POJOs
-  - spring-6-rest-mvc-microservice
+  - `spring-6-rest-mvc-microservice`
     - Seguimos con este proyecto, donde lo refactorizamos para poder usar la biblioteca `spring-6-rest-mvc-api`
 - New Spring Boot 3.4.0
   - structured-logging
