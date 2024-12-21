@@ -1,4 +1,4 @@
-package com.jmmunoz.spring6icecoldservice;
+package com.jmmunoz.spring6coolservice;
 
 import org.junit.jupiter.api.Test;
 import org.springframework.boot.test.context.SpringBootTest;
