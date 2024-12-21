@@ -96,6 +96,19 @@ Compartiremos su biblioteca API.
 
 Ver proyectos `spring-6-icecold-service`, `spring-6-cold-service` y `spring-6-cool-service`.
 
+Queremos conseguir esto:
+
+![alt Proyecto Kafka](../images/27-Kafka-Project-Diagram.png)
+
+8. Process Drink Prepared Event Message from Kafka
+
+Hay que hacer:
+
+- Crear consumer para Drink Prepared
+- Crear un repositorio Spring Data JPA para BeerOrderLineEntity
+- Crear Kafka Listener para recibir el event Drink Prepared
+- Al recibir el event, actualizar el status de BeerOrderLine a complete
+
 ## Testing
 
 - Clonar el repositorio

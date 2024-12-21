@@ -14,6 +14,16 @@ Este proyecto trabaja en conjunción con `spring-6-rest-mvc-api`, `spring-6-rest
 </dependency>
 ```
 
+2. Para cada microservicio hacer
+
+- Configurar Kafka
+- Crear un Listener para DrinkRequestEvent
+- Crear un Service para “procesar” DrinkRequestEvent
+- Crear un producer para publicar DrinkPreparedEvent de vuelta al Kafka topic
+  - Usar el topic “drink.prepared”
+- Crear Test para enviar DrinkRequest a Kafka y verificar que se recibe el mensaje en el topic “drink.prepared”
+
 ## Testing
 
 - Clonar el repositorio
+- Ejecutar el test `DrinkrequestListenerTest.java`
